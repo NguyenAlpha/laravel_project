@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Trang chủ - Cửa hàng điện tử' )
+
 @section('content')
   <div class="container product">
     @foreach ($categories as $category)

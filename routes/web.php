@@ -8,6 +8,8 @@ use App\Http\Controllers\UserController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/search', [HomeController::class, 'search'])->name('search');
+
 Route::get('/register', [UserController::class, 'register']);
 
 Route::get('/category/{id}', [CategoryController::class, 'show'])->name('category.show');

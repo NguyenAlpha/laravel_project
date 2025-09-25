@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{$title ?? 'Trang chủ'}}</title>
+  <title>@yield('title', 'Cửa hàng điện tử')</title>
 
   <!-- font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,16 +41,17 @@
           <a href="{{route("home")}}"><img src="{{asset('images/logo.png')}}" alt=""></a>
         </div>
         <div class="header__search">
-          <form action="./index.php?controller=home&action=search" method="get">
-            <input type="hidden" name="controller" value="home">
-            <input type="hidden" name="action" value="search">
-            @if (isset($textSearch))
-              <input class="header-search__input" type="text" name="search" value="{{$textSearch}}"
+          <form action="{{route("search")}}" method="get">
+            @if (isset($textSearch) && $textSearch)
+              <input class="header-search__input form-control" type="text" name="search" value="{{ $textSearch }}"
                 placeholder="Tìm kiếm sản phẩm">
             @else
-              <input class="header-search__input form-control form-control:focus" type="text" name="search" placeholder="Tìm kiếm sản phẩm">
+              <input class="header-search__input form-control" type="text" name="search" placeholder="Tìm kiếm sản phẩm">
             @endif
-            <button class="header-search__submit" type="submit"><i class="fa-solid fa-magnifying-glass"></i>tìm kiếm</button>
+            <button class="header-search__submit" type="submit" name='submit' value="search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              tìm kiếm
+            </button>
           </form>
         </div>
         <div class="header__action">
@@ -69,40 +70,39 @@
 
 
           @if (isset($_SESSION["user"]))
-            
-          <a href="./index.php?controller=user&action=show">
-            <div class="header__item">
-              <i class="fa-solid fa-user"></i>
-              {{$_SESSION["user"]["username"]}}
-            </div>
-          </a>
+            <a href="./index.php?controller=user&action=show">
+              <div class="header__item">
+                <i class="fa-solid fa-user"></i>
+                {{$_SESSION["user"]["username"]}}
+              </div>
+            </a>
           @else
-          <a href="./index.php?controller=user&action=login">
-            <div class="header__item">
-              <i class="fa-solid fa-user"></i>
-              Đăng Nhập
-            </div>
-          </a>
+            <a href="./index.php?controller=user&action=login">
+              <div class="header__item">
+                <i class="fa-solid fa-user"></i>
+                Đăng Nhập
+              </div>
+            </a>
           @endif
 
           @if (!isset($_SESSION["user"]))
-            
-          <a href="./index.php?controller=user&action=register">
-            <div class="header__item">
-              <i class="fa-solid fa-user"></i>
-              Đăng ký
-            </div>
-          </a>
+
+            <a href="./index.php?controller=user&action=register">
+              <div class="header__item">
+                <i class="fa-solid fa-user"></i>
+                Đăng ký
+              </div>
+            </a>
           @endif
 
           @if (isset($_SESSION["user"]))
-            
-          <a href="./index.php?controller=user&action=logout">
-            <div class="header__item">
-              <i class="fa-solid fa-right-from-bracket"></i>
-              đăng xuất
-            </div>
-          </a>
+
+            <a href="./index.php?controller=user&action=logout">
+              <div class="header__item">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                đăng xuất
+              </div>
+            </a>
           @endif
         </div>
       </div>
@@ -110,7 +110,8 @@
     <div class="navbar">
       <div class="container navbar-container">
         <ul class='d-flex'>
-          {{-- <?php foreach ($menus as $menuItem):?>
+          {{--
+          <?php foreach ($menus as $menuItem):?>
           <a href="./index.php?controller=category&action=show&id=<?= $menuItem['MaLoai'] ?>">
             <li class="navbar__item">
               <?= $menuItem['TenLoai']?>
