@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Trang chủ - Cửa hàng điện tử' )
+@section('title', 'Trang chủ - Cửa hàng điện tử')
 
 @section('content')
   <div class="container product">
@@ -9,7 +9,8 @@
         <div class="home-page header-product-bar">
           <h2 class="home-page name-product-bar">{{ $category->category_name }} bán chạy</h2>
           <div class="home-page line"></div>
-          <a href="{{ route('category.show', ['id' => $category->category_id]) }}" class="home-page see-more">
+          <a href="{{ route('product.indexByCategory', ['category' => $category->category_id]) }}"
+            class="home-page see-more">
             xem tất cả <i class="fa fa-angle-double-right"></i>
           </a>
         </div>
@@ -19,7 +20,7 @@
         <div class="home-page product__bar productWrapper">
           @foreach ($category->products as $product)
             <div class="product__item__card">
-              <a href="{{ route('product.show', ['id' => $product->product_id]) }}">
+              <a href="{{ route('product.show', ['productId' => $product->product_id]) }}">
                 <div class="product__item__card__img">
                   <img src="{{ asset("images/" . $product->image_url) }}" alt="{{ $product->product_name }}">
                 </div>
@@ -45,4 +46,22 @@
       </div>
     @endforeach
   </div>
+
+  <script>
+    function scrollRight(button) {
+      const wrapper = button.parentElement.querySelector(".productWrapper");
+      wrapper.scrollBy({
+        left: 690,
+        behavior: 'smooth'
+      });
+    }
+
+    function scrollLeftt(button) {
+      const wrapper = button.parentElement.querySelector(".productWrapper");
+      wrapper.scrollBy({
+        left: -690,
+        behavior: 'smooth'
+      });
+    }
+  </script>
 @endsection

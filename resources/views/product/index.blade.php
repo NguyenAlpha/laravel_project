@@ -6,78 +6,98 @@
   <div class="main">
     <div class="container category">
       <div class="category__left">
-        <div class="category-filter__box">
-          <h2 class="category-filter__header">Lọc sản phẩm</h2>
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fa-solid fa-filter"></i>Bộ lọc sản phẩm</h5>
+          </div>
 
-          <!-- Nếu danh mục có filter -->
-          @if (!empty($filters))
-            <form action="{{ route('product.indexByCategory', ['category' => $category->category_id]) }}" method="get"
-              id="filterForm" class="category-filter__form">
-              <!-- FILTER SẮP XẾP -->
-              <div class="category-filter__box__attribute">
-                <h3 class="filter__name-attribute">Sắp xếp theo</h3>
-                <select name="sapXep" class="form-select">
-                  <option value="mac-dinh" {{ request('sapXep') == 'mac-dinh' ? 'selected' : '' }}>Mặc
-                    định</option>
-                  {{-- <option value="moi-nhat" {{ request('sapXep')=='moi-nhat' ? 'selected' : '' }}>Mới nhất</option> --}}
-                  <option value="gia-thap-den-cao" {{ request('sapXep') == 'gia-thap-den-cao' ? 'selected' : '' }}>Giá thấp
-                    đến cao
-                  </option>
-                  <option value="gia-cao-den-thap" {{ request('sapXep') == 'gia-cao-den-thap' ? 'selected' : '' }}>Giá cao đến
-                    thấp
-                  </option>
-                  {{-- <option value="ban-chay" {{ request('sapXep')=='ban-chay' ? 'selected' : '' }}>Bán chạy</option> --}}
-                </select>
-              </div>
-              <!-- Duyệt qua từng thuộc tính trong filter -->
-              @foreach ($filters as $attribute => $filter)
-                <div class="category-filter__box__attribute">
-                  <h3 class="filter__name-attribute">{{ $filter['label'] }}</h3>
+          <div class="card-body">
+            @if (!empty($filters))
+              <form action="{{ route('product.indexByCategory', ['category' => $category->category_id]) }}" method="get"
+                id="filterForm">
+                <!-- FILTER SẮP XẾP -->
+                <div class="mb-4">
+                  <label class="form-label fw-semibold text-dark mb-2">
+                    <i class="fas fa-sort me-1"></i>Sắp xếp theo
+                  </label>
+                  <select name="sapXep" class="form-select border-2" onchange="this.form.submit()">
+                    <option value="mac-dinh" {{ request('sapXep') == 'mac-dinh' ? 'selected' : '' }}>Mặc định</option>
+                    <option value="gia-thap-den-cao" {{ request('sapXep') == 'gia-thap-den-cao' ? 'selected' : '' }}>Giá: Thấp
+                      đến cao</option>
+                    <option value="gia-cao-den-thap" {{ request('sapXep') == 'gia-cao-den-thap' ? 'selected' : '' }}>Giá: Cao
+                      đến thấp</option>
+                  </select>
+                </div>
 
-                  @foreach ($filter['values'] as $value)
-                    @php
-                      $safeId = strtolower(str_replace(' ', '_', $value));
-                      // Kiểm tra giá trị đã được chọn chưa
-                      $isChecked = in_array($value, (array) request($attribute, []));
-                    @endphp
+                <!-- FILTER KHOẢNG GIÁ -->
+                <div class="mb-4">
+                  <label class="form-label fw-semibold text-dark mb-2">
+                    <i class="fas fa-tag me-1"></i>Khoảng giá
+                  </label>
+                  <div class="row g-2">
+                    <div class="col-6">
+                      <input type="number" name="giaThap" class="form-control border-2" placeholder="Từ"
+                        value="{{ request('giaThap') }}" min="0">
+                    </div>
+                    <div class="col-6">
+                      <input type="number" name="giaCao" class="form-control border-2" placeholder="Đến"
+                        value="{{ request('giaCao') }}" min="0">
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-outline-primary btn-sm w-100 mt-2">
+                    <i class="fas fa-check me-1"></i>Áp dụng giá
+                  </button>
+                </div>
 
-                    <label for="{{ $safeId }}" class="category-filter__label-checkbox">
-                      <input type="checkbox" id="{{ $safeId }}" name="{{ $attribute }}[]" value="{{ $value }}" {{ $isChecked ? 'checked' : '' }} class="filter-checkbox">
-                      {{ $value }}
+                <!-- FILTER THUỘC TÍNH -->
+                @foreach ($filters as $attribute => $filter)
+                  <div class="mb-4">
+                    <label class="form-label fw-semibold text-dark mb-2">
+                      <i class="fas fa-list me-1"></i>{{ $filter['label'] }}
                     </label>
-                  @endforeach
+                    <div class="filter-options" style="max-height: 200px; overflow-y: auto p-2;">
+                      @foreach ($filter['values'] as $value)
+                        @php
+                          $safeId = $attribute . '_' . strtolower(str_replace(' ', '_', $value));
+                          $isChecked = in_array($value, (array) request($attribute, []));
+                        @endphp
+
+                        <div class="form-check">
+                          <input class="form-check-input filter-checkbox" type="checkbox" id="{{ $safeId }}"
+                            name="{{ $attribute }}[]" value="{{ $value }}" {{ $isChecked ? 'checked' : '' }}
+                            onchange="this.form.submit()">
+                          <label class="form-check-label w-100" for="{{ $safeId }}">
+                            {{ $value }}
+                            @if($isChecked)
+                              <span class="badge bg-primary float-end">✓</span>
+                            @endif
+                          </label>
+                        </div>
+                      @endforeach
+                    </div>
+                  </div>
+                @endforeach
+
+                <input type="hidden" name="category_id" value="{{ $category->category_id }}">
+
+                <!-- BUTTONS -->
+                <div class="d-grid gap-2">
+                  <button type="submit" class="btn btn-primary" name="filter" value="filter">
+                    <i class="fas fa-search me-2"></i>Áp dụng bộ lọc
+                  </button>
+                  <a href="{{ route('product.indexByCategory', ['category' => $category->category_id]) }}"
+                    class="btn btn-outline-secondary">
+                    <i class="fas fa-times me-2"></i>Xóa bộ lọc
+                  </a>
                 </div>
-              @endforeach
-
-              <!-- Filter khoảng giá -->
-              <div class="category-filter__box__attribute">
-                <p class="filter__name-attribute">Khoảng Giá</p>
-                <div class="category-price-inputs">
-                  <input type="number" name="giaThap" placeholder="₫ từ" value="{{ request('giaThap') }}" min="0">
-                  <div class="category-price-inputs__bar"></div>
-                  <input type="number" name="giaCao" placeholder="₫ đến" value="{{ request('giaCao') }}" min="0">
-                </div>
+              </form>
+            @else
+              <div class="text-center py-3">
+                <i class="fas fa-info-circle fa-2x text-muted mb-2"></i>
+                <p class="text-muted mb-0">Chưa có bộ lọc cho danh mục này</p>
               </div>
-
-
-              <!-- Các filter ẩn khác (giữ lại category_id) -->
-              <input type="hidden" name="category_id" value="{{ $category->category_id }}">
-
-              <div class="filter__button__box">
-                <button type="submit" class="filter__button" name="submit" value="filter" id="filterButton">
-                  Tìm kiếm
-                </button>
-
-                <!-- Nút xóa filter -->
-                <a href="{{ route('product.indexByCategory', ['category' => $category->category_id]) }}"
-                  class="filter__button filter__button--clear">
-                  Xóa bộ lọc
-                </a>
-              </div>
-            </form>
-          @else
-            <p class="error">Chưa có bộ lọc</p>
-          @endif
+            @endif
+          </div>
         </div>
       </div>
 
@@ -86,14 +106,13 @@
           <div class="product__item wrap">
             @foreach ($products as $product)
               <div class="product__item__card">
-                <a href="">
+                <a href="{{ route('product.show', ['productId' => $product->product_id])}}">
                   <div class="product__item__card__img">
                     <img src="{{ asset('images/' . $product->image_url) }}" alt="">
                   </div>
                   <div class="product__item__card__content">
                     <h3 class="product__item__name">{{ $product->product_name }}</h3>
-                    <p class="product__item_price">{{ number_format($product->price, 0, ',', '.') }}đ
-                    </p>
+                    <p class="product__item_price">{{ number_format($product->price, 0, ',', '.') }}đ</p>
                   </div>
                   <div class="flex product-item__quantity">
                     <p class="da-ban-text">Số lượng: {{ $product->stock }}</p>
@@ -101,8 +120,10 @@
                 </a>
                 <div class="button__addcart__box">
                   <a href="">
-                    <button class="button button__addcart" type="submit" name="addcart">Mua
-                      ngay</button></a>
+                    <button class="button button__addcart" type="submit" name="addcart">
+                      Mua ngay
+                    </button>
+                  </a>
                 </div>
               </div>
             @endforeach

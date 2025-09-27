@@ -5,13 +5,13 @@
 @section('content')
   <div class="container search d-flex">
     <!-- Filter Sidebar -->
-    <div class="col-md-3">
+    <div class="col-md-3" style="width: 350px; margin-right: 10px;">
       <form action="{{ route('search') }}" method="get" id="searchFilterForm">
         <input type="hidden" name="search" value="{{ $textSearch }}">
 
         <div class="search-filters card">
-          <div class="card-header">
-            <h5 class="mb-0"><i class="fa-solid fa-filter"></i> Bộ lọc</h5>
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fa-solid fa-filter"></i>Bộ lọc sản phẩm</h5>
           </div>
 
           <div class="card-body">
@@ -66,7 +66,7 @@
       </form>
     </div>
     <div>
-      <h2 class="search title">Nội dung tìm kiếm: "{{$textSearch}}"</h2>
+      {{-- <h2 class="search title">Nội dung tìm kiếm: "{{$textSearch}}"</h2> --}}
       @if ($products->count() > 0)
         <div class="product__item wrap">
           @foreach ($products as $product)

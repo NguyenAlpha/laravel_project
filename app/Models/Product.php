@@ -178,4 +178,34 @@ class Product extends Model
     {
         return number_format($this->price) . ' VND';
     }
+
+    // Thêm các methods hỗ trợ trong Product model
+    public function getAttributeLabels()
+    {
+        $categoryMapping = [
+            'Laptop' => LaptopDetail::getFilterAttributes(),
+            'ManHinh' => ScreenDetail::getFilterAttributes(),
+            'GPU' => GpuDetail::getFilterAttributes(),
+            'Headset' => HeadsetDetail::getFilterAttributes(),
+            'Mouse' => MouseDetail::getFilterAttributes(),
+            'Keyboard' => KeyboardDetail::getFilterAttributes(),
+        ];
+
+        return $categoryMapping[$this->category_id] ?? [];
+    }
+
+    public function getDetail()
+    {
+        $mapping = [
+            'Laptop' => 'laptopDetail',
+            'ManHinh' => 'screenDetail',
+            'GPU' => 'gpuDetail',
+            'Headset' => 'headsetDetail',
+            'Mouse' => 'mouseDetail',
+            'Keyboard' => 'keyboardDetail',
+        ];
+
+        $relation = $mapping[$this->category_id] ?? null;
+        return $relation ? $this->$relation : null;
+    }
 }

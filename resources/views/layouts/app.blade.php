@@ -28,9 +28,12 @@
   <link rel="stylesheet" href="{{asset('css/product/product-card.css')}}">
   <link rel="icon" type="image/png" href="{{asset('images/logo.png')}}">
 
-  <script src="./assets/javascript/even.js"></script>
-  <script src="./assets/javascript/add.js"></script>
-  <script src="./assets/javascript/edit.js"></script>
+  {{--
+  <script src="./assets/javascript/even.js"></script> --}}
+  {{--
+  <script src="./assets/javascript/add.js"></script> --}}
+  {{--
+  <script src="./assets/javascript/edit.js"></script> --}}
 </head>
 
 <body>
@@ -68,42 +71,39 @@
             </div>
           </a>
 
-
-          @if (isset($_SESSION["user"]))
-            <a href="./index.php?controller=user&action=show">
+          @auth
+            {{-- Hiển thị khi user đã đăng nhập --}}
+            <a href="{{ route('user.show') }}">
               <div class="header__item">
                 <i class="fa-solid fa-user"></i>
-                {{$_SESSION["user"]["username"]}}
+                {{ Auth::user()->username }}
               </div>
             </a>
+
+            <form method="POST" action="{{ route('logout') }}">
+              {{-- Cross-Site Request Forgery (Tấn công giả mạo yêu cầu) --}}
+              @csrf
+              <button type="submit" class="header__item" style="border: none">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Đăng xuất
+              </button>
+            </form>
           @else
-            <a href="./index.php?controller=user&action=login">
+            {{-- Hiển thị khi user chưa đăng nhập --}}
+            <a href="{{ route('login') }}">
               <div class="header__item">
                 <i class="fa-solid fa-user"></i>
                 Đăng Nhập
               </div>
             </a>
-          @endif
 
-          @if (!isset($_SESSION["user"]))
-
-            <a href="./index.php?controller=user&action=register">
+            <a href="{{ route('register') }}">
               <div class="header__item">
                 <i class="fa-solid fa-user"></i>
                 Đăng ký
               </div>
             </a>
-          @endif
-
-          @if (isset($_SESSION["user"]))
-
-            <a href="./index.php?controller=user&action=logout">
-              <div class="header__item">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                đăng xuất
-              </div>
-            </a>
-          @endif
+          @endauth
         </div>
       </div>
     </div>

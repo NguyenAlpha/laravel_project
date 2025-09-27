@@ -9,9 +9,66 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function show()
+    public function show($productId)
     {
-        return view('product.show');
+        // Lấy sản phẩm với tất cả thông tin liên quan
+        // ::whith sẽ eager load các quan hệ để tránh N+1 query problem
+        // ví dụ nếu là Laptop thì sẽ eager load category & laptopDetail
+        // sẽ có thể truy cập $product->category và $product->laptopDetail
+        /*
+        [
+            'product_id]' => 1,
+            'product_name' => 'Laptop AAA',
+            'category_id' => 'Laptop',
+            ...các thuộc tính khác của product
+            'category' => [
+                'category_id' => 'Laptop',
+                'category_name' => 'Laptop',
+                ...các thuộc tính khác của category
+            ]
+            'laptopDetail' => [
+                'product_id' => 1,
+                'cpu' => 'Intel',
+                ..các thuộc tính khác của laptopDetail
+            ]
+        ]
+        */
+        $product = Product::with([
+            'category',
+            'laptopDetail',
+            'screenDetail',
+            'gpuDetail',
+            'headsetDetail',
+            'mouseDetail',
+            'keyboardDetail'
+        ])->where('product_id', $productId)
+            ->active()  //chỉ lấy các sản phẩm đang hiện
+            ->first();  // lấy 1 sản phẩm
+
+        // echo '<pre>';
+        // print_r($product->category->category_id);
+        // echo '</pre>';
+        // die;
+
+        // Nếu không tìm thấy sản phẩm, trả về 404
+        if (!$product) {
+            abort(404, 'Sản phẩm không tồn tại hoặc đã bị ẩn');
+        }
+
+        
+
+        // Lấy sản phẩm cùng loại (cùng category) để gợi ý
+        $relatedProducts = Product::with(['category'])
+            ->where('category_id', $product->category_id)
+            ->where('product_id', '!=', $productId)
+            ->active()
+            ->limit(8)
+            ->get();
+
+        // Tăng lượt xem sản phẩm (nếu có cột view_count)
+        // $product->increment('view_count');
+
+        return view('product.show', compact('product', 'relatedProducts'));
     }
 
     /*
