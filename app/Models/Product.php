@@ -184,7 +184,7 @@ class Product extends Model
     {
         $categoryMapping = [
             'Laptop' => LaptopDetail::getFilterAttributes(),
-            'ManHinh' => ScreenDetail::getFilterAttributes(),
+            'Screen' => ScreenDetail::getFilterAttributes(),
             'GPU' => GpuDetail::getFilterAttributes(),
             'Headset' => HeadsetDetail::getFilterAttributes(),
             'Mouse' => MouseDetail::getFilterAttributes(),
@@ -198,7 +198,7 @@ class Product extends Model
     {
         $mapping = [
             'Laptop' => 'laptopDetail',
-            'ManHinh' => 'screenDetail',
+            'Screen' => 'screenDetail',
             'GPU' => 'gpuDetail',
             'Headset' => 'headsetDetail',
             'Mouse' => 'mouseDetail',

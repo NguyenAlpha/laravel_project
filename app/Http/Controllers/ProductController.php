@@ -211,7 +211,7 @@ class ProductController extends Controller
             return 'laptopDetail';
         }
 
-        if ($categoryId == 'ManHinh') {
+        if ($categoryId == 'Screen') {
             return 'screenDetail';
         }
 

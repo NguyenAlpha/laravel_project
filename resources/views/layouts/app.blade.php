@@ -124,7 +124,7 @@
           <a href="{{ route('product.indexByCategory', ['category' => "LaptopGaming"]) }}">
             <li class="navbar__item">Laptop Gaming</li>
           </a>
-          <a href=" {{ route('product.indexByCategory', ['category' => "ManHinh"]) }}">
+          <a href=" {{ route('product.indexByCategory', ['category' => "Screen"]) }}">
             <li class="navbar__item">Màn Hình</li>
           </a>
           <a href=" {{ route('product.indexByCategory', ['category' => "GPU"]) }}">

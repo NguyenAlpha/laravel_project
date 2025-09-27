@@ -24,9 +24,9 @@ class ProductFilterService
       'model' => LaptopDetail::class,
       'type' => 'Laptop'
     ],
-    'ManHinh' => [
+    'Screen' => [
       'model' => ScreenDetail::class,
-      'type' => 'ManHinh'
+      'type' => 'Screen'
     ],
     'LaptopGaming' => [
       'model' => LaptopGamingDetail::class,
@@ -106,7 +106,7 @@ class ProductFilterService
         'kich_thuoc_man_hinh' => 'Kích thước màn hình',
         'do_phan_giai' => 'Độ phân giải'
       ],
-      'ManHinh' => [
+      'Screen' => [
         'thuong_hieu' => 'Thương hiệu',
         'kich_thuoc_man_hinh' => 'Kích thước màn hình',
         'tang_so_quet' => 'Tần số quét',
@@ -192,7 +192,7 @@ class ProductFilterService
   {
     $relations = [
       'Laptop' => 'laptopDetail',
-      'ManHinh' => 'screenDetail',
+      'Screen' => 'screenDetail',
       'LaptopGaming' => 'laptopGamingDetail',
       'GPU' => 'gpuDetail',
       'Headset' => 'headsetDetail',
