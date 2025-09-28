@@ -61,8 +61,6 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    // thêm kiểm tra trạng thái tài khoảng
-    // nhớ đăng nhập
     public function login(Request $request)
     {
         // Validate dữ liệu
@@ -74,6 +72,17 @@ class AuthController extends Controller
             'email.email' => 'Email không hợp lệ',
             'password.required' => 'Vui lòng nhập mật khẩu'
         ]);
+
+        // Tìm user theo email và kiểm tra trạng thái trước
+        $user = User::where('email', $credentials['email'])->first();
+
+        if ($user && in_array($user->status, ['khóa', 'đã xóa'])) {
+            return back()
+                ->withInput($request->only('email', 'password'))
+                ->withErrors([
+                    'error' => 'Tài khoản này đã bị vô hiệu hóa.'
+                ]);
+        }
 
         // Kiểm tra đăng nhập
         if (Auth::attempt($credentials)) {
