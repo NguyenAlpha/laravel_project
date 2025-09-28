@@ -24,7 +24,7 @@ class AuthController extends Controller
             'role'          => 'in:customer,admin',
             'sex'           => 'nullable|in:nam,nữ',
             'dob'           => 'nullable|date',
-            'phone_number'  => 'nullable|string|max:10',
+            'phone_number'  => 'required|string|max:10',
             'status'        => 'in:mở,khóa,đã xóa'
         ], [
             'username.required' => 'Vui lòng nhập tên đăng nhập.',
@@ -109,5 +109,43 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    public function showProfile()
+    {
+        $user = Auth::user();
+        return view('auth.profile', compact('user'));
+    }
+
+    public function update(Request $request, $user_id)
+    {
+        // validate thông tin cập nhật
+        $request->validate([
+            'username'      => 'required|string|min:6|max:255',
+            'email'         => 'required|email|unique:user,email,' . $user_id . ',user_id',
+            'sex'           => 'nullable|in:nam,nữ',
+            'dob'           => 'nullable|date',
+            'phone_number'  => 'required|string|min:8|max:10',
+        ], [
+            'username.required' => 'Vui lòng nhập tên đăng nhập.',
+            'username.min'      => 'Tên đăng nhập phải ít nhất 6 ký tự.',
+            'username.max'      => 'Tên đăng nhập không quá 255 ký tự.',
+            'email.required'    => 'Vui lòng nhập email.',
+            'email.email'       => 'Email không đúng định dạng.',
+            'email.unique'      => 'Email này đã được sử dụng, vui lòng chọn email khác.',
+            'phone_number'      => 'Số điện thoại không hợp lệ.'
+        ]);
+
+        $user = User::findOrFail($user_id);
+
+        $user->update([
+            'username' => $request->username,
+            'email' => $request->email,
+            'sex' => $request->sex,
+            'dob' => $request->dob,
+            'phone_number' => $request->phone_number,
+        ]);
+
+        return redirect()->route('profile.show')->with('success', 'Cập nhật user thành công');
     }
 }

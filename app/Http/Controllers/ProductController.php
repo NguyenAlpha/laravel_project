@@ -95,8 +95,10 @@ class ProductController extends Controller
         return view('product.index', compact('products', 'category', 'filters'));
     }*/
 
-    public function indexByCategory(Category $category, Request $request)
+    public function indexByCategory(String $category_id, Request $request)
     {
+        $category = Category::findOrFail($category_id);
+
         // 1. Lấy filters config
         $filters = ProductFilterService::getFiltersForCategory($category->category_id);
 

@@ -13,7 +13,7 @@
 
           <div class="card-body">
             @if (!empty($filters))
-              <form action="{{ route('product.indexByCategory', ['category' => $category->category_id]) }}" method="get"
+              <form action="{{ route('product.indexByCategory', ['category_id' => $category->category_id]) }}" method="get"
                 id="filterForm">
                 <!-- FILTER SẮP XẾP -->
                 <div class="mb-4">
@@ -85,7 +85,7 @@
                   <button type="submit" class="btn btn-primary" name="filter" value="filter">
                     <i class="fas fa-search me-2"></i>Áp dụng bộ lọc
                   </button>
-                  <a href="{{ route('product.indexByCategory', ['category' => $category->category_id]) }}"
+                  <a href="{{ route('product.indexByCategory', ['category_id' => $category->category_id]) }}"
                     class="btn btn-outline-secondary">
                     <i class="fas fa-times me-2"></i>Xóa bộ lọc
                   </a>

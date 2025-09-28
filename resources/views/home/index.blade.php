@@ -9,7 +9,7 @@
         <div class="home-page header-product-bar">
           <h2 class="home-page name-product-bar">{{ $category->category_name }} bán chạy</h2>
           <div class="home-page line"></div>
-          <a href="{{ route('product.indexByCategory', ['category' => $category->category_id]) }}"
+          <a href="{{ route('product.indexByCategory', ['category_id' => $category->category_id]) }}"
             class="home-page see-more">
             xem tất cả <i class="fa fa-angle-double-right"></i>
           </a>

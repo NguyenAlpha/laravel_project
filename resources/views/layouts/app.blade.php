@@ -73,10 +73,9 @@
 
           @auth
             {{-- Hiển thị khi user đã đăng nhập --}}
-            <a href="{{ route('user.show') }}">
+            <a href="{{ route('profile.show') }}">
               <div class="header__item">
-                <i class="fa-solid fa-user"></i>
-                {{ Auth::user()->username }}
+                <i class="fa-solid fa-user"></i>Tài khoản
               </div>
             </a>
 
@@ -107,7 +106,7 @@
         </div>
       </div>
     </div>
-    <div class="navbar">
+    <div class="navbar shadow">
       <div class="container navbar-container">
         <ul class='d-flex'>
           {{--
@@ -118,25 +117,25 @@
             </li>
           </a>
           <?php endforeach; ?> --}}
-          <a href="{{ route('product.indexByCategory', ['category' => "Laptop"]) }}">
+          <a href="{{ route('product.indexByCategory', ['category_id' => "Laptop"]) }}">
             <li class="navbar__item">Laptop</li>
           </a>
-          <a href="{{ route('product.indexByCategory', ['category' => "LaptopGaming"]) }}">
+          <a href="{{ route('product.indexByCategory', ['category_id' => "LaptopGaming"]) }}">
             <li class="navbar__item">Laptop Gaming</li>
           </a>
-          <a href=" {{ route('product.indexByCategory', ['category' => "Screen"]) }}">
+          <a href=" {{ route('product.indexByCategory', ['category_id' => "Screen"]) }}">
             <li class="navbar__item">Màn Hình</li>
           </a>
-          <a href=" {{ route('product.indexByCategory', ['category' => "GPU"]) }}">
+          <a href=" {{ route('product.indexByCategory', ['category_id' => "GPU"]) }}">
             <li class="navbar__item">GPU</li>
           </a>
-          <a href=" {{ route('product.indexByCategory', ['category' => "Headset"]) }}">
+          <a href=" {{ route('product.indexByCategory', ['category_id' => "Headset"]) }}">
             <li class="navbar__item">Tai Nghe</li>
           </a>
-          <a href=" {{ route('product.indexByCategory', ['category' => "Mouse"]) }}">
+          <a href=" {{ route('product.indexByCategory', ['category_id' => "Mouse"]) }}">
             <li class="navbar__item">Chuột</li>
           </a>
-          <a href=" {{ route('product.indexByCategory', ['category' => "Keyboard"]) }}">
+          <a href=" {{ route('product.indexByCategory', ['category_id' => "Keyboard"]) }}">
             <li class="navbar__item">Bàn Phím</li>
           </a>
         </ul>
