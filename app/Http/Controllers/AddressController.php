@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Address;
+use Illuminate\Support\Facades\Auth;
+
+class AddressController extends Controller
+{
+    /**
+     * Hiển thị danh sách địa chỉ của user
+     */
+    public function index()
+    {
+        $user = Auth::user();
+
+        // Auth::user(): Thay thế cho $_SESSION["user"] - lấy thông tin user đã đăng nhập
+        // Auth::user()->username: Truy cập thuộc tính username của user
+        $addresses = Address::where('user_id', Auth::id())
+            ->latest()
+            ->get();
+
+        return view('address.index', compact('addresses', 'user'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'address' => 'required|string|max:255',
+        ], [
+            'address.required' => 'Vui lòng nhập địa chỉ',
+            'address.max' => 'Địa chỉ không được vượt quá 255 ký tự'
+        ]);
+
+        // Tạo địa chỉ mới với user_id hiện tại
+        Address::create([
+            'user_id' => Auth::id(),
+            'address' => $request->address
+        ]);
+
+        return redirect()->route('address')->with('success', 'Thêm địa chỉ thành công!');
+    }
+
+    public function update(Request $request, Address $address)
+    {
+        // $validated là mảng
+        // ['address' => 'TPHCM']
+        $validated = $request->validate([
+            'address' => 'required|string|max:255'
+        ], [
+            'address.required' => 'Vui lòng nhập địa chỉ',
+            'address.max' => 'Địa chỉ không được vượt quá 255 ký tự'
+        ]);
+
+        $address->update($validated);
+
+        return redirect()->route('address')->with('success', 'Cập nhật địa chỉ thành công!');
+    }
+
+    public function delete(Address $address)
+    {
+        $address->delete();
+
+        return redirect()->route('address')->with('success', 'Xóa địa chỉ thành công!');
+    }
+}
