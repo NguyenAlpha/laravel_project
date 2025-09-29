@@ -119,7 +119,7 @@
                   </div>
                 </a>
                 <div class="button__addcart__box">
-                  <a href="">
+                  <a href="{{route('cart.add', ['productId' => $product->product_id, 'quantity' => 1])}}">
                     <button class="button button__addcart" type="submit" name="addcart">
                       Mua ngay
                     </button>

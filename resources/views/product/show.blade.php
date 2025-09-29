@@ -19,21 +19,24 @@
 
           <!-- giá sản phẩm -->
           <h2 class="product__detail__price">{{ number_format($product->price, 0, ',', '.') }}đ</h2>
-          <form action="" method="get">
+          <form action="{{route('cart.adds')}}" method="post">
+            @csrf
+            <input type="number" name="product_id" value='{{$product->product_id}}' class='d-none'>
             <div class="flex">
               @if($product->stock == -1)
                 <p>Hết hàng</p>
               @else
                 <p class="product__count">Số Lượng</p>
-                <input class="form-control" type="number" value="1" style="width: 80px">
+                <input class="form-control input-number" type="number" name='quantity' value="1" min='1'
+                  max='{{$product->stock}}' style="width: 80px">
                 <p>còn {{$product->stock}}</p>
               @endif
 
             </div>
             <!-- các nút mua, giỏ hàng -->
             <div class="product__button__buy__cart">
-              <button class="product__detail__buy" type="submit" name="buyNow" value="1" @if ($product->stock == 0) disabled
-              @endif>
+              <button class="product__detail__buy" type="submit" name="buyNow" value="buyNow" @if ($product->stock == 0)
+              disabled @endif>
                 MUA NGAY
               </button>
               <button class="product__detail__cart" type="submit" @if ($product->stock == 0) disabled @endif>
@@ -115,7 +118,7 @@
                   </div>
                 </a>
                 <div class="button__addcart__box">
-                  <a href="">
+                  <a href="{{route('cart.add', ['productId' => $product->product_id, 'quantity' => 1])}}">
                     <button class="button button__addcart" type="submit" name="addcart">
                       Mua ngay
                     </button>
@@ -170,4 +173,24 @@
       <?php endif;?> --}}
     </div>
   </div>
+@endsection
+
+@section('js')
+  <script>
+    function initQuantityHandlersDetail() {
+      const input = document.querySelector('.input-number');
+      const min = parseInt(input.min);
+      const max = parseInt(input.max);
+
+      input.addEventListener('input', () => {
+        console.log('event input-number');
+        input.value = input.value.replace(/\D/g, '');
+        let value = parseInt(input.value);
+        if (value > max) input.value = max;
+        if (value < min || isNaN(value)) input.value = min;
+      });
+    };
+
+    initQuantityHandlersDetail()
+  </script>
 @endsection

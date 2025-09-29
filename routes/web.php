@@ -40,7 +40,7 @@ Route::put('/address/{address}', [AddressController::class, 'update'])->name('ad
 Route::delete('/address/{address}', [AddressController::class, 'delete'])->name('address.delete');
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.adds');
 Route::put('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
 Route::delete('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::delete('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
