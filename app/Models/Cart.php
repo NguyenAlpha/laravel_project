@@ -55,7 +55,7 @@ class Cart extends Model
             ]);
         }
 
-        $this->touch(); // Cập nhật updated_at
+        $this->touch();
     }
 
     /**

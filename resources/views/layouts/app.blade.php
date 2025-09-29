@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="{{asset('css/header.css')}}">
   <link rel="stylesheet" href="{{asset('css/product/product-card.css')}}">
   <link rel="icon" type="image/png" href="{{asset('images/logo.png')}}">
-
+  @yield('css')
   {{--
   <script src="./assets/javascript/even.js"></script> --}}
   {{--
@@ -65,7 +65,7 @@
             </div>
           </a>
 
-          <a href="./index.php?controller=cart&action=show">
+          <a href="{{route(('cart.index'))}}">
             <div class="header__item">
               <i class="fa-solid fa-cart-shopping"></i>Giỏ hàng
             </div>
@@ -175,6 +175,7 @@
       </div>
     </div>
   </footer>
+  @yield('js')
 </body>
 
 </html>

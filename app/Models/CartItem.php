@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class CartItem extends Model
 {
     use HasFactory;
-
+    public $timestamps = false;
     protected $table = 'cart_item';
     protected $primaryKey = 'item_id';
 

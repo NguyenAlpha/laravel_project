@@ -4,6 +4,11 @@
 
 @section('content')
   <div class="container">
+    @if(session('message'))
+      <div class="alert alert-dismissible fade show" role="alert">
+        <strong>{{ session('message') }}</strong>
+      </div>
+    @endif
     @include('components.auth.login-form')
   </div>
 @endsection
