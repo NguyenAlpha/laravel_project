@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
@@ -27,6 +29,23 @@ Route::get('/profile', [AuthController::class, 'showProfile'])->name('profile.sh
 // PUT: Cập nhật thông tin của khách hàng
 Route::put('/profile/{user_id}', [AuthController::class, 'update'])->name('profile.update');
 // PUT: Cập nhật ảnh đại diện khách hàng
+
+// Hiển thị địa chỉ khách hàng
+Route::get('/address', [AddressController::class, 'index'])->name('address');
+// Thêm địa chỉ khách hàng
+Route::post('/address', [AddressController::class, 'store'])->name('address.store');
+// Cập nhật địa chỉ
+Route::put('/address/{address}', [AddressController::class, 'update'])->name('address.update');
+// Xóa địa chỉ
+Route::delete('/address/{address}', [AddressController::class, 'delete'])->name('address.delete');
+
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+Route::put('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
+Route::delete('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+Route::delete('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
+Route::get('/cart/info', [CartController::class, 'getCartInfo'])->name('cart.info');
+Route::get('/cart/add/{productId}/{quantity}', [CartController::class, 'addCart'])->name('cart.add');
 
 // hiển thị danh sách sản phẩm theo phân loại
 Route::get('/category/{category_id}', [CategoryController::class, 'show'])->name('category.show');
