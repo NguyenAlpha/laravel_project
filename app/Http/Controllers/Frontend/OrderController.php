@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
 
 use App\Models\Cart;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
@@ -15,7 +16,7 @@ class OrderController extends Controller
 
         $orders = Order::with(['orderDetails.product'])->where('user_id', $user->user_id)->get();
 
-        return view('order.index', compact('user', 'orders'));
+        return view('frontend.order.index', compact('user', 'orders'));
     }
 
     public function store(Request $request)

@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
     public function showRegisterForm()
     {
-        return view('auth.register');
+        return view('frontend.auth.register');
     }
 
     public function register(Request $request)
@@ -58,7 +59,7 @@ class AuthController extends Controller
 
     public function showLoginForm()
     {
-        return view('auth.login');
+        return view('frontend.auth.login');
     }
 
     public function login(Request $request)
@@ -114,7 +115,7 @@ class AuthController extends Controller
     public function showProfile()
     {
         $user = Auth::user();
-        return view('auth.profile', compact('user'));
+        return view('frontend.auth.profile', compact('user'));
     }
 
     public function update(Request $request, $user_id)

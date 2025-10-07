@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
@@ -38,7 +39,7 @@ class HomeController extends Controller
         //     ->limit(25)~
         //     ->get();
 
-        return view('home.index', [
+        return view('frontend.home.index', [
             'products' => $products,
             'categories' => $categories
         ]);
@@ -116,7 +117,7 @@ class HomeController extends Controller
         // Lấy danh sách categories cho dropdown
         $categories = Category::all();
 
-        return view('search.index', compact('products', 'textSearch', 'categories'));
+        return view('frontend.search.index', compact('products', 'textSearch', 'categories'));
     }
 
     /**

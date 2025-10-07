@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
 
 use App\Models\Category;
 use App\Models\Product;
 use App\Services\ProductFilterService;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
@@ -68,7 +69,7 @@ class ProductController extends Controller
         // Tăng lượt xem sản phẩm (nếu có cột view_count)
         // $product->increment('view_count');
 
-        return view('product.show', compact('product', 'relatedProducts'));
+        return view('frontend.product.show', compact('product', 'relatedProducts'));
     }
 
     /*
@@ -92,7 +93,7 @@ class ProductController extends Controller
         $products = $products->paginate(12);
 
 
-        return view('product.index', compact('products', 'category', 'filters'));
+        return view('frontend.product.index', compact('products', 'category', 'filters'));
     }*/
 
     public function indexByCategory(String $category_id, Request $request)
@@ -122,7 +123,7 @@ class ProductController extends Controller
          */
         $products = $products->paginate(12)->appends($request->query());
 
-        return view('product.index', compact('products', 'category', 'filters'));
+        return view('frontend.product.index', compact('products', 'category', 'filters'));
     }
 
     /**

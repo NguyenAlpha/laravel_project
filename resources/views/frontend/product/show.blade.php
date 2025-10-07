@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('frontend.layouts.app')
 
 @section('title', $product->product_name . ' - Cửa hàng điện tử')
 

@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Models\Address;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class AddressController extends Controller
 {
@@ -21,7 +22,7 @@ class AddressController extends Controller
             ->latest()
             ->get();
 
-        return view('address.index', compact('addresses', 'user'));
+        return view('frontend.address.index', compact('addresses', 'user'));
     }
 
     public function store(Request $request)

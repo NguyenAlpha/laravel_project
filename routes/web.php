@@ -1,14 +1,14 @@
 <?php
 
-use App\Http\Controllers\AddressController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Frontend\AddressController;
+use App\Http\Controllers\Frontend\AuthController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CategoryController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\OrderController;
+use App\Http\Controllers\Frontend\ProductController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\UserController;
 
 // Hiển thi trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');

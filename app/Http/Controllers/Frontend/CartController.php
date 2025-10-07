@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
 
 use App\Models\Address;
 use App\Models\Cart;
@@ -9,6 +9,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class CartController extends Controller
 {
@@ -30,7 +31,7 @@ class CartController extends Controller
             $cart->load('cartItems.product');
         }
 
-        return view('cart.index', compact('cart'));
+        return view('frontend.cart.index', compact('cart'));
     }
 
     public function addCart(String $productId, int $quantity)
@@ -281,6 +282,6 @@ class CartController extends Controller
             ->get();
         $cart = Cart::with(['cartItems.product'])->where('user_id', Auth::id())->first();
         $tongTienGioHang = $cart->getTongTienAttribute();
-        return view('checkout.index', compact('user', 'cart', 'addresses', 'tongTienGioHang'));
+        return view('frontend.checkout.index', compact('user', 'cart', 'addresses', 'tongTienGioHang'));
     }
 }

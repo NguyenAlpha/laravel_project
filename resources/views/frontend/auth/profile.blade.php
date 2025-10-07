@@ -1,4 +1,4 @@
-@extends('layouts.profile')
+@extends('frontend.layouts.profile')
 
 @section('title', 'Trang cá nhân - Cửa hàng điện tử')
 
