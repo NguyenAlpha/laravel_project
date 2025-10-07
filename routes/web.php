@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -40,15 +41,31 @@ Route::put('/address/{address}', [AddressController::class, 'update'])->name('ad
 Route::delete('/address/{address}', [AddressController::class, 'delete'])->name('address.delete');
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.adds');
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.addToCart');
 Route::put('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
 Route::delete('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::delete('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
 Route::get('/cart/info', [CartController::class, 'getCartInfo'])->name('cart.info');
 Route::get('/cart/add/{productId}/{quantity}', [CartController::class, 'addCart'])->name('cart.add');
+Route::post('/cart/buy-now', [CartController::class, 'buyNow'])->name('cart.buyNow');
+
+// hiển thị trang thanh toán
+Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout.index');
+
+
+// hiển thị trang đơn hàng
+Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+// xử lý đặt hàng
+Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+// hủy đơn hàng
+Route::get('/order/cancel/{order}', [OrderController::class, 'cancel'])->name('order.cancel');
+// xác nhận đã nhận hàng
+Route::get('/order/delivered/{order}', [OrderController::class, 'delivered'])->name('order.delivered');
 
 // hiển thị danh sách sản phẩm theo phân loại
 Route::get('/category/{category_id}', [CategoryController::class, 'show'])->name('category.show');
+
+
 
 
 /*
