@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
@@ -43,30 +44,43 @@ class CartController extends Controller
         return redirect()->route('cart.index');
     }
 
+    public function buyNow(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('message', 'Đăng nhập để thêm sản phẩm vào giỏ hàng');
+        }
+
+        $userId = Auth::id();
+
+        $productId = $request->input('product_id');
+        $quantity = $request->input('quantity', 1);
+
+        $cart = Cart::with(['cartItems.product'])->where('user_id', $userId)->first();
+
+        $cart->themSanPham($productId, $quantity);
+
+        return redirect()->route('cart.index');
+    }
+
     /**
      * Thêm sản phẩm vào giỏ hàng
      */
     public function addToCart(Request $request)
     {
-
-        // die($request);
         if (!Auth::check()) {
-            // return response()->json([
-            //     'success' => false,
-            //     'message' => 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng'
-            // ], 401);
             return redirect()->route('login')->with('message', 'Đăng nhập để thêm sản phẩm vào giỏ hàng');
         }
 
-        if ($request->buyNow == 'buyNow') {
-            echo 'chưa thiết lập';
-            die;
-        }
+        $userId = Auth::id();
 
-        $cart = Cart::with(['cartItems.product'])->where('user_id', Auth::id())->first();
+        $productId = $request->input('product_id');
+        $quantity = $request->input('quantity', 1);
 
-        $cart->themSanPham($request->product_id, $request->quantity);
-        return redirect()->route('cart.index');
+        $cart = Cart::with(['cartItems.product'])->where('user_id', $userId)->first();
+
+        $cart->themSanPham($productId, $quantity);
+
+        return redirect()->back()->with('success', 'Thêm sản phẩm vào giỏ hàng thành công!');
     }
 
     /**
@@ -257,5 +271,16 @@ class CartController extends Controller
             'cart_amount_formatted' => number_format($cart->tong_tien, 0, ',', '.') . 'đ',
             'items' => $items
         ]);
+    }
+
+    public function checkout()
+    {
+        $user = Auth::user();
+        $addresses = Address::where('user_id', Auth::id())
+            ->latest()
+            ->get();
+        $cart = Cart::with(['cartItems.product'])->where('user_id', Auth::id())->first();
+        $tongTienGioHang = $cart->getTongTienAttribute();
+        return view('checkout.index', compact('user', 'cart', 'addresses', 'tongTienGioHang'));
     }
 }

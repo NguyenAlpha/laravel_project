@@ -8,7 +8,7 @@
 
     </div>
   </div> --}}
-  <div class="col-md-8">
+  <div class="card w-75">
     <!-- Danh sách địa chỉ hiện có -->
     <div class="card shadow-sm mb-4">
       <div class="card-header bg-white">

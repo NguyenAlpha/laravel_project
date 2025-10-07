@@ -34,7 +34,8 @@
               </a>
               <div class="button__addcart__box">
                 <a href="{{route('cart.add', ['productId' => $product->product_id, 'quantity' => 1])}}">
-                  <button class="button button__addcart" type="submit" name="addcart">Mua ngay</button>
+                  <button class="button button__addcart" type="submit" name="addcart" @if ($product->stock == 0) disabled
+                  @endif>Mua ngay</button>
                 </a>
               </div>
             </div>

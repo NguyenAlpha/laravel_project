@@ -22,7 +22,7 @@ class AuthController extends Controller
             'repassword'    => 'required|string|same:password',
             'email'         => 'required|email|unique:user,email',
             'role'          => 'in:customer,admin',
-            'sex'           => 'nullable|in:nam,nữ',
+            'sex'           => 'nullable|in:Nam,Nữ',
             'dob'           => 'nullable|date',
             'phone_number'  => 'required|string|max:10',
             'status'        => 'in:mở,khóa,đã xóa'

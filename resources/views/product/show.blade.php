@@ -19,8 +19,10 @@
 
           <!-- giá sản phẩm -->
           <h2 class="product__detail__price">{{ number_format($product->price, 0, ',', '.') }}đ</h2>
-          <form action="{{route('cart.adds')}}" method="post">
+          {{-- action="{{route('cart.adds')}}" --}}
+          <form method="post">
             @csrf
+
             <input type="number" name="product_id" value='{{$product->product_id}}' class='d-none'>
             <div class="flex">
               @if($product->stock == -1)
@@ -33,13 +35,15 @@
               @endif
 
             </div>
+
             <!-- các nút mua, giỏ hàng -->
             <div class="product__button__buy__cart">
-              <button class="product__detail__buy" type="submit" name="buyNow" value="buyNow" @if ($product->stock == 0)
+              <button formaction='{{ route('cart.buyNow')}}' class="product__detail__buy" type="submit" name="buyNow" value="buyNow" @if ($product->stock == 0)
               disabled @endif>
                 MUA NGAY
               </button>
-              <button class="product__detail__cart" type="submit" @if ($product->stock == 0) disabled @endif>
+
+              <button formaction='{{ route('cart.addToCart')}}' class="product__detail__cart" type="submit" @if ($product->stock == 0) disabled @endif>
                 <i class="fa-solid fa-cart-plus"></i>
                 THÊM VÀO GIỎ HÀNG
               </button>

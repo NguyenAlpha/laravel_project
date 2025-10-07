@@ -54,9 +54,17 @@
           <div class=" block">
             <label for="sex">Giới tính:</label>
             <select name="sex" id="sex">
-              <option value="">-- Chọn giới tính --</option>
-              <option value="Nam">Nam</option>
-              <option value="Nữ">Nữ</option>
+              @if (old('sex') == 'Nam')
+                <option value="Nam" selected>Nam</option>
+                <option value="Nữ">Nữ</option>
+              @elseif (old('sex') == 'Nữ')
+                <option value="Nữ" selected>Nữ</option>
+                <option value="Nam">Nam</option>
+              @else
+                <option value="">-- Chọn giới tính --</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+              @endif
               {{-- <option value="Khác">Khác</option> --}}
             </select>
           </div>

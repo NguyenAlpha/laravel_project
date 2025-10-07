@@ -31,69 +31,67 @@
 
 @section('content')
   <div class="container py-4">
-    <div class="row">
-      <div class="col-12">
-        <h1 class="h3 mb-4">
-          <i class="fas fa-shopping-cart me-2"></i>Giỏ Hàng
-        </h1>
-      </div>
-    </div>
-
     @if($cart->cartItems->count() > 0)
-      {{-- <div class="row"> --}}
         <!-- Danh sách sản phẩm -->
-        <div class="card">
-          <div class="card-body">
-            @foreach($cart->cartItems as $item)
-              <div class="cart-item row align-items-center">
-                <div class="col-md-2">
-                  <img src="{{ asset('images/' . $item->product->image_url) ?? '' }}" alt="{{ $item->product->name }}"
-                    class="img-fluid product-image">
-                </div>
-                <div class="col-md-4">
-                  <h5 class="mb-1">{{ $item->product->product_name }}</h5>
-                  <p class="text-muted mb-0">{{ number_format($item->product->price, 0, ',', '.') }}đ</p>
-                </div>
-                <div class="col-md-3 text-center">
-                  <div class="input-group input-group-sm">
-                    <button class="btn btn-update-quantity" type="button" data-product-id="{{ $item->product_id }}"
-                      data-action="decrease">
-                      <i class="fas fa-minus"></i>
+        <div class="cart py-4">
+          <table class="w-100 text-center shadow" style="border-radius: 12px; overflow: hidden;">
+            <thead style="background-color: #00268c;" class="text-light">
+              <tr>
+                {{-- style="width: 20%" --}}
+                <th class='p-3' style="width: 50%" colspan="2">Sản phẩm</th>
+                <th class='p-3' style="width: 20%">Số lượng</th>
+                <th class='p-3' style="width: 20%">Số tiền</th>
+                <th class='p-3' style="width: 10%">Xóa</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach ($cart->cartItems as $item)
+                <tr class="border-bottom cart-item">
+                  <td class="align-middle p-2">
+                    <a href="{{route('product.show', ['productId' => $item->product->product_id])}}"><img
+                        src="{{ asset('images/' . $item->product->image_url) ?? '' }}" alt="{{ $item->product->product_name }}"
+                        class="img-fluid product-image"></a>
+                  </td>
+                  <td class="align-middle text-start p-2">
+                    <a href="{{route('product.show', ['productId' => $item->product->product_id])}}">
+                      <h5 class="mb-1">{{ $item->product->product_name }}</h5>
+                      <p class="text-muted mb-0">{{ number_format($item->product->price, 0, ',', '.') }}đ</p>
+                    </a>
+                  </td>
+                  <td class="align-middle p-2">
+                    <div class="input-group input-group-sm">
+                      <button class="btn btn-update-quantity" type="button" data-product-id="{{ $item->product_id }}"
+                        data-action="decrease">
+                        <i class="fas fa-minus"></i>
+                      </button>
+                      <input type="number" class="form-control quantity-input" value="{{ $item->quantity }}" min="1"
+                        max="{{ $item->product->stock }}" data-product-id="{{ $item->product_id }}">
+                      <button class="btn btn-update-quantity" type="button" data-product-id="{{ $item->product_id }}"
+                        data-action="increase">
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                    <small class="text-muted">Còn: {{ $item->product->stock }} sản phẩm</small>
+                  </td>
+                  <td class="align-middle p-2">
+                    <strong class="text-danger item-total" data-product-id="{{ $item->product_id }}">
+                      {{ $item->thanh_tien_formatted }}
+                    </strong>
+                  </td>
+                  <td class="align-middle p-2">
+                    <button class="btn btn-outline-danger btn-sm btn-remove" data-product-id="{{ $item->product_id }}"
+                      title="Xóa sản phẩm">
+                      <i class="fas fa-trash"></i>
                     </button>
-                    <input type="number" class="form-control quantity-input" value="{{ $item->quantity }}" min="1"
-                      max="{{ $item->product->stock }}" data-product-id="{{ $item->product_id }}">
-                    <button class="btn btn-update-quantity" type="button" data-product-id="{{ $item->product_id }}"
-                      data-action="increase">
-                      <i class="fas fa-plus"></i>
-                    </button>
-                  </div>
-                  <small class="text-muted">Còn: {{ $item->product->stock }} sản phẩm</small>
-                </div>
-                <div class="col-md-2 text-center">
-                  <strong class="text-danger item-total" data-product-id="{{ $item->product_id }}">
-                    {{ $item->thanh_tien_formatted }}
-                  </strong>
-                </div>
-                <div class="col-md-1 text-end">
-                  <button class="btn btn-outline-danger btn-sm btn-remove" data-product-id="{{ $item->product_id }}"
-                    title="Xóa sản phẩm">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </div>
-              </div>
-            @endforeach
-          </div>
-        </div>
-
-        <!-- Nút xóa toàn bộ -->
-        <div class="mt-3 text-end">
-          <button class="btn btn-outline-danger" id="btn-clear-cart">
-            <i class="fas fa-trash me-1"></i>Xóa Toàn Bộ Giỏ Hàng
-          </button>
+                  </td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
         </div>
 
         <!-- Tổng kết giỏ hàng -->
-        <div class="col-lg-4">
+        <div class="col-lg-4 shadow">
           <div class="cart-summary">
             <h5 class="mb-3">Tổng Kết Giỏ Hàng</h5>
 
@@ -109,9 +107,9 @@
               </strong>
             </div>
 
-            <button class="btn btn-primary w-100 mb-2">
+            <a href="{{route('checkout.index')}}" class="btn btn-primary w-100 mb-2">
               <i class="fas fa-credit-card me-1"></i>Tiến Hành Thanh Toán
-            </button>
+            </a>
 
             <a href="{{ route('home') }}" class="btn btn-outline-secondary w-100">
               <i class="fas fa-shopping-bag me-1"></i>Tiếp Tục Mua Hàng
@@ -121,18 +119,18 @@
         {{--
       </div> --}}
     @else
-      <!-- Giỏ hàng trống -->
-      <div class="text-center py-5">
-        <div class="mb-4">
-          <i class="fas fa-shopping-cart fa-4x text-muted"></i>
-        </div>
-        <h3 class="text-muted">Giỏ hàng của bạn đang trống</h3>
-        <p class="text-muted mb-4">Hãy thêm sản phẩm vào giỏ hàng để bắt đầu mua sắm</p>
-        <a href="{{ route('home') }}" class="btn btn-primary btn-lg">
-          <i class="fas fa-shopping-bag me-2"></i>Mua Sắm Ngay
-        </a>
+    <!-- Giỏ hàng trống -->
+    <div class="text-center py-5">
+      <div class="mb-4">
+        <i class="fas fa-shopping-cart fa-4x text-muted"></i>
       </div>
-    @endif
+      <h3 class="text-muted">Giỏ hàng của bạn đang trống</h3>
+      <p class="text-muted mb-4">Hãy thêm sản phẩm vào giỏ hàng để bắt đầu mua sắm</p>
+      <a href="{{ route('home') }}" class="btn btn-primary btn-lg">
+        <i class="fas fa-shopping-bag me-2"></i>Mua Sắm Ngay
+      </a>
+    </div>
+  @endif
   </div>
 
   <!-- Loading Spinner -->
@@ -167,12 +165,7 @@
       // Hiển thị thông báo
       function showAlert(message, type = 'success') {
         const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
-        const alertHtml = `
-                                                    <div class="alert ${alertClass} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3" role="alert">
-                                                        ${message}
-                                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                                    </div>
-                                                `;
+        const alertHtml = `<div class="alert ${alertClass} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3" role="alert">${message}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
         $('body').append(alertHtml);
         setTimeout(() => $('.alert').alert('close'), 3000);
       }

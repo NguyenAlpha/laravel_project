@@ -13,7 +13,7 @@ class Order extends Model
 
     protected $table = 'order'; // Tên bảng đặc biệt, cần escape
     protected $primaryKey = 'order_id';
-
+    public $timestamps = false;
     protected $fillable = [
         'user_id',
         'address',

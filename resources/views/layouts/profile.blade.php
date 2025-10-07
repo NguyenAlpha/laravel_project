@@ -12,11 +12,11 @@
   <p>Đường dẫn ảnh đại diện: {{$user->avatar_url}}</p> --}}
 
   <div class='container' style='margin-top: 40px;'>
-    @if(session('success'))
+    {{-- @if(session('success'))
       <div class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>{{ session('success') }}</strong>
       </div>
-    @endif
+    @endif --}}
 
     <div class="d-flex">
       <div class="card shadow-sm border-0 w-25">
@@ -41,10 +41,11 @@
               <span>Sổ địa chỉ</span>
             </li>
           </a>
-          <a href="#" class="text-decoration-none text-dark d-flex align-items-center hover-effect">
+          <a href="{{route('order.index')}}"
+            class="text-decoration-none text-dark d-flex align-items-center hover-effect">
             <li class="list-group-item py-3 w-100">
               <i class="fas fa-shopping-bag me-3 text-warning"></i>
-              <span>Đơn hàng đã mua</span>
+              <span>Lịch sử đơn hàng</span>
             </li>
           </a>
           <form method="POST" action="{{ route('logout') }}" class="mb-0 w-100 hover-effect">
