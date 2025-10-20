@@ -11,6 +11,7 @@ class MouseDetail extends Model
 
     protected $table = 'mouse_detail';
     protected $primaryKey = 'mouse_id';
+    public $timestamps = false;
 
     protected $fillable = [
         'product_id',
@@ -32,6 +33,13 @@ class MouseDetail extends Model
      */
     public static function getFilterAttributes()
     {
+        return [
+            'thuong_hieu' => 'Thương hiệu',
+            'ket_noi' => 'Kết nối'
+        ];
+    }
+
+    public static function getDetailAttributes() {
         return [
             'thuong_hieu' => 'Thương hiệu',
             'ket_noi' => 'Kết nối'

@@ -11,6 +11,7 @@ class HeadsetDetail extends Model
 
     protected $table = 'headset_detail';
     protected $primaryKey = 'headset_id';
+    public $timestamps = false;
 
     protected $fillable = [
         'product_id',
@@ -56,6 +57,16 @@ class HeadsetDetail extends Model
     public static function getFilterAttributes()
     {
         return [
+            'thuong_hieu' => 'Thương hiệu',
+            'micro' => 'Micro',
+            'ket_noi' => 'Kết nối',
+            'pin' => 'Pin'
+        ];
+    }
+
+    public static function getDetailAttributes()
+    {
+         return [
             'thuong_hieu' => 'Thương hiệu',
             'micro' => 'Micro',
             'ket_noi' => 'Kết nối',

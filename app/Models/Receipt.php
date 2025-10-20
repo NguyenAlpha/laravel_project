@@ -13,7 +13,7 @@ class Receipt extends Model
 
     protected $table = 'receipt';
     protected $primaryKey = 'receipt_id';
-
+    public $timestamps = false;
     protected $fillable = [
         'supplier_id',
         'order_date',
@@ -28,6 +28,8 @@ class Receipt extends Model
     protected $attributes = [
         'status' => 'đang chờ'
     ];
+
+    protected $appends = ['total_amount', 'quantity_product'];
 
     /**
      * Relationship với Supplier
@@ -72,9 +74,13 @@ class Receipt extends Model
     /**
      * Tính tổng giá trị receipt
      */
-    public function getTongTienAttribute(): int
+    public function getTotalAmountAttribute(): int
     {
-        return $this->receiptDetails->sum(function($detail) {
+        // THÊM: Kiểm tra và load quan hệ nếu cần
+        if (!$this->relationLoaded('receiptDetails')) {
+            $this->load('receiptDetails');
+        }
+        return $this->receiptDetails->sum(function ($detail) {
             return $detail->quantity * $detail->price;
         });
     }
@@ -82,7 +88,7 @@ class Receipt extends Model
     /**
      * Tính tổng số lượng sản phẩm
      */
-    public function getTongSoLuongAttribute(): int
+    public function getQuantityProductAttribute(): int
     {
         return $this->receiptDetails->sum('quantity');
     }

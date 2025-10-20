@@ -11,6 +11,7 @@ class KeyboardDetail extends Model
 
     protected $table = 'keyboard_detail';
     protected $primaryKey = 'keyboard_id';
+    public $timestamps = false;
 
     protected $fillable = [
         'product_id',
@@ -38,6 +39,13 @@ class KeyboardDetail extends Model
         ];
     }
 
+    public static function getDetailAttributes()
+    {
+        return [
+            'thuong_hieu' => 'Thương hiệu',
+            'ket_noi' => 'Kết nối'
+        ];
+    }
     /**
      * Scope để lấy keyboard theo loại kết nối
      */

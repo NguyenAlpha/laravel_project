@@ -20,7 +20,8 @@ class Order extends Model
         'delivery_date',
         'total_amount',
         'status',
-        'payment_method'
+        'payment_method',
+        'created_by'
     ];
 
     protected $casts = [

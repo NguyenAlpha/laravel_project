@@ -11,6 +11,7 @@ class ScreenDetail extends Model
 
     protected $table = 'screen_detail';
     protected $primaryKey = 'screen_id';
+    public $timestamps = false;
 
     protected $fillable = [
         'product_id',
@@ -30,6 +31,17 @@ class ScreenDetail extends Model
     }
 
     public static function getFilterAttributes()
+    {
+        return [
+            'thuong_hieu' => 'Thương hiệu',
+            'kich_thuoc_man_hinh' => 'Kích thước màn hình',
+            'tang_so_quet' => 'Tần số quét',
+            'do_phan_giai' => 'Độ phân giải',
+            'tam_nen' => 'Tấm nền'
+        ];
+    }
+
+    public static function getDetailAttributes()
     {
         return [
             'thuong_hieu' => 'Thương hiệu',

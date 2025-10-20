@@ -11,6 +11,7 @@ class LaptopDetail extends Model
 
     protected $table = 'laptop_detail';
     protected $primaryKey = 'laptop_id';
+    public $timestamps = false;
 
     protected $fillable = [
         'product_id',
@@ -31,6 +32,19 @@ class LaptopDetail extends Model
 
     // Mapping tên hiển thị cho filter
     public static function getFilterAttributes()
+    {
+        return [
+            'thuong_hieu' => 'Thương hiệu',
+            'cpu' => 'CPU',
+            'gpu' => 'GPU',
+            'ram' => 'RAM',
+            'dung_luong' => 'Ổ cứng',
+            'kich_thuoc_man_hinh' => 'Kích thước màn hình',
+            'do_phan_giai' => 'Độ phân giải'
+        ];
+    }
+
+    public static function getDetailAttributes()
     {
         return [
             'thuong_hieu' => 'Thương hiệu',

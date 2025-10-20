@@ -12,7 +12,7 @@ class ReceiptDetail extends Model
 
     protected $table = 'receipt_detail';
     protected $primaryKey = 'receipt_detail_id';
-
+    public $timestamps = false;
     protected $fillable = [
         'receipt_id',
         'product_id',

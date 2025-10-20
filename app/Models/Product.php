@@ -10,6 +10,38 @@ class Product extends Model
 {
     use HasFactory;
 
+    public static $categoryMapping = [
+    'Laptop' => [
+      'model' => LaptopDetail::class,
+      'type' => 'Laptop'
+    ],
+    'Screen' => [
+      'model' => ScreenDetail::class,
+      'type' => 'Screen'
+    ],
+    'LaptopGaming' => [
+      'model' => LaptopGamingDetail::class,
+      'type' => 'LaptopGaming'
+    ],
+    'GPU' => [
+      'model' => GpuDetail::class,
+      'type' => 'GPU'
+    ],
+    'Headset' => [
+      'model' => HeadsetDetail::class,
+      'type' => 'Headset'
+    ],
+    'Mouse' => [
+      'model' => MouseDetail::class,
+      'type' => 'Mouse'
+    ],
+    'Keyboard' => [
+      'model' => KeyboardDetail::class,
+      'type' => 'Keyboard'
+    ]
+    // Thêm các category khác tại đây
+  ];
+
     /**
      * The table associated with the model.
      *
@@ -207,5 +239,20 @@ class Product extends Model
 
         $relation = $mapping[$this->category_id] ?? null;
         return $relation ? $this->$relation : null;
+    }
+
+    public static function getRelationName($categoryId)
+    {
+        $relations = [
+            'Laptop' => 'laptopDetail',
+            'Screen' => 'screenDetail',
+            'LaptopGaming' => 'laptopGamingDetail',
+            'GPU' => 'gpuDetail',
+            'Headset' => 'headsetDetail',
+            'Mouse' => 'mouseDetail',
+            'Keyboard' => 'keyboardDetail'
+        ];
+
+        return $relations[$categoryId] ?? null;
     }
 }

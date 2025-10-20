@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Supplier extends Model
 {
     use HasFactory;
-
+    public $timestamps = false;
     protected $table = 'supplier';
     protected $primaryKey = 'supplier_id';
 

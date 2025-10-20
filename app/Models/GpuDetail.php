@@ -11,6 +11,7 @@ class GpuDetail extends Model
 
     protected $table = 'gpu_detail';
     protected $primaryKey = 'gpu_id';
+    public $timestamps = false;
 
     protected $fillable = [
         'product_id',
@@ -39,6 +40,17 @@ class GpuDetail extends Model
      * Lấy attributes cho filter
      */
     public static function getFilterAttributes()
+    {
+        return [
+            'thuong_hieu' => 'Thương hiệu',
+            'gpu' => 'GPU',
+            'cuda' => 'Số nhân CUDA',
+            'bo_nho' => 'Bộ nhớ',
+            'nguon' => 'Nguồn yêu cầu'
+        ];
+    }
+
+    public static function getDetailAttributes()
     {
         return [
             'thuong_hieu' => 'Thương hiệu',

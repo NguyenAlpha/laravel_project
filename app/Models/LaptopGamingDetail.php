@@ -11,6 +11,7 @@ class LaptopGamingDetail extends Model
 
     protected $table = 'laptop_gaming_detail';
     protected $primaryKey = 'laptop_gaming_id';
+    public $timestamps = false;
 
     protected $fillable = [
         'product_id',
@@ -42,6 +43,18 @@ class LaptopGamingDetail extends Model
         ];
     }
 
+    public static function getDetailAttributes()
+    {
+        return [
+            'thuong_hieu' => 'Thương hiệu',
+            'cpu' => 'CPU',
+            'gpu' => 'GPU',
+            'ram' => 'RAM',
+            'dung_luong' => 'Ổ cứng',
+            'kich_thuoc_man_hinh' => 'Kích thước màn hình',
+            'do_phan_giai' => 'Độ phân giải'
+        ];
+    }
     public static function getFilterValues($attribute)
     {
         return self::select($attribute)->distinct()->pluck($attribute);
