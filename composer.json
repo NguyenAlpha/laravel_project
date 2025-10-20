@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 {
     "$schema": "https://getcomposer.org/schema.json",
     "name": "laravel/laravel",
@@ -76,4 +74,3 @@
     "minimum-stability": "stable",
     "prefer-stable": true
 }
->>>>>>> da32ee4c738123e67bc07188f3bf7989416e7cdd

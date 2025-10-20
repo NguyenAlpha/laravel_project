@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 <?php
 
 namespace App\Models;
@@ -49,4 +47,3 @@ class User extends Authenticatable
     }
 
             }
->>>>>>> da32ee4c738123e67bc07188f3bf7989416e7cdd
