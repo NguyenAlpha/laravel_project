@@ -9,6 +9,6 @@
         <strong>{{ session('message') }}</strong>
       </div>
     @endif
-    @include('components.auth.login-form')
+    @include('frontend.components.auth.login-form')
   </div>
 @endsection
