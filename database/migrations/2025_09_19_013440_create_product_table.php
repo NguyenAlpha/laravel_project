@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('price');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
-            $table->enum('status', ['hiện', 'ẩn'])->default('hiện');
+            $table->enum('status', ['hiện', 'ẩn', 'đã xóa'])->default('hiện');
             $table->string('image_url')->nullable();
         });
     }
