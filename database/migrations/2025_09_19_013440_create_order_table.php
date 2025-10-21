@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('total_amount');
             $table->enum('status', ['đã nhận hàng', 'chờ xác nhận', 'đang giao', 'đã xác nhận', 'đã hủy'])->default('chờ xác nhận');
             $table->enum('payment_method', ['chuyển khoản', 'tiền mặt']);
-            $table->string('created_by');
+            $table->string('created_by')->nullable();
         });
     }
 

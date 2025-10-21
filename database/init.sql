@@ -310,12 +310,12 @@ INSERT INTO `address` (`address_id`, `user_id`, `address`, `created_at`, `update
 
 
 -- ---------------------------------------------------
-INSERT INTO `order` (`order_id`, `user_id`, `address`, `order_date`, `delivery_date`, `total_amount`, `status`, `payment_method`) VALUES
-(1, 1, 'phường 13, quận 5, tphcm', '2025-10-04 07:22:50', '2025-10-06 11:08:10', 12900000, 'đã nhận hàng', 'chuyển khoản'),
-(2, 1, 'phường 13, quận 5, tphcm', '2025-10-04 09:32:07', NULL, 1890000, 'chờ xác nhận', 'tiền mặt'),
-(3, 1, 'phường 13, quận 5, tphcm', '2025-10-04 14:33:26', NULL, 23770000, 'đã hủy', 'tiền mặt'),
-(4, 1, 'phường 13, quận 5, tphcm', '2025-10-04 14:57:34', NULL, 9190000, 'đã xác nhận', 'chuyển khoản'),
-(5, 1, 'phường 13, quận 5, tphcm', '2025-10-04 15:04:24', NULL, 9190000, 'đang giao', 'chuyển khoản');
+INSERT INTO `order` (`order_id`, `user_id`, `address`, `order_date`, `delivery_date`, `total_amount`, `status`, `payment_method`, `created_by`) VALUES
+(1, 1, 'phường 13, quận 5, tphcm', '2025-10-04 07:22:50', '2025-10-06 11:08:10', 12900000, 'đã nhận hàng', 'chuyển khoản', NULL),
+(2, 1, 'phường 13, quận 5, tphcm', '2025-10-04 09:32:07', NULL, 1890000, 'chờ xác nhận', 'tiền mặt', NULL),
+(3, 1, 'phường 13, quận 5, tphcm', '2025-10-04 14:33:26', NULL, 23770000, 'đã hủy', 'tiền mặt', NULL),
+(4, 1, 'phường 13, quận 5, tphcm', '2025-10-04 14:57:34', NULL, 9190000, 'đã xác nhận', 'chuyển khoản', NULL),
+(5, 1, 'phường 13, quận 5, tphcm', '2025-10-04 15:04:24', NULL, 9190000, 'đang giao', 'chuyển khoản', NULL);
 
 DELIMITER //
 
