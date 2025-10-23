@@ -108,7 +108,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="mb-3 text-center">
-                                    <img id="image-preview" src="{{ asset('images/default-product.png') }}" 
+                                    <img id="image-preview" src="" 
                                          alt="Preview" class="img-thumbnail mb-3" 
                                          style="max-width: 200px; max-height: 200px; display: none;">
                                     <div id="no-image" class="text-muted mb-3">
@@ -242,12 +242,7 @@
                     let inputType = 'text';
                     let step = '1';
                     
-                    if (attribute.includes('kich_thuoc') || attribute.includes('kích_thước')) {
-                        inputType = 'number';
-                        step = '0.1';
-                    } else if (attribute.includes('dung_luong') || attribute.includes('dung_lượng') || 
-                               attribute.includes('ram') || attribute.includes('price') || 
-                               attribute.includes('gia') || attribute.includes('giá')) {
+                    if (attribute == 'gia') {
                         inputType = 'number';
                     }
                     

@@ -55,7 +55,7 @@
                     <label class="form-label fw-semibold text-dark mb-2">
                       <i class="fas fa-list me-1"></i>{{ $filter['label'] }}
                     </label>
-                    <div class="filter-options" style="max-height: 200px; overflow-y: auto p-2;">
+                    <div class="filter-options p-2" style="max-height: 200px; overflow-y: auto;">
                       @foreach ($filter['values'] as $value)
                         @php
                           $safeId = $attribute . '_' . strtolower(str_replace(' ', '_', $value));
@@ -121,7 +121,7 @@
                 <div class="button__addcart__box">
                   <a href="{{route('cart.add', ['productId' => $product->product_id, 'quantity' => 1])}}">
                     <button class="button button__addcart" type="submit" name="addcart" @if ($product->stock == 0) disabled
-                  @endif>
+                    @endif>
                       Mua ngay
                     </button>
                   </a>
@@ -129,7 +129,19 @@
               </div>
             @endforeach
           </div>
-          {{ $products->links('pagination::bootstrap-4') }}
+
+          <!-- Pagination -->
+          @if($products->hasPages())
+            <div class="d-flex justify-content-between align-items-center mt-4">
+              <div class="text-muted">
+                Hiển thị {{ $products->firstItem() ?? 0 }} - {{ $products->lastItem() ?? 0 }} của {{
+            $products->total() }} sản phẩm
+              </div>
+              <nav>
+                {{ $products->appends(request()->query())->links('pagination::bootstrap-4') }}
+              </nav>
+            </div>
+          @endif
         @else
           <p class="error">không có sản phẩm nào</p>
         @endif

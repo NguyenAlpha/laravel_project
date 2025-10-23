@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
+                'user_id' => 1,
                 'username' => 'nhat nguyen',
                 'password' => Hash::make('password'),
                 'email' => 'password@gmail.com',
@@ -23,11 +24,12 @@ class UserSeeder extends Seeder
                 'phone_number' => '0963944370',
                 'dob' => '2005-04-27',
                 'status' => 'mở',
-                'created_at' =>'2025-09-10 12:34:21',
+                'created_at' => '2025-09-10 12:34:21',
                 'updated_at' => '2025-09-10 12:34:21',
                 'avatar_url' => ''
             ],
             [
+                'user_id' => 2,
                 'username' => 'admin',
                 'password' => Hash::make('admin'),
                 'email' => 'admin@gmail.com',
@@ -36,7 +38,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '0123456789',
                 'dob' => '2005-05-15',
                 'status' => 'mở',
-                'created_at' =>'2025-09-5 12:34:21',
+                'created_at' => '2025-09-5 12:34:21',
                 'updated_at' => '2025-09-5 12:34:21',
                 'avatar_url' => ''
             ]

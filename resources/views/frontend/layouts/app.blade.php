@@ -113,35 +113,36 @@
     <div class="navbar shadow">
       <div class="container navbar-container">
         <ul class='d-flex'>
-          {{--
-          <?php foreach ($menus as $menuItem):?>
-          <a href="./index.php?controller=category&action=show&id=<?= $menuItem['MaLoai'] ?>">
-            <li class="navbar__item">
-              <?= $menuItem['TenLoai']?>
-            </li>
-          </a>
-          <?php endforeach; ?> --}}
-          <a href="{{ route('product.indexByCategory', ['category_id' => "Laptop"]) }}">
+          @if(isset($categories))
+            @foreach ($categories as $category)
+            <a href="{{ route('product.indexByCategory', ['category_id' => $category->category_id]) }}"><li class="navbar__item">{{ $category->category_name }}</li></a>
+            @endforeach
+          @else
+            <a href="{{ route('product.indexByCategory', ['category_id' => " Laptop"]) }}"><li class="navbar__item">Laptop</li></a>
+            <a href="{{ route('product.indexByCategory', ['category_id' => " LaptopGaming"]) }}"><li class="navbar__item">Laptop Gaming</li></a>
+            <a href="{{ route('product.indexByCategory', ['category_id' => " GPU"]) }}"><li class="navbar__item">GPU</li></a>
+          @endif
+          {{-- <a href="{{ route('product.indexByCategory', ['category_id' => " Laptop"]) }}">
             <li class="navbar__item">Laptop</li>
           </a>
-          <a href="{{ route('product.indexByCategory', ['category_id' => "LaptopGaming"]) }}">
+          <a href="{{ route('product.indexByCategory', ['category_id' => " LaptopGaming"]) }}">
             <li class="navbar__item">Laptop Gaming</li>
           </a>
-          <a href=" {{ route('product.indexByCategory', ['category_id' => "Screen"]) }}">
+          <a href=" {{ route('product.indexByCategory', ['category_id' => " Screen"]) }}">
             <li class="navbar__item">Màn Hình</li>
           </a>
-          <a href=" {{ route('product.indexByCategory', ['category_id' => "GPU"]) }}">
+          <a href=" {{ route('product.indexByCategory', ['category_id' => " GPU"]) }}">
             <li class="navbar__item">GPU</li>
           </a>
-          <a href=" {{ route('product.indexByCategory', ['category_id' => "Headset"]) }}">
+          <a href=" {{ route('product.indexByCategory', ['category_id' => " Headset"]) }}">
             <li class="navbar__item">Tai Nghe</li>
           </a>
-          <a href=" {{ route('product.indexByCategory', ['category_id' => "Mouse"]) }}">
+          <a href=" {{ route('product.indexByCategory', ['category_id' => " Mouse"]) }}">
             <li class="navbar__item">Chuột</li>
           </a>
-          <a href=" {{ route('product.indexByCategory', ['category_id' => "Keyboard"]) }}">
+          <a href=" {{ route('product.indexByCategory', ['category_id' => " Keyboard"]) }}">
             <li class="navbar__item">Bàn Phím</li>
-          </a>
+          </a> --}}
         </ul>
       </div>
     </div>

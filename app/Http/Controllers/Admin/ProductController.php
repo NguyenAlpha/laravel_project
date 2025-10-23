@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use FFI\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -63,7 +64,7 @@ class ProductController extends Controller
         foreach ($categories as $category) {
             $relationName = Product::getRelationName($category->category_id);
             if ($relationName) {
-                $modelClass = Product::$categoryMapxping[$category->category_id]['model'] ?? null;
+                $modelClass = Product::$categoryMapping[$category->category_id]['model'] ?? null;
                 if ($modelClass && method_exists($modelClass, 'getDetailAttributes')) {
                     $categoryDetails[$category->category_id] = $modelClass::getDetailAttributes();
                 }
@@ -128,6 +129,18 @@ class ProductController extends Controller
                     $detailData = [];
                     foreach ($validatedDetails['details'] as $key => $value) {
                         if (!empty($value)) {
+                            // if (in_array($key, ['ram', 'dung_luong'])) {
+                            //     $value += 'GB';
+                            // } else if (in_array($key, ['kich_thuoc_man_hinh'])) {
+                            //     $value += ' inch';
+                            // } else if (in_array($key, ['do_phan_giai'])) {
+                            //     str_replace(' ', '', $value);
+                            // }
+
+                            if (in_array($key, ['do_phan_giai'])) {
+                                $value = str_replace(' ', '', $value);
+                            }
+
                             $detailData[$key] = $value;
                         }
                     }
@@ -142,7 +155,7 @@ class ProductController extends Controller
 
             return redirect()->route('admin.product.index')
                 ->with('success', 'Tạo sản phẩm thành công!');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             return redirect()->back()
                 ->with('error', 'Đã xảy ra lỗi khi tạo sản phẩm: ' . $e->getMessage())
@@ -191,7 +204,6 @@ class ProductController extends Controller
         }
     }
 
-    // Method edit - Hiển thị form chỉnh sửa
     // Method edit - Hiển thị form chỉnh sửa
     public function edit($id)
     {
@@ -292,6 +304,18 @@ class ProductController extends Controller
                     foreach ($validatedDetails['details'] as $key => $value) {
                         // Chỉ cập nhật nếu có giá trị, nếu không thì giữ nguyên
                         if (!is_null($value)) {
+                            // if (in_array($key, ['ram', 'dung_luong'])) {
+                            //     $value += 'GB';
+                            // } else if (in_array($key, ['kich_thuoc_man_hinh'])) {
+                            //     $value += ' inch';
+                            // } else if (in_array($key, ['do_phan_giai'])) {
+                            //     str_replace(' ', '', $value);
+                            // }
+
+                            if (in_array($key, ['do_phan_giai'])) {
+                                $value = str_replace(' ', '', $value);
+                            }
+
                             $detailData[$key] = $value;
                         }
                     }

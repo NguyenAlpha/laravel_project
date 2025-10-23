@@ -241,11 +241,11 @@ INSERT INTO `category` (`category_id`, `category_name`, `description`) VALUES
 
 INSERT INTO `product` (`product_id`, `product_name`, `category_id`, `stock`, `price`, `created_at`, `updated_at`, `status`, `image_url`) VALUES
 (1, 'Màn hình MSI PRO MP242L',                                      'Screen',         35,     1890000,   '2025-01-21 11:22:13', '2025-01-21 11:22:13', 'hiện', '50725_m__n_h__nh_msi_pro_mp242l__4_.jpg'),
-(2, 'Laptop ASUS VivoBook Go 14 E1404FA-NK177W',                    'Laptop',         19,     11490000,  '2025-02-04  14:32:39','2025-2-04  14:32:39', 'hiện', 'e1404fa-1.png'),
+(2, 'Laptop Asus VivoBook Go 14 E1404FA-NK177W',                    'Laptop',         19,     11490000,  '2025-02-04 14:32:39', '2025-02-04 14:32:39', 'hiện', 'e1404fa-1.png'),
 (3, 'Card màn hình MSI GeForce RTX 5090 32G GAMING TRIO OC',        'GPU',            68,     97990000,  '2025-02-05 09:45:29', '2025-02-05 09:45:29', 'hiện', 'bzilxs4m.png'),
 (4, 'Laptop Gaming MSI Katana 15 B13UDXK 2270VN',                   'LaptopGaming',   25,     20900000,  '2025-05-23 04:43:37', '2025-05-23 04:43:37', 'hiện', '8qziagrd.png'),
 (5, 'Laptop Lenovo LOQ 15ARP9 83JC003YVN',                          'LaptopGaming',   79,     27790000,  '2025-07-15 09:20:40', '2025-07-15 09:20:40', 'hiện', '48807_laptop_lenovo_loq_15arp9_83jc003yvn__3_.jpg'),
-(6, 'Card màn hình ASUS Dual GeForce RTX™ 3060 V2 12GB GDDR6',      'GPU',            24,     7790000,   '2025-07-23 12:36:19', '2025-07-23 12:36:19', 'hiện', 'imagertx3060V2_12GB.png'),
+(6, 'Card màn hình Asus Dual GeForce RTX™ 3060 V2 12GB GDDR6',      'GPU',            24,     7790000,   '2025-07-23 12:36:19', '2025-07-23 12:36:19', 'hiện', 'imagertx3060V2_12GB.png'),
 (7, 'Laptop GIGABYTE G5 MF5-52VN383SH',                             'LaptopGaming',   34,     20790000,  '2025-07-23 13:37:34', '2025-07-23 13:37:34', 'hiện', '47728_laptop_gigabyte_g5_mf5_52vn383sh__1_.jpg'),
 (8, 'Màn Hình Gaming GIGABYTE GS27F',                               'Screen',         86,     3298000,   '2025-07-26 16:32:14', '2025-07-26 16:32:14', 'hiện', 'man_hinh_gaming_gigabyte_gs27f__5_.jpg'),
 (9, 'Laptop Acer Aspire Lite AL14-51M-36MH_NX.KTVSV.001',           'Laptop',         64,     9190000,   '2025-07-26 20:21:16', '2025-07-26 20:21:16', 'hiện', '49837_laptop_acer_aspire_lite_al14_51m_36mh_nx_ktvsv_001__2_.jpg'),
@@ -255,12 +255,41 @@ INSERT INTO `product` (`product_id`, `product_name`, `category_id`, `stock`, `pr
 (13, 'Laptop Gaming Acer Nitro 5 Tiger AN515-58-5935 NH.QLZSV.001', 'LaptopGaming',   80,     22290000,  '2025-09-23 12:46:57', '2025-09-23 12:46:57', 'hiện', '45837_bnfg.jpg'),
 (14, 'Laptop Acer Aspire 3 A315-44P-R5QG NX.KSJSV.001',             'Laptop',         99,     12900000,  '2025-09-23 12:46:57', '2025-09-23 12:46:57', 'hiện', '50618_laptop_acer_aspire_3_a315_44p_r5qg_nx_ksjsv_001__4_.jpg'),
 (15, 'Laptop Asus Vivobook 14 OLED A1405VA-KM095W',                 'Laptop',          0,     16990000,  '2025-09-23 13:24:38', '2025-09-23 13:24:38', 'hiện', '44758_laptop_asus_vivobook_14_oled_a1405va_km095w__7_.jpg'),
-(16, 'Laptop HP VICTUS 15-fa1155TX 952R1PA_16G',                    'LaptopGaming',  100,     17990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'ẩn',   '49855_laptop_hp_victus_15_fa1155tx_952r1pa_16g__2_.jpg');
+(16, 'Laptop HP VICTUS 15-fa1155TX 952R1PA_16G',                    'LaptopGaming',  100,     17990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'ẩn',   '49855_laptop_hp_victus_15_fa1155tx_952r1pa_16g__2_.jpg'),
+(17, 'Laptop Asus Vivobook S 16 OLED S5606MA-MX051W',               'Laptop',          0,     25490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', 'g8gdssys.png'),
+(18, 'Laptop HP ProBook 440 G11 A74B4PT',                           'Laptop',          0,     21490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '49741_laptop_hp_probook_440_g11_a74b4pt__1_.jpg'),
+(19, 'Card màn hình Asus ROG Strix GeForce RTX 4090 OC Edition 24GB GDDR6X','GPU',     0,     64990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', 'tn9pvbdr.png'),
+(20, 'VGA Gigabyte RTX 4060 Windforce OC 8GB',                      'GPU',             0,     8299000,   '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '45659_vga_gigabyte_rtx_4060_windforce_oc_8gb_anphat88.jpg'),
+(21, 'VGA Gigabyte GeForce RTX 3050 WINDFORCE OC V2 8GB',           'GPU',             0,     5599000,   '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '46200_vga_gigabyte_geforce_rtx_3050_windforce___2_.jpg'),
+(22, 'Laptop Dell Latitude 3450 71058806',                          'Laptop',          0,     24990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '51342_laptop_dell_latitude_3450_71058806__1_.jpg'),
+(23, 'Laptop gaming Acer Predator Helios Neo 16 PHN16 72 78L4',     'LaptopGaming',    0,     38490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746952951_acer_predator_helios_neo_16_2024__2__3ffd04967bc44b82b78f3e0cee408665_1024x1024.jpg'),
+(24, 'Laptop gaming Lenovo Legion 5 16IRX9 83DG004YVN',             'LaptopGaming',    0,     37990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746953416_legion_5_16irx9_ct1_01_6639fb2c9ce446439a36578865a5c7d0_1024x1024.jpg'),
+(25, 'Laptop gaming Acer Predator Helios Neo 16 PHN16 71 74QR',     'LaptopGaming',    0,     41990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746953641_468f7a1472eb8f563424b86621d_c04206638f4643d58ab3079d6dc42ec0_1024x1024_18da0285e1e848248921bbcfc8c80c53_grande.jpg'),
+(26, 'Laptop gaming Asus TUF Gaming FA401WV RG062WS',               'LaptopGaming',    0,     39990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746954077_ava_dea980b662854ab8a4dd359d3bd8d2b4_grande.jpg'),
+(27, 'HP Pavilion Gaming 15 EC2158AX',                              'LaptopGaming',    0,     38600000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746954382_HP-Pavilion-Gaming-15-Ryzen-03.jpg'),
+(28, 'Laptop gaming HP OMEN 16-wf1137TX A2NR9PA',                   'LaptopGaming',    0,     52490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746954618_1_a4de5185d81a4d8e851974281003b6d4_grande.jpg'),
+(29, 'Laptop gaming MSI Sword 16 HX B14VEKG 856VN',                 'LaptopGaming',    0,     31490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746954844_ava_ecb79fdbde454bfd87bf7ccd8675e972_grande.jpg'),
+(30, 'Laptop gaming MSI Vector 16 HX AI A2XWHG 010VN',              'LaptopGaming',    0,     54990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746955011_1024__1__035bd6ee5a8246078c525b4bc8d2e55b_grande.jpg'),
+(31, 'Laptop gaming Lenovo Legion 7 16IRX9 83FD004MVN',             'LaptopGaming',    0,     59990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746955134_ava_1388feab03cd40a2ad5b495d909a0a60_grande.jpg'),
+(32, 'Laptop gaming MSI Thin 15 B13UC 2044VN',                      'LaptopGaming',    0,     19290000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746955252_thin-new_d31ff3b88e7f40e7ac88acc624e03d4f_grande.jpg'),
+(33, 'Card màn hình GIGABYTE GeForce RTX 4070 SUPER WINDFORCE OC 12G','GPU',           0,     19490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1747011522_Screenshot 2025-05-12 075833.png'),
+(34, 'Card màn hình GIGABYTE Radeon RX 9070 GAMING OC 16G',         'GPU',             0,     19990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1747011767_Screenshot 2025-05-12 080240.png'),
+(35, 'Card màn hình Gigabyte GeForce RTX 3060 WINDFORCE OC 12G',    'GPU',             0,     7690000,   '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1747011962_Screenshot 2025-05-12 080557.png'),
+(36, 'Card màn hình Asus TUF Gaming GeForce RTX 5090 32GB',         'GPU',             0,     105000000, '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1747012087_Screenshot 2025-05-12 080801.png'),
+(37, 'Card màn hình Asus Dual Radeon RX 6500 XT OC 4GB',            'GPU',             0,     3490000,   '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1747012258_Screenshot 2025-05-12 081013.png'),
+(38, 'Laptop HP 15-fd0235TU - 9Q970PA',                             'Laptop',          0,     14990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1231image.png');
+
+
 
 INSERT INTO `laptop_detail` (`laptop_id`, `product_id`, `thuong_hieu`, `cpu`, `gpu`, `ram`, `dung_luong`, `kich_thuoc_man_hinh`, `do_phan_giai`, `description`) VALUES
 (1, 2, 'Asus', 'AMD Ryzen 5 7520U', 'AMD Radeon Graphics', '16GB', '512GB', '14 inch', '1920x1080', NULL),
 (2, 9, 'Acer', 'Intel Core i3-1215U', 'Intel UHD Graphics', '8GB', '256GB', '14 inch', '1920x1080', NULL),
-(3, 14, 'Acer', 'AMD Ryzen 7 5700U', 'AMD Radeon Graphics', '16GB', '512GB', '15.6 inch', '1920x1080', NULL);
+(3, 14, 'Acer', 'AMD Ryzen 7 5700U', 'AMD Radeon Graphics', '16GB', '512GB', '15.6 inch', '1920x1080', NULL),
+(4, 15, 'Asus', 'Intel Core i5-13500H', 'Intel Iris X Graphics', '16GB', '512GB', '14 inch', '2880x1800', NULL),
+(5, 17, 'Asus', 'Intel Core Ultra 7 155H', 'Intel Arc Graphics', '16GB', '512GB', '16 inch', '3200x2000', NULL),
+(6, 18, 'HP', 'Intel Core Ultra 5 125U', 'Intel Graphics', '8GB', '512GB', '14 inch', '1920x1200', NULL),
+(7, 22, 'Dell', 'Intel Core i7-1355U', 'Intel Iris Xe Graphics', '16GB', '512GB', '14 inch', '1920x1080', NULL),
+(8, 38, 'HP', 'Intel Core i5-1334U', 'Intel Graphics', '16GB', '512GB', '15.6 inch', '1920x1080', NULL);
 
 
 
