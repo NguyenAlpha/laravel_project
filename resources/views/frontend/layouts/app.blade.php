@@ -32,6 +32,8 @@
   <link rel="stylesheet" href="{{asset('css/product/product-card.css')}}">
   <link rel="icon" type="image/png" href="{{asset('images/logo.png')}}">
   @yield('css')
+
+  <script src="{{ asset('js/frontend/global-functions.js') }}"></script>
   {{--
   <script src="./assets/javascript/even.js"></script> --}}
   {{--
@@ -76,21 +78,38 @@
           </a>
 
           @auth
-            {{-- Hiển thị khi user đã đăng nhập --}}
-            <a href="{{ route('profile.show') }}">
-              <div class="header__item">
-                <i class="fa-solid fa-user"></i>Tài khoản
-              </div>
-            </a>
+            @if(auth()->user()->role == 'customer')
+              {{-- Hiển thị khi user đã đăng nhập --}}
+              <a href="{{ route('profile.show') }}">
+                <div class="header__item">
+                  <i class="fa-solid fa-user"></i>Tài khoản
+                </div>
+              </a>
 
-            <form method="POST" action="{{ route('logout') }}">
-              {{-- Cross-Site Request Forgery (Tấn công giả mạo yêu cầu) --}}
-              @csrf
-              <button type="submit" class="header__item" style="border: none">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Đăng xuất
-              </button>
-            </form>
+              <form method="POST" action="{{ route('logout') }}">
+                {{-- Cross-Site Request Forgery (Tấn công giả mạo yêu cầu) --}}
+                @csrf
+                <button type="submit" class="header__item" style="border: none">
+                  <i class="fa-solid fa-right-from-bracket"></i>
+                  Đăng xuất
+                </button>
+              </form>
+            @else
+              {{-- Hiển thị khi user chưa đăng nhập --}}
+              <a href="{{ route('login') }}">
+                <div class="header__item">
+                  <i class="fa-solid fa-user"></i>
+                  Đăng Nhập
+                </div>
+              </a>
+
+              <a href="{{ route('register') }}">
+                <div class="header__item">
+                  <i class="fa-solid fa-user"></i>
+                  Đăng ký
+                </div>
+              </a>
+            @endif
           @else
             {{-- Hiển thị khi user chưa đăng nhập --}}
             <a href="{{ route('login') }}">
@@ -107,6 +126,7 @@
               </div>
             </a>
           @endauth
+
         </div>
       </div>
     </div>
@@ -115,12 +135,20 @@
         <ul class='d-flex'>
           @if(isset($categories))
             @foreach ($categories as $category)
-            <a href="{{ route('product.indexByCategory', ['category_id' => $category->category_id]) }}"><li class="navbar__item">{{ $category->category_name }}</li></a>
+              <a href="{{ route('product.indexByCategory', ['category_id' => $category->category_id]) }}">
+                <li class="navbar__item">{{ $category->category_name }}</li>
+              </a>
             @endforeach
           @else
-            <a href="{{ route('product.indexByCategory', ['category_id' => " Laptop"]) }}"><li class="navbar__item">Laptop</li></a>
-            <a href="{{ route('product.indexByCategory', ['category_id' => " LaptopGaming"]) }}"><li class="navbar__item">Laptop Gaming</li></a>
-            <a href="{{ route('product.indexByCategory', ['category_id' => " GPU"]) }}"><li class="navbar__item">GPU</li></a>
+            <a href="{{ route('product.indexByCategory', ['category_id' => " Laptop"]) }}">
+              <li class="navbar__item">Laptop</li>
+            </a>
+            <a href="{{ route('product.indexByCategory', ['category_id' => " LaptopGaming"]) }}">
+              <li class="navbar__item">Laptop Gaming</li>
+            </a>
+            <a href="{{ route('product.indexByCategory', ['category_id' => " GPU"]) }}">
+              <li class="navbar__item">GPU</li>
+            </a>
           @endif
           {{-- <a href="{{ route('product.indexByCategory', ['category_id' => " Laptop"]) }}">
             <li class="navbar__item">Laptop</li>
@@ -148,11 +176,11 @@
     </div>
   </header>
   <main>
-    @if(session('success'))
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>{{ session('success') }}</strong>
-      </div>
-    @endif
+    {{-- @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>{{ session('success') }}</strong>
+    </div>
+    @endif --}}
 
     @yield('content')
 
@@ -187,7 +215,33 @@
       </div>
     </div>
   </footer>
+  <script>
+    // Hiển thị thông báo từ session
+    @if(session('success'))
+      showAlert('success', '{{ session('success') }}');
+    @endif
+
+    @if(session('error'))
+      showAlert('error', '{{ session('error') }}');
+    @endif
+
+    @if(session('warning'))
+      showAlert('warning', '{{ session('warning') }}');
+    @endif
+
+    @if($errors->any())
+      @foreach($errors->all() as $error)
+        showAlert('error', '{{ $error }}');
+      @endforeach
+    @endif
+      
+    @if(isset($warning)) 
+      showAlert('warning', '{{ $warning }}');
+    @endif
+  </script>
+
   @yield('js')
+
 </body>
 
 </html>

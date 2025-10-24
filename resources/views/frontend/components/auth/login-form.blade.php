@@ -13,7 +13,7 @@
         <input type="password" name="password" placeholder="Mật khẩu" value="{{old('password')}}">
       </div>
       <div class=" block submit">
-        <button class="login-register__submit">Đăng nhập</button>
+        <button class="login-register__submit" @if($isAdmin) disabled @endif>Đăng nhập</button>
         @error('error')
           <div class="text-danger p-2">{{ $message }}</div>
         @enderror

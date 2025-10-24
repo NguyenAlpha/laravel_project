@@ -11,11 +11,24 @@ class AuthController extends Controller
 {
     public function showRegisterForm()
     {
-        return view('frontend.auth.register');
+        $isAdmin = false;
+        $alert = '';
+        $message = '';
+
+        if (Auth::check() && Auth::user()->role == 'admin') {
+            $isAdmin = true;
+            $alert = 'warning';
+            $message = 'Bạn đang đăng nhập với tư cách quản trị viện!';
+        }
+
+        return view('frontend.auth.register', compact('isAdmin'))->with($alert, $message);
     }
 
     public function register(Request $request)
     {
+        if (Auth::check()) {
+            return redirect('/')->with('warning', 'Bạn đã đăng nhập rồi!');
+        }
         // 1. Validate dữ liệu
         $request->validate([
             'username'      => 'required|string|min:6|max:255',
@@ -59,11 +72,25 @@ class AuthController extends Controller
 
     public function showLoginForm()
     {
-        return view('frontend.auth.login');
+        $isAdmin = false;
+        $alert = '';
+        $message = '';
+
+        if (Auth::check() && Auth::user()->role == 'admin') {
+            $isAdmin = true;
+            $alert = 'warning';
+            $message = 'Bạn đang đăng nhập với tư cách quản trị viện!';
+        }
+
+        return view('frontend.auth.login', compact('isAdmin'))->with($alert, $message);
     }
 
     public function login(Request $request)
     {
+        if (Auth::check()) {
+            return redirect('/')->with('warning', 'Bạn đã đăng nhập rồi!');
+        }
+
         // Validate dữ liệu
         $credentials = $request->validate([
             'email' => 'required|email',
@@ -90,7 +117,8 @@ class AuthController extends Controller
             // ĐĂNG NHẬP THÀNH CÔNG
             $request->session()->regenerate();
 
-            return redirect()->intended('/');
+            // "Chuyển hướng đến URL mà user muốn truy cập ban đầu, nếu không có thì chuyển hướng đến trang chủ ('/')"
+            return redirect()->intended('/')->with('success', 'Đăng nhập thành công!');
         }
 
         // Đăng nhập thất bại - GIỮ LẠI DỮ LIỆU CŨ
@@ -109,7 +137,7 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/')->with('success', 'Đăng xuất thành công!');
     }
 
     public function showProfile()

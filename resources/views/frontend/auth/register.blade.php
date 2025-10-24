@@ -75,7 +75,7 @@
           </div>
 
           <div class="block submit">
-            <button type="submit" class="login-register__submit">Đăng ký</button>
+            <button type="submit" class="login-register__submit" @if($isAdmin) disabled @endif>Đăng ký</button>
           </div>
 
           <div class="block">

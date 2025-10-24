@@ -18,10 +18,6 @@ class CartController extends Controller
      */
     public function index()
     {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('message', 'Vui lòng đăng nhập để xem giỏ hàng');
-        }
-
         $user = Auth::user();
         $cart = Cart::with(['cartItems.product'])->where('user_id', Auth::id())->first();
 

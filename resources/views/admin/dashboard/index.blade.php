@@ -20,6 +20,12 @@
           <div class="fw-bold">Admin User</div>
           <div class="small text-muted">Quản trị viên</div>
         </div>
+        <div class="ms-2">
+          <form action="{{ route('admin.logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>

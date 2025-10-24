@@ -19,6 +19,10 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        if (Auth::check() && Auth::user()->role == 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
         // Validate dữ liệu
         $credentials = $request->validate([
             'email' => 'required|email',
