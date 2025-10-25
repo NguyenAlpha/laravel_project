@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('category', function (Blueprint $table) {
             $table->string('category_id')->primary();
             $table->string('category_name');
+            $table->enum('status', ['hiện', 'ẩn', 'đã xóa'])->default('hiện');
             $table->text('description')->nullable();
         });
     }

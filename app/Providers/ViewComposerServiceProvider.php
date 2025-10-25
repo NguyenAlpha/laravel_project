@@ -30,7 +30,7 @@ class ViewComposerServiceProvider extends ServiceProvider
         // Cách 2: Chia sẻ chỉ cho layout cụ thể và các view extends từ nó
         if (class_exists(Category::class)) {
             View::composer(['frontend.layouts.app', 'frontend.*'], function ($view) {
-                $categories = Category::query()
+                $categories = Category::active()
                     // ->orderBy('category_name')
                     ->get();
 

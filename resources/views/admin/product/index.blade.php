@@ -14,8 +14,9 @@
 
         <!-- Filter Section -->
         <div class="card shadow mb-4">
-            <div class="card-header py-3">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold">Bộ lọc & Tìm kiếm</h6>
+                <span class="badge bg-info">Tổng: {{ $products->total() }} người dùng</span>
             </div>
             <div class="card-body">
                 <form action="{{ route('admin.product.index') }}" method="GET" class="row g-3">
@@ -68,7 +69,7 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold">Danh sách sản phẩm</h6>
-                <div class="text-muted">Tổng: {{ $products->total() }} sản phẩm</div>
+                {{-- <div class="">Tổng: {{ $products->total() }} sản phẩm</div> --}}
             </div>
             <div class="card-body">
                 <div class="table-responsive">

@@ -45,10 +45,10 @@
             <span>Phiếu nhập</span></a></li>
         <li><a href="{{ route('admin.supplier.index') }}" class="@yield('supplier-active')"><i
               class="fas fa-chart-bar"></i> <span>Nhà cùng cấp</span></a></li>
-        <li><a href="#"><i class="fas fa-chart-bar"></i> <span>Thống kê</span> </a></li>
-        <li><a href="#"><i class="fas fa-tags"></i> <span>Danh mục</span></a></li>
-        <li><a href="#"><i class="fas fa-cog"></i> <span>Cài đặt</span></a></li>
-        <li><a href="#"><i class="fas fa-question-circle"></i> <span>Trợ giúp</span></a></li>
+        {{-- <li><a href="#"><i class="fas fa-chart-bar"></i> <span>Thống kê</span> </a></li> --}}
+        {{-- <li><a href="#"><i class="fas fa-tags"></i> <span>Danh mục</span></a></li> --}}
+        <li><a href="{{ route('admin.config.index') }}" class="@yield('config-active')"><i class="fas fa-cog"></i> <span>Cài đặt</span></a></li>
+        {{-- <li><a href="#"><i class="fas fa-question-circle"></i> <span>Trợ giúp</span></a></li> --}}
       </ul>
     </div>
   </div>

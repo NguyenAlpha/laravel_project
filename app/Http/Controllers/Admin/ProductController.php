@@ -39,7 +39,7 @@ class ProductController extends Controller
             }
         }
 
-        $products = $query->orderBy('product_id', 'desc')->paginate(20);
+        $products = $query->orderBy('product_id', 'desc')->paginate(34);
         $categories = Category::all();
 
         return view('admin.product.index', compact('products', 'categories'));
@@ -232,7 +232,6 @@ class ProductController extends Controller
         ));
     }
 
-    // Method update - Xử lý cập nhật sản phẩm
     // Method update - Xử lý cập nhật sản phẩm
     public function update(Request $request, $id)
     {

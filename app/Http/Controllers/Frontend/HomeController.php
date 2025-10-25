@@ -15,7 +15,7 @@ class HomeController extends Controller
 
         $categories = Category::with(['products' => function ($query) {
             $query->active()->limit(30);
-        }])->get();
+        }])->active()->get();
 
 
 
@@ -115,7 +115,7 @@ class HomeController extends Controller
             ->appends($request->query());
 
         // Lấy danh sách categories cho dropdown
-        $categories = Category::all();
+        $categories = Category::active()->get();
 
         return view('frontend.search.index', compact('products', 'textSearch', 'categories'));
     }

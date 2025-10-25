@@ -63,6 +63,37 @@ class OrderController extends Controller
         ));
     }
 
+    public function show($orderId)
+    {
+        try {
+            $order = Order::with([
+                'user',
+                'orderDetails.product'
+            ])->findOrFail($orderId);
+
+            return view('admin.order.show', compact('order'));
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()->route('admin.order.index')
+                ->with('error', 'Không tìm thấy đơn hàng với ID: ' . $orderId);
+        } catch (\Exception $e) {
+            return redirect()->route('admin.order.index')
+                ->with('error', 'Đã xảy ra lỗi khi tải thông tin đơn hàng: ' . $e->getMessage());
+        }
+    }
+
+    public function updateStatus(Request $request, $orderId) {
+        $order = Order::find($orderId);
+        if(!$order) {
+            return redirect()->route('admin.order.index')->with('error', 'Đơn hàng không tồn tại!');
+        }
+
+        $order->update([
+            'status' => $request->status
+        ]);
+
+        return redirect()->route('admin.order.show', $orderId)->with('success', 'Cập nhật trạng thái đơn hàng thành công!');
+    }
+
     // Hàm hủy đơn hàng
     public function cancelOrder(Request $request, $orderId)
     {

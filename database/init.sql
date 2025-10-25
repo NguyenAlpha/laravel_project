@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `user`  (
 CREATE TABLE IF NOT EXISTS `category`  (
   `category_id` varchar(255) PRIMARY KEY,
   `category_name` varchar(255) NOT NULL,
+  `status` enum('hiện','ẩn') NOT NULL DEFAULT 'hiện',
   `description` TEXT NULL
 ) ENGINE=InnoDB;
 
@@ -122,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `order`  (
   `total_amount` int NOT NULL,
   `status` enum('đã nhận hàng','chờ xác nhận','đang giao','đã xác nhận','đã hủy') NOT NULL DEFAULT 'chờ xác nhận',
   `payment_method` enum('chuyển khoản','tiền mặt') NOT NULL,
-  `created_by` varchar(255) NULL,
+  `created_by` enum('customer','admin') NOT NULL DEFAULT 'customer',
   FOREIGN KEY (user_id) REFERENCES user(user_id)
 ) ENGINE=InnoDB;
 
@@ -230,14 +231,14 @@ CREATE TABLE IF NOT EXISTS `keyboard_detail`  (
 
 
 
-INSERT INTO `category` (`category_id`, `category_name`, `description`) VALUES
-('GPU',             'GPU',          NULL),
-('Headset',       'Tai Nghe',       NULL),
-('Keyboard',      'Bàn Phím',       NULL),
-('Laptop',        'Laptop',         NULL),
-('LaptopGaming',  'Laptop Gaming',  NULL),
-('Screen',        'Màn Hình',       NULL),
-('Mouse',         'Chuột',          NULL);
+INSERT INTO `category` (`category_id`, `category_name`, `status`, `description`) VALUES
+('GPU',             'GPU',         'hiện' , NULL),
+('Headset',       'Tai Nghe',      'ẩn' , NULL),
+('Keyboard',      'Bàn Phím',      'ẩn' , NULL),
+('Laptop',        'Laptop',        'hiện' , NULL),
+('LaptopGaming',  'Laptop Gaming', 'hiện' , NULL),
+('Screen',        'Màn Hình',      'ẩn' , NULL),
+('Mouse',         'Chuột',         'ẩn' , NULL);
 
 INSERT INTO `product` (`product_id`, `product_name`, `category_id`, `stock`, `price`, `created_at`, `updated_at`, `status`, `image_url`) VALUES
 (1, 'Màn hình MSI PRO MP242L',                                      'Screen',         35,     1890000,   '2025-01-21 11:22:13', '2025-01-21 11:22:13', 'hiện', '50725_m__n_h__nh_msi_pro_mp242l__4_.jpg'),
@@ -254,30 +255,35 @@ INSERT INTO `product` (`product_id`, `product_name`, `category_id`, `stock`, `pr
 (12, 'Laptop Gaming Acer Aspire 7 A715-76G-5806 - NH.QMFSV.002',    'LaptopGaming',   50,     18990000,  '2025-09-23 12:45:36', '2025-09-23 12:45:36', 'hiện', '45836_ap7.jpg'),
 (13, 'Laptop Gaming Acer Nitro 5 Tiger AN515-58-5935 NH.QLZSV.001', 'LaptopGaming',   80,     22290000,  '2025-09-23 12:46:57', '2025-09-23 12:46:57', 'hiện', '45837_bnfg.jpg'),
 (14, 'Laptop Acer Aspire 3 A315-44P-R5QG NX.KSJSV.001',             'Laptop',         99,     12900000,  '2025-09-23 12:46:57', '2025-09-23 12:46:57', 'hiện', '50618_laptop_acer_aspire_3_a315_44p_r5qg_nx_ksjsv_001__4_.jpg'),
-(15, 'Laptop Asus Vivobook 14 OLED A1405VA-KM095W',                 'Laptop',          0,     16990000,  '2025-09-23 13:24:38', '2025-09-23 13:24:38', 'hiện', '44758_laptop_asus_vivobook_14_oled_a1405va_km095w__7_.jpg'),
+(15, 'Laptop Asus Vivobook 14 OLED A1405VA-KM095W',                 'Laptop',          30,     16990000,  '2025-09-23 13:24:38', '2025-09-23 13:24:38', 'hiện', '44758_laptop_asus_vivobook_14_oled_a1405va_km095w__7_.jpg'),
 (16, 'Laptop HP VICTUS 15-fa1155TX 952R1PA_16G',                    'LaptopGaming',  100,     17990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'ẩn',   '49855_laptop_hp_victus_15_fa1155tx_952r1pa_16g__2_.jpg'),
-(17, 'Laptop Asus Vivobook S 16 OLED S5606MA-MX051W',               'Laptop',          0,     25490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', 'g8gdssys.png'),
-(18, 'Laptop HP ProBook 440 G11 A74B4PT',                           'Laptop',          0,     21490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '49741_laptop_hp_probook_440_g11_a74b4pt__1_.jpg'),
-(19, 'Card màn hình Asus ROG Strix GeForce RTX 4090 OC Edition 24GB GDDR6X','GPU',     0,     64990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', 'tn9pvbdr.png'),
-(20, 'VGA Gigabyte RTX 4060 Windforce OC 8GB',                      'GPU',             0,     8299000,   '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '45659_vga_gigabyte_rtx_4060_windforce_oc_8gb_anphat88.jpg'),
-(21, 'VGA Gigabyte GeForce RTX 3050 WINDFORCE OC V2 8GB',           'GPU',             0,     5599000,   '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '46200_vga_gigabyte_geforce_rtx_3050_windforce___2_.jpg'),
-(22, 'Laptop Dell Latitude 3450 71058806',                          'Laptop',          0,     24990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '51342_laptop_dell_latitude_3450_71058806__1_.jpg'),
-(23, 'Laptop gaming Acer Predator Helios Neo 16 PHN16 72 78L4',     'LaptopGaming',    0,     38490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746952951_acer_predator_helios_neo_16_2024__2__3ffd04967bc44b82b78f3e0cee408665_1024x1024.jpg'),
-(24, 'Laptop gaming Lenovo Legion 5 16IRX9 83DG004YVN',             'LaptopGaming',    0,     37990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746953416_legion_5_16irx9_ct1_01_6639fb2c9ce446439a36578865a5c7d0_1024x1024.jpg'),
-(25, 'Laptop gaming Acer Predator Helios Neo 16 PHN16 71 74QR',     'LaptopGaming',    0,     41990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746953641_468f7a1472eb8f563424b86621d_c04206638f4643d58ab3079d6dc42ec0_1024x1024_18da0285e1e848248921bbcfc8c80c53_grande.jpg'),
-(26, 'Laptop gaming Asus TUF Gaming FA401WV RG062WS',               'LaptopGaming',    0,     39990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746954077_ava_dea980b662854ab8a4dd359d3bd8d2b4_grande.jpg'),
-(27, 'HP Pavilion Gaming 15 EC2158AX',                              'LaptopGaming',    0,     38600000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746954382_HP-Pavilion-Gaming-15-Ryzen-03.jpg'),
-(28, 'Laptop gaming HP OMEN 16-wf1137TX A2NR9PA',                   'LaptopGaming',    0,     52490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746954618_1_a4de5185d81a4d8e851974281003b6d4_grande.jpg'),
-(29, 'Laptop gaming MSI Sword 16 HX B14VEKG 856VN',                 'LaptopGaming',    0,     31490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746954844_ava_ecb79fdbde454bfd87bf7ccd8675e972_grande.jpg'),
-(30, 'Laptop gaming MSI Vector 16 HX AI A2XWHG 010VN',              'LaptopGaming',    0,     54990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746955011_1024__1__035bd6ee5a8246078c525b4bc8d2e55b_grande.jpg'),
-(31, 'Laptop gaming Lenovo Legion 7 16IRX9 83FD004MVN',             'LaptopGaming',    0,     59990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746955134_ava_1388feab03cd40a2ad5b495d909a0a60_grande.jpg'),
-(32, 'Laptop gaming MSI Thin 15 B13UC 2044VN',                      'LaptopGaming',    0,     19290000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746955252_thin-new_d31ff3b88e7f40e7ac88acc624e03d4f_grande.jpg'),
-(33, 'Card màn hình GIGABYTE GeForce RTX 4070 SUPER WINDFORCE OC 12G','GPU',           0,     19490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1747011522_Screenshot 2025-05-12 075833.png'),
-(34, 'Card màn hình GIGABYTE Radeon RX 9070 GAMING OC 16G',         'GPU',             0,     19990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1747011767_Screenshot 2025-05-12 080240.png'),
-(35, 'Card màn hình Gigabyte GeForce RTX 3060 WINDFORCE OC 12G',    'GPU',             0,     7690000,   '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1747011962_Screenshot 2025-05-12 080557.png'),
-(36, 'Card màn hình Asus TUF Gaming GeForce RTX 5090 32GB',         'GPU',             0,     105000000, '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1747012087_Screenshot 2025-05-12 080801.png'),
-(37, 'Card màn hình Asus Dual Radeon RX 6500 XT OC 4GB',            'GPU',             0,     3490000,   '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1747012258_Screenshot 2025-05-12 081013.png'),
-(38, 'Laptop HP 15-fd0235TU - 9Q970PA',                             'Laptop',          0,     14990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1231image.png');
+(17, 'Laptop Asus Vivobook S 16 OLED S5606MA-MX051W',               'Laptop',          30,     25490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', 'g8gdssys.png'),
+(18, 'Laptop HP ProBook 440 G11 A74B4PT',                           'Laptop',          30,     21490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '49741_laptop_hp_probook_440_g11_a74b4pt__1_.jpg'),
+(19, 'Card màn hình Asus ROG Strix GeForce RTX 4090 OC Edition 24GB GDDR6X','GPU',     30,     64990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', 'tn9pvbdr.png'),
+(20, 'VGA Gigabyte RTX 4060 Windforce OC 8GB',                      'GPU',             30,     8299000,   '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '45659_vga_gigabyte_rtx_4060_windforce_oc_8gb_anphat88.jpg'),
+(21, 'VGA Gigabyte GeForce RTX 3050 WINDFORCE OC V2 8GB',           'GPU',             30,     5599000,   '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '46200_vga_gigabyte_geforce_rtx_3050_windforce___2_.jpg'),
+(22, 'Laptop Dell Latitude 3450 71058806',                          'Laptop',          30,     24990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '51342_laptop_dell_latitude_3450_71058806__1_.jpg'),
+(23, 'Laptop gaming Acer Predator Helios Neo 16 PHN16 72 78L4',     'LaptopGaming',    30,     38490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746952951_acer_predator_helios_neo_16_2024__2__3ffd04967bc44b82b78f3e0cee408665_1024x1024.jpg'),
+(24, 'Laptop gaming Lenovo Legion 5 16IRX9 83DG004YVN',             'LaptopGaming',    30,     37990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746953416_legion_5_16irx9_ct1_01_6639fb2c9ce446439a36578865a5c7d0_1024x1024.jpg'),
+(25, 'Laptop gaming Acer Predator Helios Neo 16 PHN16 71 74QR',     'LaptopGaming',    30,     41990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746953641_468f7a1472eb8f563424b86621d_c04206638f4643d58ab3079d6dc42ec0_1024x1024_18da0285e1e848248921bbcfc8c80c53_grande.jpg'),
+(26, 'Laptop gaming Asus TUF Gaming FA401WV RG062WS',               'LaptopGaming',    30,     39990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746954077_ava_dea980b662854ab8a4dd359d3bd8d2b4_grande.jpg'),
+(27, 'HP Pavilion Gaming 15 EC2158AX',                              'LaptopGaming',    30,     38600000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '5qpotnzp.png'),
+(28, 'Laptop gaming HP OMEN 16-wf1137TX A2NR9PA',                   'LaptopGaming',    30,     52490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746954618_1_a4de5185d81a4d8e851974281003b6d4_grande.jpg'),
+(29, 'Laptop gaming MSI Sword 16 HX B14VEKG 856VN',                 'LaptopGaming',    30,     31490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746954844_ava_ecb79fdbde454bfd87bf7ccd8675e972_grande.jpg'),
+(30, 'Laptop gaming MSI Vector 16 HX AI A2XWHG 010VN',              'LaptopGaming',    30,     54990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746955011_1024__1__035bd6ee5a8246078c525b4bc8d2e55b_grande.jpg'),
+(31, 'Laptop gaming Lenovo Legion 7 16IRX9 83FD004MVN',             'LaptopGaming',    30,     59990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746955134_ava_1388feab03cd40a2ad5b495d909a0a60_grande.jpg'),
+(32, 'Laptop gaming MSI Thin 15 B13UC 2044VN',                      'LaptopGaming',    30,     19290000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1746955252_thin-new_d31ff3b88e7f40e7ac88acc624e03d4f_grande.jpg'),
+(33, 'Card màn hình GIGABYTE GeForce RTX 4070 SUPER WINDFORCE OC 12G','GPU',           30,     19490000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1747011522_Screenshot 2025-05-12 075833.png'),
+(34, 'Card màn hình GIGABYTE Radeon RX 9070 GAMING OC 16G',         'GPU',             30,     19990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1747011767_Screenshot 2025-05-12 080240.png'),
+(35, 'Card màn hình Gigabyte GeForce RTX 3060 WINDFORCE OC 12G',    'GPU',             30,     7690000,   '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1747011962_Screenshot 2025-05-12 080557.png'),
+(36, 'Card màn hình Asus TUF Gaming GeForce RTX 5090 32GB',         'GPU',             30,     105000000, '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1747012087_Screenshot 2025-05-12 080801.png'),
+(37, 'Card màn hình Asus Dual Radeon RX 6500 XT OC 4GB',            'GPU',             30,     3490000,   '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1747012258_Screenshot 2025-05-12 081013.png'),
+(38, 'Laptop HP 15-fd0235TU - 9Q970PA',                             'Laptop',          30,     14990000,  '2025-09-23 13:27:44', '2025-09-23 13:27:44', 'hiện', '1231image.png'),
+(39, 'Laptop HP 14-EP0112TU 8C5L1PA', 'Laptop', 0, 15290000, '2025-10-22 20:21:14', '2025-10-22 20:21:14', 'hiện', '1761189674_text_ng_n_26__1_2[1].png'),
+(40, 'Laptop Lenovo IdeaPad Slim 3 14IRH10', 'Laptop', 0, 14990000, '2025-10-22 21:41:36', '2025-10-22 21:41:36', 'hiện', '1761194496_iw8632w8.png'),
+(41, 'Laptop Dell Inspiron 15 3530 J9XFD', 'Laptop', 0, 14990000, '2025-10-22 21:47:16', '2025-10-22 21:47:16', 'hiện', '1761194836_9iffk65a.png'),
+(42, 'Laptop Dell Vostro 3530 2H1TPI7', 'Laptop', 0, 17490000, '2025-10-22 22:40:22', '2025-10-22 22:40:22', 'hiện', '1761198022_hhcxzxy8.png'),
+(43, 'Laptop Dell 15 DC15255 DC5R5802W1', 'Laptop', 0, 15990000, '2025-10-22 22:44:48', '2025-10-22 22:44:48', 'hiện', '1761198288_5ws50ead.png');
 
 
 
@@ -289,7 +295,12 @@ INSERT INTO `laptop_detail` (`laptop_id`, `product_id`, `thuong_hieu`, `cpu`, `g
 (5, 17, 'Asus', 'Intel Core Ultra 7 155H', 'Intel Arc Graphics', '16GB', '512GB', '16 inch', '3200x2000', NULL),
 (6, 18, 'HP', 'Intel Core Ultra 5 125U', 'Intel Graphics', '8GB', '512GB', '14 inch', '1920x1200', NULL),
 (7, 22, 'Dell', 'Intel Core i7-1355U', 'Intel Iris Xe Graphics', '16GB', '512GB', '14 inch', '1920x1080', NULL),
-(8, 38, 'HP', 'Intel Core i5-1334U', 'Intel Graphics', '16GB', '512GB', '15.6 inch', '1920x1080', NULL);
+(8, 38, 'HP', 'Intel Core i5-1334U', 'Intel Graphics', '16GB', '512GB', '15.6 inch', '1920x1080', NULL),
+(9, 39, 'HP', 'Intel Core i5 - 1335U', 'Intel Iris Xe Graphics', '16GB', '512GB', '14 inch', '1920x1080', NULL),
+(10, 40, 'Lenovo', 'Intel Core i5-13420H', 'Intel UHD Graphics', '16GB', '512GB', '14 inch', '1920x1200', NULL),
+(11, 41, 'Dell', 'Intel Core i5-1334U', 'Intel Iris Xe Graphics', '16GB', '512GB', '15.6 inch', '1920x1080', NULL),
+(12, 42, 'Dell', 'Intel Core i7-1355U', 'Intel Iris Xe Graphics', '16GB', '512GB', '15.6 inch', '1920x1080', NULL),
+(13, 43, 'Dell', 'Ryzen 5 7530U', 'AMD Radeon Graphics', '16GB', '512GB', '15.6 inch', '1920x1080', NULL);
 
 
 
@@ -340,11 +351,13 @@ INSERT INTO `address` (`address_id`, `user_id`, `address`, `created_at`, `update
 
 -- ---------------------------------------------------
 INSERT INTO `order` (`order_id`, `user_id`, `address`, `order_date`, `delivery_date`, `total_amount`, `status`, `payment_method`, `created_by`) VALUES
-(1, 1, 'phường 13, quận 5, tphcm', '2025-10-04 07:22:50', '2025-10-06 11:08:10', 12900000, 'đã nhận hàng', 'chuyển khoản', NULL),
-(2, 1, 'phường 13, quận 5, tphcm', '2025-10-04 09:32:07', NULL, 1890000, 'chờ xác nhận', 'tiền mặt', NULL),
-(3, 1, 'phường 13, quận 5, tphcm', '2025-10-04 14:33:26', NULL, 23770000, 'đã hủy', 'tiền mặt', NULL),
-(4, 1, 'phường 13, quận 5, tphcm', '2025-10-04 14:57:34', NULL, 9190000, 'đã xác nhận', 'chuyển khoản', NULL),
-(5, 1, 'phường 13, quận 5, tphcm', '2025-10-04 15:04:24', NULL, 9190000, 'đang giao', 'chuyển khoản', NULL);
+(1, 1, 'phường 13, quận 5, tphcm', '2025-10-04 07:22:50', '2025-10-06 11:08:10', 12900000, 'đã nhận hàng', 'chuyển khoản', 'customer'),
+(2, 1, 'phường 13, quận 5, tphcm', '2025-10-04 09:32:07', NULL, 1890000, 'chờ xác nhận', 'tiền mặt', 'customer'),
+(3, 1, 'phường 13, quận 5, tphcm', '2025-10-04 14:33:26', NULL, 23770000, 'đã hủy', 'tiền mặt', 'customer'),
+(4, 1, 'phường 13, quận 5, tphcm', '2025-10-04 14:57:34', NULL, 9190000, 'đã xác nhận', 'chuyển khoản', 'customer'),
+(5, 1, 'phường 13, quận 5, tphcm', '2025-10-04 15:04:24', NULL, 11490000, 'đang giao', 'chuyển khoản', 'customer'),
+(6, 3, '111 CMT8, quận 10, TPHCM', '2025-10-04 15:04:24', NULL, 274990000, 'chờ xác nhận', 'chuyển khoản', 'customer'),
+(7, 3, 'số 342B, quận 7, TPHCM', '2025-10-04 15:04:24',   NULL, 297228000, 'chờ xác nhận', 'chuyển khoản', 'customer');
 
 DELIMITER //
 
@@ -453,7 +466,15 @@ INSERT INTO `order_detail` (`order_detail_id`, `order_id`, `product_id`, `quanti
 (3, 3, 1, 2, 1890000),
 (4, 3, 10, 1, 19990000),
 (5, 4, 9, 1, 9190000),
-(6, 5, 2, 1, 11490000);
+(6, 5, 2, 1, 11490000),
+(7, 6, 19, 1, 64990000),
+(8, 6, 36, 2, 105000000),
+(9, 7, 28, 1, 52490000),
+(10, 7, 21, 2, 5599000),
+(11, 7, 34, 4, 19990000),
+(12, 7, 7, 1, 20790000),
+(13, 7, 27, 3, 38600000),
+(14, 7, 15, 1, 16990000);
 
 
 
@@ -473,7 +494,8 @@ INSERT INTO `supplier` (`supplier_id`, `supplier_name`, `supplier_phone`, `suppl
 INSERT INTO `receipt` (`receipt_id`, `supplier_id`, `order_date`, `status`) VALUES
 (1, 1, '2025-09-28 13:18:31', 'đã nhận'),
 (2, 3, '2025-09-28 14:22:56', 'đang chờ'),
-(3, 1, '2025-09-28 17:54:26', 'đã nhận');
+(3, 1, '2025-09-28 17:54:26', 'đã nhận'),
+(4, 2, '2025-09-28 18:52:26', 'đã nhận');
 
 DELIMITER $$
 CREATE TRIGGER `trg_after_receipt_update` AFTER UPDATE ON `receipt` FOR EACH ROW BEGIN
@@ -518,7 +540,30 @@ INSERT INTO `receipt_detail` (`receipt_detail_id`, `receipt_id`, `product_id`, `
 (17, 2, 6, 60, 18400000),
 (18, 2, 7, 45, 17550000),
 (19, 3, 10, 10, 15750000),
-(20, 3, 11, 10, 45000000);
+(20, 3, 11, 10, 45000000),
+(21, 4, 15, 30, 15990000),
+(22, 4, 17, 30, 24490000),
+(23, 4, 18, 30, 20490000),
+(24, 4, 19, 30, 61990000),
+(25, 4, 20, 30, 7299000),
+(26, 4, 21, 30, 4599000),
+(27, 4, 22, 30, 21990000),
+(28, 4, 23, 30, 33490000),
+(29, 4, 24, 30, 35990000),
+(30, 4, 25, 30, 39990000),
+(31, 4, 26, 30, 37990000),
+(32, 4, 27, 30, 36600000),
+(33, 4, 28, 30, 50490000),
+(34, 4, 29, 30, 30490000),
+(35, 4, 30, 30, 52990000),
+(36, 4, 31, 30, 57990000),
+(37, 4, 32, 30, 17290000),
+(38, 4, 33, 30, 18490000),
+(39, 4, 34, 30, 18990000),
+(40, 4, 35, 30, 6690000),
+(41, 4, 36, 30, 100000000),
+(42, 4, 37, 30, 3290000),
+(43, 4, 38, 30, 13990000);
 
 
 
@@ -544,7 +589,30 @@ INSERT INTO `inventory` (`inventory_id`, `product_id`, `quantity`, `type`, `refe
 (17, 11, 10, 'nhập hàng', 'PN3', '2025-09-28 20:03:18'),
 (18, 14, -1, 'xuất hàng', 'order 1', '2025-10-04 12:07:55'),
 (19, 9, -1, 'xuất hàng', 'order 4', '2025-10-04 16:33:46'),
-(20, 2, -1, 'xuất hàng', 'order 5', '2025-10-04 16:35:23');
+(20, 2, -1, 'xuất hàng', 'order 5', '2025-10-04 16:35:23'),
+(21, 15, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(22, 17, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(23, 18, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(24, 19, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(25, 20, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(26, 21, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(27, 22, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(28, 23, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(29, 24, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(30, 25, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(31, 26, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(32, 27, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(33, 28, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(34, 29, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(35, 30, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(36, 31, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(37, 32, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(38, 33, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(39, 34, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(40, 35, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(41, 36, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(42, 37, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26'),
+(43, 38, 30, 'nhập hàng', 'PN4', '2025-10-04 18:52:26');
 
 DELIMITER $$
 CREATE TRIGGER `trg_after_inventory_insert` AFTER INSERT ON `inventory` FOR EACH ROW BEGIN

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\ConfigurationController;
 use App\Http\Controllers\Frontend\AddressController;
 use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\CartController;
@@ -67,11 +68,8 @@ Route::prefix('admin')->group(function () {
 
   // Route cần đăng nhập admin
   Route::middleware(['admin'])->group(function () {
-    // Đăng xuất admin
-    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
-
-    // Trang dashboard admin
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout'); // Đăng xuất admin
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard'); // Trang dashboard admin
 
     // Route quản lý sản phẩm
     Route::get(   '/product',                  [AdminProductController::class, 'index'])  ->name('admin.product.index');
@@ -93,13 +91,15 @@ Route::prefix('admin')->group(function () {
     Route::delete('/user/{userId}',             [UserController::class, 'destroy'])      ->name('admin.user.delete');
 
     // Route quản lý đơn hàng
-    Route::get(   '/order',                     [AdminOrderController::class, 'index'])         ->name('admin.order.index');
-    Route::get(   '/order/create',              [AdminOrderController::class, 'create'])        ->name('admin.order.create');
-    Route::post(  '/order',                     [AdminOrderController::class, 'store'])         ->name('admin.order.store');
-    Route::get(   '/order/{orderId}',           [AdminOrderController::class, ''])->name('admin.order.show'); // thiếu
-    Route::post(  '/order/{orderId}/confirm',   [AdminOrderController::class, 'confirmOrder'])  ->name('admin.order.confirm');
-    Route::post(  '/order/{orderId}/delivery',  [AdminOrderController::class, 'deliveryOrder']) ->name('admin.order.delivery');
-    Route::post(  '/order/{orderId}/cancel',    [AdminOrderController::class, 'cancelOrder'])   ->name('admin.order.cancel');
+    Route::get(   '/order',                         [AdminOrderController::class, 'index'])         ->name('admin.order.index');
+    Route::get(   '/order/create',                  [AdminOrderController::class, 'create'])        ->name('admin.order.create');
+    Route::post(  '/order',                         [AdminOrderController::class, 'store'])         ->name('admin.order.store');
+    Route::get(   '/order/{orderId}',               [AdminOrderController::class, 'show'])          ->name('admin.order.show');
+    Route::post(  '/order/{orderId}/confirm',       [AdminOrderController::class, 'confirmOrder'])  ->name('admin.order.confirm');
+    Route::post(  '/order/{orderId}/delivery',      [AdminOrderController::class, 'deliveryOrder']) ->name('admin.order.delivery');
+    Route::post(  '/order/{orderId}/cancel',        [AdminOrderController::class, 'cancelOrder'])   ->name('admin.order.cancel');
+    Route::put(  '/order/{orderId}/updateStatus',   [AdminOrderController::class, 'updateStatus'])  ->name('admin.order.update-status');
+
 
     // Route quản lý kho hàng
     Route::get(   '/inventory',                 [InventotyController::class, 'index'])  ->name('admin.inventory.index');
@@ -118,6 +118,10 @@ Route::prefix('admin')->group(function () {
     Route::post(  '/supplier',                  [SupplierController::class, 'store']) ->name('admin.supplier.store');
     Route::get(   '/supplier/{supplierId}',     [SupplierController::class, 'show'])  ->name('admin.supplier.show');
     Route::put(   '/supplier/{supplierId}',     [SupplierController::class, 'update'])->name('admin.supplier.update');
+
+    // Route config
+    Route::get('/config', [ConfigurationController::class, 'index'])->name('admin.config.index');
+    Route::get('/config/category-status/{categoryId}', [ConfigurationController::class, 'changeCategoryStatus'])->name('admin.config.category-status');
   });
 });
 

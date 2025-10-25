@@ -285,7 +285,7 @@
                   </td>
                   <td class="text-center">
                     <div class="btn-group btn-group-sm" role="group">
-                      <a href="" class="btn btn-info" title="Xem chi tiết" data-bs-toggle="tooltip">
+                      <a href="{{ route('admin.order.show', $order->order_id) }}" class="btn btn-info" title="Xem chi tiết" data-bs-toggle="tooltip">
                         <i class="fas fa-eye"></i>
                       </a>
                     </div>

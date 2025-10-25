@@ -57,6 +57,6 @@ class OrderController extends Controller
     public function delivered(Order $order)
     {
         $order->capNhatTrangThai('đã nhận hàng');
-        return redirect()->route('order.index')->with('success', 'Hủy đơn hàng thành công!');
+        return redirect()->route('order.index')->with('success', 'đơn hàng của bạn đã hoàn thành!');
     }
 }

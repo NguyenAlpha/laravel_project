@@ -36,6 +36,7 @@ class Category extends Model
      * @var bool
      */
     public $incrementing = false;
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -45,6 +46,7 @@ class Category extends Model
     protected $fillable = [
         'category_id',
         'category_name',
+        'status',
         'description',
     ];
 
@@ -73,5 +75,10 @@ class Category extends Model
     public function getRouteKeyName()
     {
         return 'category_id';
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'hiện');
     }
 }

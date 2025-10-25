@@ -41,7 +41,7 @@ class InventotyController extends Controller
             $query->whereDate('created_at', '<=', $request->end_date);
         }
         
-        $inventorys = $query->orderBy('created_at', 'desc')->paginate(15);
+        $inventorys = $query->orderBy('created_at', 'desc')->paginate(40);
         $products = Product::active()->get();
         
         // Stats for dashboard cards

@@ -19,6 +19,8 @@ class AuthController extends Controller
             $isAdmin = true;
             $alert = 'warning';
             $message = 'Bạn đang đăng nhập với tư cách quản trị viện!';
+        } elseif (Auth::check() && Auth::user()->role == 'customer') {
+            return redirect('/')->with('warning', 'Bạn đã đăng nhập rồi!');
         }
 
         return view('frontend.auth.register', compact('isAdmin'))->with($alert, $message);
@@ -80,6 +82,8 @@ class AuthController extends Controller
             $isAdmin = true;
             $alert = 'warning';
             $message = 'Bạn đang đăng nhập với tư cách quản trị viện!';
+        } elseif (Auth::check() && Auth::user()->role == 'customer') {
+            return redirect('/')->with('warning', 'Bạn đã đăng nhập rồi!');
         }
 
         return view('frontend.auth.login', compact('isAdmin'))->with($alert, $message);

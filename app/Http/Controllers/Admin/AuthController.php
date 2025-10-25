@@ -11,7 +11,9 @@ class AuthController extends Controller
     public function showLoginForm()
     {
         if (Auth::check() && Auth::user()->role == 'admin') {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.dashboard')->with('success', 'bạn đã đăng nhập rồi!');
+        } elseif (Auth::check() && Auth::user()->role == 'customer') {
+            return redirect('/')->with('error', 'Bạn đang đăng nhập với tài khoản khách hàng.');
         }
 
         return view('admin.auth.login');
@@ -20,7 +22,9 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         if (Auth::check() && Auth::user()->role == 'admin') {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.dashboard')->with('success', 'bạn đã đăng nhập rồi!');
+        } elseif (Auth::check() && Auth::user()->role == 'customer') {
+            return redirect('/')->with('error', 'Bạn đang đăng nhập với tài khoản khách hàng.');
         }
 
         // Validate dữ liệu
