@@ -11,36 +11,36 @@ class Product extends Model
     use HasFactory;
 
     public static $categoryMapping = [
-    'Laptop' => [
-      'model' => LaptopDetail::class,
-      'type' => 'Laptop'
-    ],
-    'Screen' => [
-      'model' => ScreenDetail::class,
-      'type' => 'Screen'
-    ],
-    'LaptopGaming' => [
-      'model' => LaptopGamingDetail::class,
-      'type' => 'LaptopGaming'
-    ],
-    'GPU' => [
-      'model' => GpuDetail::class,
-      'type' => 'GPU'
-    ],
-    'Headset' => [
-      'model' => HeadsetDetail::class,
-      'type' => 'Headset'
-    ],
-    'Mouse' => [
-      'model' => MouseDetail::class,
-      'type' => 'Mouse'
-    ],
-    'Keyboard' => [
-      'model' => KeyboardDetail::class,
-      'type' => 'Keyboard'
-    ]
-    // Thêm các category khác tại đây
-  ];
+        'Laptop' => [
+            'model' => LaptopDetail::class,
+            'type' => 'Laptop'
+        ],
+        'Screen' => [
+            'model' => ScreenDetail::class,
+            'type' => 'Screen'
+        ],
+        'LaptopGaming' => [
+            'model' => LaptopGamingDetail::class,
+            'type' => 'LaptopGaming'
+        ],
+        'GPU' => [
+            'model' => GpuDetail::class,
+            'type' => 'GPU'
+        ],
+        'Headset' => [
+            'model' => HeadsetDetail::class,
+            'type' => 'Headset'
+        ],
+        'Mouse' => [
+            'model' => MouseDetail::class,
+            'type' => 'Mouse'
+        ],
+        'Keyboard' => [
+            'model' => KeyboardDetail::class,
+            'type' => 'Keyboard'
+        ]
+        // Thêm các category khác tại đây
+    ];
 
     /**
      * The table associated with the model.
@@ -212,10 +212,11 @@ class Product extends Model
     }
 
     // Thêm các methods hỗ trợ trong Product model
-    public function getAttributeLabels()
+    public function getFilterAttribute()
     {
         $categoryMapping = [
             'Laptop' => LaptopDetail::getFilterAttributes(),
+            'LaptopGaming' => LaptopGamingDetail::getFilterAttributes(),
             'Screen' => ScreenDetail::getFilterAttributes(),
             'GPU' => GpuDetail::getFilterAttributes(),
             'Headset' => HeadsetDetail::getFilterAttributes(),
@@ -230,6 +231,7 @@ class Product extends Model
     {
         $mapping = [
             'Laptop' => 'laptopDetail',
+            'LaptopGaming' => 'laptopGamingDetail',
             'Screen' => 'screenDetail',
             'GPU' => 'gpuDetail',
             'Headset' => 'headsetDetail',
@@ -254,5 +256,26 @@ class Product extends Model
         ];
 
         return $relations[$categoryId] ?? null;
+    }
+
+    public function getDetailAttribute()
+    {
+        $mapping = [
+            'Laptop' => 'laptopDetail',
+            'LaptopGaming' => 'laptopGamingDetail',
+            'Screen' => 'screenDetail',
+            'GPU' => 'gpuDetail',
+            'Headset' => 'headsetDetail',
+            'Mouse' => 'mouseDetail',
+            'Keyboard' => 'keyboardDetail'
+        ];
+
+        // mapping quan hệ
+        // $relation = laptopDetail/laptopGamingDetail/...
+        $relation = $mapping[$this->category_id] ?? null;
+
+        // trả về quan hệ
+        // $this->$relation = $this->laptopDetail/laptopGamingDetail/...
+        return $relation ? $this->$relation : null;
     }
 }

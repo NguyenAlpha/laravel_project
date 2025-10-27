@@ -123,7 +123,7 @@
               </td>
               <td>
                 {{-- {{ route('admin.receipt.show', $receipt->receipt_id) }} --}}
-                <a href="" 
+                <a href="{{ route('admin.receipt.show', $receipt->receipt_id) }}" 
                    class="btn btn-sm btn-info" 
                    title="Xem chi tiết" 
                    data-bs-toggle="tooltip">

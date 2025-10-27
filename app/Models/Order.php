@@ -133,4 +133,22 @@ class Order extends Model
             $this->update(['delivery_date' => now()]);
         }
     }
+
+    /**
+     * Tính tổng tiền các đơn đã hoàn thành (đã nhận hàng)
+     */
+    public static function getTotalAmount($startDate = null, $endDate = null)
+    {
+        $query = self::daNhan();
+
+        if ($startDate) {
+            $query->whereDate('order_date', '>=', $startDate);
+        }
+
+        if ($endDate) {
+            $query->whereDate('delivery_date', '<=', $endDate);
+        }
+
+        return $query->sum('total_amount');
+    }
 }

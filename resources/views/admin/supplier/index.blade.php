@@ -231,11 +231,11 @@
                         data-supplier-data='@json($supplier)'>
                         <i class="fas fa-edit"></i>
                       </button> --}}
-                      <button type="button" class="btn btn-success quick-action" title="Tạo phiếu nhập"
+                      {{-- <button type="button" class="btn btn-success quick-action" title="Tạo phiếu nhập"
                         data-bs-toggle="tooltip" data-supplier-id="{{ $supplier->supplier_id }}"
                         data-supplier-name="{{ $supplier->supplier_name }}">
                         <i class="fas fa-plus-circle"></i>
-                      </button>
+                      </button> --}}
                       {{-- <button type="button" class="btn btn-danger delete-supplier" title="Xóa nhà cung cấp"
                         data-bs-toggle="modal" data-bs-target="#deleteModal{{ $supplier->supplier_id }}"
                         data-bs-toggle="tooltip">

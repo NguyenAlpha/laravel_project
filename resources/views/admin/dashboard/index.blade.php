@@ -37,10 +37,10 @@
         <div class="stats-icon primary">
           <i class="fas fa-shopping-cart"></i>
         </div>
-        <div class="stats-number">1,248</div>
+        <div class="stats-number">{{ $dashboard['totalOrders'] ?? 0 }}</div>
         <div class="stats-label">Tổng đơn hàng</div>
         <div class="stats-change positive">
-          <i class="fas fa-arrow-up"></i> 12.5% so với tháng trước
+          <i class="fas fa-arrow-up"></i> 100% so với tháng trước
         </div>
       </div>
     </div>
@@ -49,10 +49,10 @@
         <div class="stats-icon success">
           <i class="fas fa-users"></i>
         </div>
-        <div class="stats-number">5,678</div>
+        <div class="stats-number">{{ $dashboard['totalUsers'] ?? 0 }}</div>
         <div class="stats-label">Người dùng</div>
         <div class="stats-change positive">
-          <i class="fas fa-arrow-up"></i> 8.3% so với tháng trước
+          <i class="fas fa-arrow-up"></i> 100% so với tháng trước
         </div>
       </div>
     </div>
@@ -61,10 +61,10 @@
         <div class="stats-icon warning">
           <i class="fas fa-box"></i>
         </div>
-        <div class="stats-number">324</div>
+        <div class="stats-number">{{ $dashboard['totalProducts'] ?? 0 }}</div>
         <div class="stats-label">Sản phẩm</div>
         <div class="stats-change positive">
-          <i class="fas fa-arrow-up"></i> 5.2% so với tháng trước
+          <i class="fas fa-arrow-up"></i> 100% so với tháng trước
         </div>
       </div>
     </div>
@@ -73,7 +73,7 @@
         <div class="stats-icon info">
           <i class="fas fa-dollar-sign"></i>
         </div>
-        <div class="stats-number">$24,580</div>
+        <div class="stats-number">{{ number_format($dashboard['totalRevenue']) ?? 0 }}đ</div>
         <div class="stats-label">Doanh thu</div>
         <div class="stats-change positive">
           <i class="fas fa-arrow-up"></i> 15.7% so với tháng trước
@@ -83,38 +83,43 @@
   </div>
 
   <!-- Charts and Tables -->
-  <div class="row">
-    <div class="col-md-8">
-      <div class="chart-container">
-        <div class="chart-header">
-          <div class="chart-title">Doanh thu theo tháng</div>
-          <div class="btn-group">
-            <button class="btn btn-sm btn-outline-primary active">Tháng</button>
-            <button class="btn btn-sm btn-outline-primary">Quý</button>
-            <button class="btn btn-sm btn-outline-primary">Năm</button>
-          </div>
-        </div>
-        <div
-          style="height: 300px; background-color: #f8fafc; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #94a3b8;">
-          <div class="text-center">
-            <i class="fas fa-chart-line fa-3x mb-3"></i>
-            <p>Biểu đồ doanh thu sẽ được hiển thị tại đây</p>
-          </div>
+  <div class="col-md-8">
+    <div class="chart-container">
+      <div class="chart-header">
+        <div class="chart-title">Doanh thu theo tháng</div>
+        <div class="btn-group">
+          <button class="btn btn-sm btn-outline-primary active">Tháng</button>
+          {{-- <button class="btn btn-sm btn-outline-primary">Quý</button>
+          <button class="btn btn-sm btn-outline-primary">Năm</button> --}}
         </div>
       </div>
-    </div>
-    <div class="col-md-4">
-      <div class="chart-container">
-        <div class="chart-header">
-          <div class="chart-title">Phân loại sản phẩm</div>
-        </div>
-        <div
-          style="height: 300px; background-color: #f8fafc; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #94a3b8;">
-          <div class="text-center">
-            <i class="fas fa-chart-pie fa-3x mb-3"></i>
-            <p>Biểu đồ phân loại sẽ được hiển thị tại đây</p>
+      <div class="chart-body">
+        @if($monthlyRevenue->count() > 0)
+          <div class="revenue-chart">
+            <div class="chart-bars">
+              @php
+                $maxRevenue = $monthlyRevenue->max('revenue');
+              @endphp
+              @foreach($monthlyRevenue->reverse() as $revenue)
+                @php
+                  $height = $maxRevenue > 0 ? ($revenue->revenue / $maxRevenue) * 100 : 0;
+                  $monthName = DateTime::createFromFormat('!m', $revenue->month)->format('M');
+                @endphp
+                <div class="bar-container">
+                  <div class="bar" style="height: {{ $height }}%">
+                    <span class="bar-value">{{ number_format($revenue->revenue / 1000000, 1) }}tr</span>
+                  </div>
+                  <div class="bar-label">{{ $monthName }}/{{ $revenue->year }}</div>
+                </div>
+              @endforeach
+            </div>
           </div>
-        </div>
+        @else
+          <div class="no-data-placeholder">
+            <i class="fas fa-chart-line fa-3x mb-3"></i>
+            <p>Chưa có dữ liệu doanh thu</p>
+          </div>
+        @endif
       </div>
     </div>
   </div>
@@ -123,7 +128,7 @@
   <div class="recent-orders">
     <div class="chart-header">
       <div class="chart-title">Đơn hàng gần đây</div>
-      <a href="#" class="btn btn-sm btn-primary">Xem tất cả</a>
+      <a href="{{ route('admin.order.index') }}" class="btn btn-sm btn-primary">Xem tất cả</a>
     </div>
     <div class="table-responsive">
       <table class="table table-hover">
@@ -138,18 +143,130 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>#ORD-7842</td>
-            <td>Nguyễn Văn A</td>
-            <td>15/01/2024</td>
-            <td>2,450,000đ</td>
-            <td><span class="status-badge completed">Hoàn thành</span></td>
-            <td>
-              <button class="btn btn-sm btn-outline-primary">Chi tiết</button>
-            </td>
-          </tr>
+          @foreach ($dashboard['orders'] as $order)
+            <tr>
+              <td>{{ $order->order_id }}</td>
+              <td>{{ $order->user->username }}</td>
+              <td>{{ $order->order_date }}</td>
+              <td>{{ number_format($order->total_amount) . 'đ' }}</td>
+              <td class="text-center">
+                    @if($order->status == 'chờ xác nhận')
+                      <span class="badge bg-warning text-dark">
+                        <i class="fas fa-clock me-1"></i>Chờ xác nhận
+                      </span>
+                    @elseif($order->status == 'đã xác nhận')
+                      <span class="badge bg-info">
+                        <i class="fas fa-check me-1"></i>Đã xác nhận
+                      </span>
+                    @elseif($order->status == 'đang giao')
+                      <span class="badge bg-primary">
+                        <i class="fas fa-shipping-fast me-1"></i>Đang giao
+                      </span>
+                    @elseif($order->status == 'đã nhận hàng')
+                      <span class="badge bg-success">
+                        <i class="fas fa-box me-1"></i>Đã nhận hàng
+                      </span>
+                    @else
+                      <span class="badge bg-danger">
+                        <i class="fas fa-times me-1"></i>Đã hủy
+                      </span>
+                    @endif
+                  </td>
+              <td>
+                <a href="{{ route('admin.order.show', $order->order_id) }}" class="btn btn-sm btn-outline-primary">Chi tiết</a>
+              </td>
+            </tr>
+          @endforeach
         </tbody>
       </table>
     </div>
   </div>
+@endsection
+
+@section('css')
+  <style>
+    /* Chart Containers */
+    .chart-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .chart-header {
+      padding: 20px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chart-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .chart-body {
+      padding: 20px;
+      min-height: 300px;
+    }
+
+    /* Revenue Chart */
+    .revenue-chart {
+      height: 300px;
+      display: flex;
+      align-items: flex-end;
+      gap: 15px;
+    }
+
+    .chart-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      height: 100%;
+      width: 100%;
+    }
+
+    .bar-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+    }
+
+    .bar {
+      background: linear-gradient(180deg, #4f46e5, #7c73e6);
+      width: 100%;
+      border-radius: 4px 4px 0 0;
+      position: relative;
+      transition: all 0.3s ease;
+      min-height: 20px;
+    }
+
+    .bar:hover {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+
+    .bar-value {
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #374151;
+      white-space: nowrap;
+    }
+
+    .bar-label {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: #6b7280;
+      text-align: center;
+    }
+  </style>
 @endsection

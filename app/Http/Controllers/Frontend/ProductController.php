@@ -34,15 +34,8 @@ class ProductController extends Controller
             ]
         ]
         */
-        $product = Product::with([
-            'category',
-            'laptopDetail',
-            'screenDetail',
-            'gpuDetail',
-            'headsetDetail',
-            'mouseDetail',
-            'keyboardDetail'
-        ])->where('product_id', $productId)
+        $product = Product::with(['category'])
+            ->where('product_id', $productId)
             ->active()  //chỉ lấy các sản phẩm đang hiện
             ->first();  // lấy 1 sản phẩm
 

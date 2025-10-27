@@ -40,7 +40,7 @@ class OrderController extends Controller
             $query->whereDate('order_date', '<=', $request->end_date);
         }
 
-        $orders = $query->orderBy('order_id', 'desc')->paginate(20);
+        $orders = $query->orderBy('order_date', 'desc')->paginate(20);
 
         // Stats for dashboard cards
         $totalOrders = Order::count();

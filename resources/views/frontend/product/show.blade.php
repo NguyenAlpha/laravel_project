@@ -5,7 +5,7 @@
 @section('content')
   <div class="container">
     <div class="product__detail">
-      <div class="product__detail__box1">
+      <div class="product__detail__box1 shadow">
         <!-- phần bên trái -->
         <div class="product__detail--left">
           <!-- hình ảnh sản phẩm-->
@@ -51,46 +51,55 @@
           </form>
         </div>
       </div>
-      {{-- <div class="product__detail__box2">
-        <h2 class="product__detail__title">Thông Số Kỹ Thuật</h2>
-
-        <?php if (!empty($details)):?>
-        <table class="product__detail__list">
-          <?php  foreach ($attributes as $nameAttributeVN => $nameAttributeInDB):?>
-          <?php    if (isset($details[$nameAttributeInDB])):?>
-          <tr>
-            <td>
-              <?=$nameAttributeVN?>
-            </td>
-            <td>
-              <?=$details[$nameAttributeInDB]?>
-            </td>
-          </tr>
-          <?php    endif;?>
-          <?php  endforeach;?>
-        </table>
-        <?php else:?>
-        <p class="error">Chưa có thông số</p>
-        <?php endif;?>
-      </div> --}}
 
       <!-- Tab thông số kỹ thuật -->
-      <div class="product__detail__list tab-pane fade show active" id="specs" role="tabpanel">
-        @if($product->getDetail())
-          <table class="table table-striped">
-            <tbody>
-              @foreach($product->getAttributeLabels() as $attribute => $label)
-                @if(!empty($product->getDetail()->$attribute))
-                  <tr>
-                    <td style="width: 30%;"><strong>{{ $label }}:</strong></td>
-                    <td>{{ $product->getDetail()->$attribute }}</td>
-                  </tr>
-                @endif
-              @endforeach
-            </tbody>
-          </table>
+      <div class="product__detail__list tab-pane fade show active w-100" id="specs" role="tabpanel">
+        @if($product->detail)
+          <div class="specs-card">
+            <div class="specs-header">
+              <h4 class="specs-title">
+                <i class="fas fa-microchip me-2"></i>
+                Thông số kỹ thuật
+              </h4>
+            </div>
+            <div class="specs-body">
+              <div class="row">
+                @foreach($product->filter as $attribute => $label)
+                    @if(!empty($product->detail->$attribute))
+                        <div class="col-md-6 mb-3">
+                            <div class="spec-item">
+                                <div class="spec-label">
+                                    <span class="spec-icon">
+                                        @switch($attribute)
+                                            @case('cpu')<i class="fas fa-microchip"></i>@break
+                                            @case('gpu')<i class="fas fa-gamepad"></i>@break
+                                            @case('ram')<i class="fas fa-memory"></i>@break
+                                            @case('storage')<i class="fas fa-hdd"></i>@break
+                                            @case('kich_thuoc_man_hinh')<i class="fas fa-desktop"></i>@break
+                                            @case('do_phan_giai')<i class="fas fa-expand"></i>@break
+                                            @default<i class="fas fa-cog"></i>
+                                        @endswitch
+                                    </span>
+                                    {{ $label }}
+                                </div>
+                                <div class="spec-value">
+                                    {{ $product->detail->$attribute }}
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+              </div>
+            </div>
+          </div>
         @else
-          <p class="text-muted">Chưa có thông tin chi tiết cho sản phẩm này.</p>
+          <div class="text-center py-5">
+            <div class="no-specs-icon mb-3">
+              <i class="fas fa-info-circle fa-3x text-muted"></i>
+            </div>
+            <h5 class="text-muted">Chưa có thông tin chi tiết</h5>
+            <p class="text-muted">Thông số kỹ thuật sẽ được cập nhật sớm nhất</p>
+          </div>
         @endif
       </div>
 
@@ -133,50 +142,129 @@
           </div>
         </div>
       @endif
-
-      {{--
-      <?php if (!empty($BSP)):?>
-      <div class="product__detail__box3">
-        <div class="home-page header-product-bar">
-          <h2 class="home-page name-product-bar">Sản phầm bán chạy</h2>
-          <div class="home-page line"></div>
-          <!-- <a href="./index.php" class="home-page see-more">xem tất cả<i class="fa fa-angle-double-right"></i></a> -->
-        </div>
-        <div class="product__item wrap">
-          <?php  foreach ($BSP as $item): ?>
-          <div class="product__item__card">
-            <a href="./index.php?controller=product&action=show&id=<?=$item[" MaSP"]?>">
-              <div class="product__item__card__img">
-                <img src="<?=$item['AnhMoTaSP']?>" alt="">
-              </div>
-              <div class="product__item__card__content">
-                <h3 class="product__item__name">
-                  <?=$item["TenSP"]?>
-                </h3>
-                <p class="product__item_price">
-                  <?=number_format($item["Gia"], 0, ',', '.') . "đ"?>
-                </p>
-              </div>
-              <div class="flex product-item__quantity">
-                <p class="da-ban-text">Số lượng:
-                  <?=$item['SoLuong']?>
-                </p>
-                <p class="da-ban-text">Đã bán:
-                  <?=$item['DaBan']?>
-                </p>
-              </div>
-            </a>
-            <div class="button__addcart__box">
-              <a href="?controller=cart&action=addProduct&MaSP=<?=$item['MaSP']?>&quantity=1"><button
-                  class="button button__addcart" type="submit" name="addcart">Mua ngay</button></a>
-            </div>
-          </div>
-          <?php  endforeach; ?>
-        </div>
-      </div>
-      <?php endif;?> --}}
     </div>
   </div>
+@endsection
+
+@section('css')
+<style>
+.specs-container {
+    padding: 20px 0;
+}
+
+.specs-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef;
+    overflow: hidden;
+}
+
+.specs-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px 25px;
+}
+
+.specs-title {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.specs-body {
+    padding: 25px;
+}
+
+.spec-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.spec-item:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.spec-label {
+    font-weight: 600;
+    color: #495057;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.spec-icon {
+    color: #667eea;
+    width: 20px;
+    text-align: center;
+}
+
+.spec-value {
+    font-weight: 500;
+    color: #212529;
+    background: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid #dee2e6;
+    font-size: 0.9rem;
+}
+
+.no-specs-icon {
+    opacity: 0.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .specs-body {
+        padding: 15px;
+    }
+    
+    .spec-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .spec-value {
+        align-self: flex-end;
+    }
+    
+    .specs-header {
+        padding: 15px 20px;
+    }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.spec-item {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.spec-item:nth-child(1) { animation-delay: 0.1s; }
+.spec-item:nth-child(2) { animation-delay: 0.2s; }
+.spec-item:nth-child(3) { animation-delay: 0.3s; }
+.spec-item:nth-child(4) { animation-delay: 0.4s; }
+.spec-item:nth-child(5) { animation-delay: 0.5s; }
+.spec-item:nth-child(6) { animation-delay: 0.6s; }
+</style>
 @endsection
 
 @section('js')
@@ -196,5 +284,5 @@
     };
 
     initQuantityHandlersDetail()
-  </script>
+    </script>
 @endsection
