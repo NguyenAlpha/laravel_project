@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title', 'Quản lý Người dùng')
-@section('user-active', 'active');
+@section('user-active', 'active')
 
 @section('content')
   <div class="container-fluid">

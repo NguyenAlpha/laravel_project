@@ -116,6 +116,13 @@ class AuthController extends Controller
                 ]);
         }
 
+        if ($user->isAdmin()) {
+            return back()
+                ->withErrors([
+                    'warnning' => 'Không phải tài khoản khách hàng.'
+                ]);
+        }
+
         // Kiểm tra đăng nhập
         if (Auth::attempt($credentials)) {
             // ĐĂNG NHẬP THÀNH CÔNG

@@ -18,6 +18,8 @@
   {{-- limk css --}}
   <link rel="stylesheet" href="{{ asset('css/admin/style.css') }}">
   <link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}">
+  <link rel="icon" type="image/png" href="{{asset('images/logo.png')}}">
+
   {{-- link js --}}
   <script src=" {{ asset('js/admin/global-functions.js') }}"></script>
   @yield('css')
@@ -32,7 +34,7 @@
     <div class="sidebar-menu">
       <ul>
         <li><a href="{{ route('admin.dashboard') }}" class="@yield('dashboard-active')"><i class="fas fa-home"></i>
-            <span>Dashboard</span></a></li>
+            <span>Thống kê</span></a></li>
         <li><a href="{{ route('admin.product.index') }}" class="@yield('product-active')"><i
               class="fas fa-shopping-bag"></i> <span>Sản phẩm</span></a></li>
         <li><a href="{{ route('admin.user.index') }}" class="@yield('user-active')"><i class="fas fa-users"></i>
@@ -44,10 +46,11 @@
         <li><a href="{{ route('admin.receipt.index') }}" class="@yield('receipt-active')"><i class="fas fa-tags"></i>
             <span>Phiếu nhập</span></a></li>
         <li><a href="{{ route('admin.supplier.index') }}" class="@yield('supplier-active')"><i
-              class="fas fa-chart-bar"></i> <span>Nhà cùng cấp</span></a></li>
+              class="fas fa-chart-bar"></i> <span>Nhà cung cấp</span></a></li>
         {{-- <li><a href="#"><i class="fas fa-chart-bar"></i> <span>Thống kê</span> </a></li> --}}
         {{-- <li><a href="#"><i class="fas fa-tags"></i> <span>Danh mục</span></a></li> --}}
-        <li><a href="{{ route('admin.config.index') }}" class="@yield('config-active')"><i class="fas fa-cog"></i> <span>Cài đặt</span></a></li>
+        <li><a href="{{ route('admin.config.index') }}" class="@yield('config-active')"><i class="fas fa-cog"></i>
+            <span>Cài đặt</span></a></li>
         {{-- <li><a href="#"><i class="fas fa-question-circle"></i> <span>Trợ giúp</span></a></li> --}}
       </ul>
     </div>

@@ -15,17 +15,17 @@ class DashboardController extends Controller
         $dashboard = [];
 
         $dashboard['totalOrders'] = Order::count();
-        $dashboard['totalUsers'] = User::count();
-        $dashboard['totalProducts'] = Product::count();
+        $dashboard['totalUsers'] = User::role('customer')->count();
+        $dashboard['totalProducts'] = Product::where('status', '!=', 'đã xóa')->count();
         $dashboard['totalRevenue'] = Order::getTotalAmount();
 
         $monthlyRevenue = Order::selectRaw('YEAR(order_date) as year, MONTH(order_date) as month, SUM(total_amount) as revenue')
-        ->where('status', 'đã nhận hàng')
-        ->groupBy('year', 'month')
-        ->orderBy('year', 'desc')
-        ->orderBy('month', 'desc')
-        ->limit(12)
-        ->get();
+            ->where('status', 'đã nhận hàng')
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'desc')
+            ->orderBy('month', 'desc')
+            ->limit(12)
+            ->get();
 
         $dashboard['orders'] = Order::with('user')->orderBy('order_date', 'desc')->limit(5)->get();
 

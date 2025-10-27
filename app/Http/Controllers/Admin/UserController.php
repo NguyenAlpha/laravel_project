@@ -42,7 +42,7 @@ class UserController extends Controller
             $query->where('dob', $request->dob);
         }
 
-        $users = $query->orderBy('user_id', 'desc')->paginate(10);
+        $users = $query->where('status', '!=', 'đã xóa')->orderBy('user_id', 'desc')->paginate(10);
 
         return view('admin.user.index', compact('users'));
     }

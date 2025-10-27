@@ -61,7 +61,7 @@
       <div class="card shadow-sm">
         <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
           <h6 class="mb-0">Thống kê</h6>
-          <a href="#" class="btn btn-sm btn-light">
+          <a href="{{ route('admin.receipt.create') }}" class="btn btn-sm btn-light">
             <i class="fas fa-edit me-1"></i> Tạo phiếu nhập
           </a>
         </div>

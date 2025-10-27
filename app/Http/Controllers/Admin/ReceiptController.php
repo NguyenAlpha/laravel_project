@@ -103,23 +103,7 @@ class ReceiptController extends Controller
         $receipt->update([
             'status' => $request->status
         ]);
-
-        // If status is 'đã nhận', update inventory
-        if ($request->status === 'đã nhận') {
-            foreach ($receipt->receiptDetails as $detail) {
-                // Update product stock
-                $detail->product->increment('stock', $detail->quantity);
-
-                // Create inventory record
-                Inventory::create([
-                    'product_id' => $detail->product_id,
-                    'quantity' => $detail->quantity,
-                    'type' => 'nhập hàng',
-                    // 'reference' => "PN{$receipt->receipt_id}",
-                ]);
-            }
-        }
-
+        
         return response()->json([
             'success' => true,
             'message' => 'Cập nhật trạng thái thành công!'
