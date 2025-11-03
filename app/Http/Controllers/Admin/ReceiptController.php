@@ -109,7 +109,7 @@ class ReceiptController extends Controller
     public function createForm()
     {
         $suppliers = Supplier::all();
-        $products = Product::all();
+        $products = Product::where('status', '!=', 'đã xóa')->get();
 
         return view('admin.receipt.create', compact('suppliers', 'products'));
     }

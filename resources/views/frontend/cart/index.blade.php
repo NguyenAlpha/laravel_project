@@ -45,34 +45,55 @@
             </tr>
           </thead>
           <tbody>
+            @php
+              $warning = false;
+            @endphp
             @foreach ($cart->cartItems as $item)
+              @if ($item->quantity > $item->product->stock)
+                @php
+                  $warning = "có sản phẩm vượt quá số lượng";
+                @endphp
+              @endif
               <tr class="border-bottom cart-item">
-                <td class="align-middle p-2">
-                  <a href="{{route('product.show', ['productId' => $item->product->product_id])}}"><img
-                      src="{{ asset('images/' . $item->product->image_url) ?? '' }}" alt="{{ $item->product->product_name }}"
-                      class="img-fluid product-image"></a>
-                </td>
-                <td class="align-middle text-start p-2">
-                  <a href="{{route('product.show', ['productId' => $item->product->product_id])}}">
-                    <h5 class="mb-1">{{ $item->product->product_name }}</h5>
-                    <p class="text-muted mb-0">{{ number_format($item->product->price, 0, ',', '.') }}đ</p>
-                  </a>
-                </td>
-                <td class="align-middle p-2">
-                  <div class="input-group input-group-sm">
-                    <button class="btn btn-update-quantity" type="button" data-product-id="{{ $item->product_id }}"
-                      data-action="decrease">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                    <input type="number" class="form-control quantity-input" value="{{ $item->quantity }}" min="1"
-                      max="{{ $item->product->stock }}" data-product-id="{{ $item->product_id }}">
-                    <button class="btn btn-update-quantity" type="button" data-product-id="{{ $item->product_id }}"
-                      data-action="increase">
-                      <i class="fas fa-plus"></i>
-                    </button>
-                  </div>
-                  <small class="text-muted">Còn: {{ $item->product->stock }} sản phẩm</small>
-                </td>
+                @if($item->product->status != 'hiện')
+                  @php
+                    $warning = "Có sản phẩm đã ẩn/xóa trong giỏ hàng";
+                  @endphp
+                  <td class="align-middle p-2"></td>
+                  <td class="align-middle text-start p-2">
+                    <p class="text-danger">đã bị ẩn/xóa</p>
+                  </td>
+                  <td class="align-middle p-2">
+                    <p>{{ $item->quantity }}</p>
+                  </td>
+                @else
+                  <td class="align-middle p-2">
+                    <a href="{{route('product.show', ['productId' => $item->product->product_id])}}"><img
+                        src="{{ asset('images/' . $item->product->image_url) ?? '' }}" alt="{{ $item->product->product_name }}"
+                        class="img-fluid product-image"></a>
+                  </td>
+                  <td class="align-middle text-start p-2">
+                    <a href="{{route('product.show', ['productId' => $item->product->product_id])}}">
+                      <h5 class="mb-1">{{ $item->product->product_name }}</h5>
+                      <p class="text-muted mb-0">{{ number_format($item->product->price, 0, ',', '.') }}đ</p>
+                    </a>
+                  </td>
+                  <td class="align-middle p-2">
+                    <div class="input-group input-group-sm">
+                      <button class="btn btn-update-quantity" type="button" data-product-id="{{ $item->product_id }}"
+                        data-action="decrease">
+                        <i class="fas fa-minus"></i>
+                      </button>
+                      <input type="number" class="form-control quantity-input" value="{{ $item->quantity }}" min="1"
+                        max="{{ $item->product->stock }}" data-product-id="{{ $item->product_id }}">
+                      <button class="btn btn-update-quantity" type="button" data-product-id="{{ $item->product_id }}"
+                        data-action="increase">
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                    <small class="text-muted">Còn: {{ $item->product->stock }} sản phẩm</small>
+                  </td>
+                @endif
                 <td class="align-middle p-2">
                   <strong class="text-danger item-total" data-product-id="{{ $item->product_id }}">
                     {{ $item->thanh_tien_formatted }}
@@ -111,7 +132,7 @@
             </strong>
           </div>
 
-          <a href="{{route('checkout.index')}}" class="btn btn-primary w-100 mb-2">
+          <a href="{{route('checkout.index')}}" class="btn btn-primary w-100 mb-2" id="checkout-link" @if ($warning) {{ "hidden" }} @endif>
             <i class="fas fa-credit-card me-1"></i>Tiến Hành Thanh Toán
           </a>
 

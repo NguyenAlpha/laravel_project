@@ -23,7 +23,7 @@
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Tổng phiếu nhập
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $receipts->count() ?? 0 }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $receipts->total() ?? 0 }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>

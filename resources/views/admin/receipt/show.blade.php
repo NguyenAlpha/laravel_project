@@ -376,7 +376,7 @@
             
             $.ajax({
                 url: "{{ route('admin.receipt.update-status', $receipt->receipt_id) }}",
-                method: 'PUT',
+                method: 'PATCH',
                 data: {
                     _token: "{{ csrf_token() }}",
                     status: status

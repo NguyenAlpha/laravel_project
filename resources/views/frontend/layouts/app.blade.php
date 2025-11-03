@@ -235,7 +235,7 @@
       @endforeach
     @endif
       
-    @if(isset($warning)) 
+    @if(isset($warning) && $warning) 
       showAlert('warning', '{{ $warning }}');
     @endif
   </script>
