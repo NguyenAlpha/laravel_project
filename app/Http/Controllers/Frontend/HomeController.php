@@ -12,9 +12,8 @@ class HomeController extends Controller
 
     public function index()
     {
-
         $categories = Category::with(['products' => function ($query) {
-            $query->active()->limit(30);
+            $query->active()->orderBy('created_at', 'desc')->limit(30);
         }])->active()->get();
 
 

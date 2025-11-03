@@ -25,7 +25,7 @@
 
             <input type="number" name="product_id" value='{{$product->product_id}}' class='d-none'>
             <div class="flex">
-              @if($product->stock == -1)
+              @if($product->stock == 0)
                 <p>Hết hàng</p>
               @else
                 <p class="product__count">Số Lượng</p>
@@ -33,7 +33,6 @@
                   max='{{$product->stock}}' style="width: 80px">
                 <p>còn {{$product->stock}}</p>
               @endif
-
             </div>
 
             <!-- các nút mua, giỏ hàng -->

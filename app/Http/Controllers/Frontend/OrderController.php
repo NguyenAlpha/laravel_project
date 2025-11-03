@@ -14,7 +14,7 @@ class OrderController extends Controller
     {
         $user = Auth::user();
 
-        $orders = Order::with(['orderDetails.product'])->where('user_id', $user->user_id)->get();
+        $orders = Order::with(['orderDetails.product'])->where('user_id', $user->user_id)->orderBy('order_date','desc')->get();
 
         return view('frontend.order.index', compact('user', 'orders'));
     }

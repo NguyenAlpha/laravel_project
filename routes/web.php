@@ -46,10 +46,10 @@ Route::middleware(['customer'])->group(function() {
   Route::get(   '/cart',          [CartController::class, 'index'])         ->name('cart.index');
   Route::post(  '/cart/add',      [CartController::class, 'addToCart'])     ->name('cart.addToCart');
   Route::put(   '/cart/update',   [CartController::class, 'updateQuantity'])->name('cart.update');
-  Route::delete('/cart/remove',   [CartController::class, 'removeFromCart'])->name('cart.remove');
-  Route::delete('/cart/clear',    [CartController::class, 'clearCart'])     ->name('cart.clear');
+  Route::delete('/cart-item/{productId}',   [CartController::class, 'deleteCartItem'])->name('cart.delete');
   Route::get(   '/cart/info',     [CartController::class, 'getCartInfo'])   ->name('cart.info');
   Route::post(  '/cart/buy-now',  [CartController::class, 'buyNow'])        ->name('cart.buyNow');
+  Route::post(  '/cart',  [CartController::class, 'store'])        ->name('cart.store');
   Route::get(   '/checkout',      [CartController::class, 'checkout'])      ->name('checkout.index'); // hiển thị trang thanh toán
   Route::get(   '/cart/add/{productId}/{quantity}', [CartController::class, 'addCart'])->name('cart.add');
 

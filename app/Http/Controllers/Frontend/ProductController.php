@@ -10,6 +10,11 @@ use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
+    /**
+     * Hiển thi chi tiết sản phẩm
+     * @param mixed $productId
+     * @return \Illuminate\Contracts\View\View
+     */
     public function show($productId)
     {
         // Lấy sản phẩm với tất cả thông tin liên quan
@@ -65,30 +70,12 @@ class ProductController extends Controller
         return view('frontend.product.show', compact('product', 'relatedProducts'));
     }
 
-    /*
-        Hàm hiển thị sản phẩm theo danh mục có filter và phân trang
-    */
-    /*
-    public function indexByCategory(Category $category, Request $request)
-    {
-        // 1. Lấy filters config
-        $filters = ProductFilterService::getFiltersForCategory($category->category_id);
-
-        // 2. Khởi tạo query
-        $products = Product::with(['category', 'laptopDetail', 'screenDetail'])
-            ->where('category_id', $category->category_id)
-            ->active();
-
-        // 3. Áp dụng filters (ĐÃ BAO GỒM where category_id bên trong)
-        $products = ProductFilterService::applyFilters($products, $request, $category->category_id);
-
-        // 4. Thực thi query
-        $products = $products->paginate(12);
-
-
-        return view('frontend.product.index', compact('products', 'category', 'filters'));
-    }*/
-
+    /**
+     * Hiển thị danh sách sản phẩm theo danh mục
+     * @param string $category_id
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\View\View
+     */
     public function indexByCategory(String $category_id, Request $request)
     {
         $category = Category::findOrFail($category_id);
@@ -100,7 +87,7 @@ class ProductController extends Controller
         /**
          * ::with() eager loading tránh N+1 query problem
          */
-        $products = Product::with(['category', 'laptopDetail', 'screenDetail', 'laptopGamingDetail', 'gpuDetail', 'headsetDetail', 'mouseDetail', 'keyboardDetail'])
+        $products = Product::with(['category', Product::getRelationName($category_id)])
             ->where('category_id', $category->category_id)
             ->active();
 
@@ -130,7 +117,7 @@ class ProductController extends Controller
                 $selectedValues = (array) $request->input($attribute);
 
                 if (!empty($selectedValues)) {
-                    $relation = $this->getRelationByCategoryId($categoryId);
+                    $relation = Product::getRelationName($categoryId);
 
                     if ($relation) {
                         $query->whereHas($relation, function ($q) use ($attribute, $selectedValues) {
@@ -196,40 +183,5 @@ class ProductController extends Controller
         }
 
         return $query;
-    }
-
-    /**
-     * Xác định relation name dựa trên attribute
-     */
-    private function getRelationByCategoryId($categoryId)
-    {
-        if ($categoryId == 'Laptop') {
-            return 'laptopDetail';
-        }
-
-        if ($categoryId == 'Screen') {
-            return 'screenDetail';
-        }
-
-        if ($categoryId == 'LaptopGaming') {
-            return 'laptopGamingDetail';
-        }
-
-        if ($categoryId == 'GPU') {
-            return 'gpuDetail';
-        }
-
-        if ($categoryId == 'Headset') {
-            return 'headsetDetail';
-        }
-
-        if ($categoryId == 'Mouse') {
-            return 'mouseDetail';
-        }
-
-        if ($categoryId == 'Keyboard') {
-            return 'keyboardDetail';
-        }
-        return null;
     }
 }

@@ -18,7 +18,6 @@ class CartController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
         $cart = Cart::with(['cartItems.product'])->where('user_id', Auth::id())->first();
 
         // Nếu chưa có giỏ hàng, tạo mới
@@ -32,10 +31,6 @@ class CartController extends Controller
 
     public function addCart(String $productId, int $quantity)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('message', 'Đăng nhập để thêm sản phẩm vào giỏ hàng');
-        }
-
         $cart = Cart::with(['cartItems.product'])->where('user_id', Auth::id())->first();
         $cart->themSanPham($productId, $quantity);
         return redirect()->route('cart.index');
@@ -43,20 +38,23 @@ class CartController extends Controller
 
     public function buyNow(Request $request)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('message', 'Đăng nhập để thêm sản phẩm vào giỏ hàng');
-        }
-
-        $userId = Auth::id();
-
         $productId = $request->input('product_id');
         $quantity = $request->input('quantity', 1);
 
-        $cart = Cart::with(['cartItems.product'])->where('user_id', $userId)->first();
+        $cart = Cart::with(['cartItems.product'])->where('user_id', Auth::id())->first();
 
         $cart->themSanPham($productId, $quantity);
 
         return redirect()->route('cart.index');
+    }
+
+    public function store(Request $request) {
+        $productId = $request->input('product_id');
+        $quantity = $request->input('quantity', 1);
+
+        $cart = Cart::with(['cartItems'])->where('user_id', Auth::id())->first();
+
+        $cart->themSanPham($productId, $quantity);
     }
 
     /**
@@ -64,16 +62,10 @@ class CartController extends Controller
      */
     public function addToCart(Request $request)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('message', 'Đăng nhập để thêm sản phẩm vào giỏ hàng');
-        }
-
-        $userId = Auth::id();
-
         $productId = $request->input('product_id');
         $quantity = $request->input('quantity', 1);
 
-        $cart = Cart::with(['cartItems.product'])->where('user_id', $userId)->first();
+        $cart = Cart::with(['cartItems.product'])->where('user_id', Auth::id())->first();
 
         $cart->themSanPham($productId, $quantity);
 
@@ -85,13 +77,6 @@ class CartController extends Controller
      */
     public function updateQuantity(Request $request)
     {
-        if (!Auth::check()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Vui lòng đăng nhập'
-            ], 401);
-        }
-
         $request->validate([
             'product_id' => 'required|exists:product,product_id',
             'quantity' => 'required|integer|min:0'
@@ -100,7 +85,6 @@ class CartController extends Controller
         try {
             DB::beginTransaction();
 
-            $user = Auth::user();
             $cart = Cart::where('user_id', Auth::id())->firstOrFail();
 
             $product = Product::findOrFail($request->product_id);
@@ -146,130 +130,19 @@ class CartController extends Controller
     /**
      * Xóa sản phẩm khỏi giỏ hàng
      */
-    public function removeFromCart(Request $request)
+    public function deleteCartItem($productId)
     {
-        if (!Auth::check()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Vui lòng đăng nhập'
-            ], 401);
-        }
+        $cart = Cart::where('user_id', Auth::id())->firstOrFail();
 
-        $request->validate([
-            'product_id' => 'required|exists:product,product_id'
-        ]);
+        $cart->xoaSanPham($productId);
 
-        try {
-            DB::beginTransaction();
-
-            $user = Auth::user();
-            $cart = Cart::where('user_id', Auth::id())->firstOrFail();
-
-            $cart->xoaSanPham($request->product_id);
-
-            // Lấy lại thông tin mới nhất
-            $cart->load('cartItems.product');
-
-            DB::commit();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Xóa sản phẩm khỏi giỏ hàng thành công',
-                'cart_total' => $cart->tong_so_luong,
-                'cart_amount' => $cart->tong_tien
-            ]);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json([
-                'success' => false,
-                'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
-            ], 500);
-        }
+        return redirect()->route('cart.index')->with('success', 'Xóa sản phẩm khỏi giỏ hàng thành công');
     }
 
     /**
-     * Xóa toàn bộ giỏ hàng
+     * Summary of checkout
+     * @return \Illuminate\Contracts\View\View
      */
-    public function clearCart()
-    {
-        if (!Auth::check()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Vui lòng đăng nhập'
-            ], 401);
-        }
-
-        try {
-            DB::beginTransaction();
-
-            $user = Auth::user();
-            $cart = Cart::where('user_id', Auth::id())->firstOrFail();
-
-            $cart->xoaToanBo();
-
-            DB::commit();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Xóa toàn bộ giỏ hàng thành công',
-                'cart_total' => 0,
-                'cart_amount' => 0
-            ]);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json([
-                'success' => false,
-                'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
-            ], 500);
-        }
-    }
-
-    /**
-     * Lấy thông tin giỏ hàng (API)
-     */
-    public function getCartInfo()
-    {
-        if (!Auth::check()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Vui lòng đăng nhập'
-            ], 401);
-        }
-
-        $user = Auth::user();
-        $cart = Cart::with(['cartItems.product'])->where('user_id', Auth::id())->first();
-
-        if (!$cart) {
-            return response()->json([
-                'success' => true,
-                'cart_total' => 0,
-                'cart_amount' => 0,
-                'items' => []
-            ]);
-        }
-
-        $items = $cart->cartItems->map(function ($item) {
-            return [
-                'product_id' => $item->product_id,
-                'product_name' => $item->product->name,
-                'product_image' => $item->product->image,
-                'price' => $item->product->price,
-                'price_formatted' => number_format($item->product->price, 0, ',', '.') . 'đ',
-                'quantity' => $item->quantity,
-                'item_total' => $item->thanh_tien,
-                'item_total_formatted' => $item->thanh_tien_formatted
-            ];
-        });
-
-        return response()->json([
-            'success' => true,
-            'cart_total' => $cart->tong_so_luong,
-            'cart_amount' => $cart->tong_tien,
-            'cart_amount_formatted' => number_format($cart->tong_tien, 0, ',', '.') . 'đ',
-            'items' => $items
-        ]);
-    }
-
     public function checkout()
     {
         $user = Auth::user();

@@ -220,14 +220,44 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal hiển thị QR -->
+  <div class="modal fade" id="qrModal" tabindex="-1" aria-labelledby="qrModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center">
+        <div class="modal-header">
+          <h5 class="modal-title" id="qrModalLabel">Thanh toán chuyển khoản</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+        </div>
+        <div class="modal-body">
+          <p>Vui lòng quét mã QR để thanh toán:</p>
+          <img src="{{ asset('images/jdh0491i.png') }}" alt="QR Code" class="img-fluid mb-3">
+          {{-- <p><strong>Số tài khoản:</strong> 123456789 - Vietcombank</p> --}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="confirmPaymentBtn" class="btn btn-success">Đã chuyển khoản</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
 
 @section('js')
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      console.log('object');
       // Xử lý khi form submit
       const form = document.getElementById('checkout-form');
+      const qrModalEl = document.getElementById('qrModal');
+      const qrModal = new bootstrap.Modal(qrModalEl);
+      const confirmPaymentBtn = document.getElementById('confirmPaymentBtn');
+
+      let pendingSubmit = false; // Đánh dấu trạng thái form
+
       form.addEventListener('submit', function (e) {
+        if (pendingSubmit) return; // tránh lặp lại sau khi xác nhận modal
+
         const addressSelect = document.getElementById('address');
         if (!addressSelect.value) {
           e.preventDefault();
@@ -236,10 +266,20 @@
           return false;
         }
 
-        // Hiển thị loading
-        const submitBtn = form.querySelector('button[type="submit"]');
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>ĐANG XỬ LÝ...';
-        submitBtn.disabled = true;
+        const formData = new FormData(form);
+        const paymentMethodValue = formData.get('payment_method');
+
+        if (paymentMethodValue === 'chuyển khoản') {
+          e.preventDefault(); // chặn gửi form ngay lập tức
+          qrModal.show(); // hiển thị modal
+        }
+      });
+
+      // Khi người dùng ấn "Đã chuyển khoản"
+      confirmPaymentBtn.addEventListener('click', () => {
+        qrModal.hide();
+        pendingSubmit = true; // cho phép gửi lại form
+        form.submit(); // gửi form thật sự
       });
 
       // Hiệu ứng khi chọn phương thức thanh toán

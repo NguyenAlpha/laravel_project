@@ -19,6 +19,9 @@
         </button>
         <div class="home-page product__bar productWrapper">
           @foreach ($category->products as $product)
+            @php
+              if ($product->status == 'đã xóa') {continue;}
+            @endphp
             <div class="product__item__card">
               <a href="{{ route('product.show', ['productId' => $product->product_id]) }}">
                 <div class="product__item__card__img">

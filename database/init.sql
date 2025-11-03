@@ -245,7 +245,7 @@ INSERT INTO `product` (`product_id`, `product_name`, `category_id`, `stock`, `pr
 (2, 'Laptop Asus VivoBook Go 14 E1404FA-NK177W',                    'Laptop',         19,     11490000,  '2024-02-04 14:32:39', '2024-02-04 14:32:39', 'hiện', 'e1404fa-1.png'),
 (3, 'Card màn hình MSI GeForce RTX 5090 32G GAMING TRIO OC',        'GPU',            68,     97990000,  '2024-02-05 09:45:29', '2024-02-05 09:45:29', 'hiện', 'bzilxs4m.png'),
 (4, 'Laptop Gaming MSI Katana 15 B13UDXK 2270VN',                   'LaptopGaming',   25,     20900000,  '2024-05-23 04:43:37', '2024-05-23 04:43:37', 'hiện', '8qziagrd.png'),
-(5, 'Laptop Gaming Lenovo LOQ 15ARP9 83JC003YVN',                   'LaptopGaming',   79,     27790000,  '2024-07-15 09:20:40', '2024-07-15 09:20:40', 'hiện', '48807_laptop_lenovo_loq_15arp9_83jc003yvn__3_.jpg'),
+(5, 'Laptop Gaming Lenovo LOQ 15ARP9 83JC003YVN',                   'LaptopGaming',   76,     27790000,  '2024-07-15 09:20:40', '2024-07-15 09:20:40', 'hiện', '48807_laptop_lenovo_loq_15arp9_83jc003yvn__3_.jpg'),
 (6, 'Card màn hình Asus Dual GeForce RTX™ 3060 V2 12GB GDDR6',      'GPU',            24,     7790000,   '2024-07-23 12:36:19', '2024-07-23 12:36:19', 'hiện', 'imagertx3060V2_12GB.png'),
 (7, 'Laptop Gaming GIGABYTE G5 MF5-52VN383SH',                      'LaptopGaming',   34,     20790000,  '2024-07-23 13:37:34', '2024-07-23 13:37:34', 'hiện', '47728_laptop_gigabyte_g5_mf5_52vn383sh__1_.jpg'),
 (8, 'Màn Hình Gaming GIGABYTE GS27F',                               'Screen',         86,     3298000,   '2024-07-26 16:32:14', '2024-07-26 16:32:14', 'hiện', 'man_hinh_gaming_gigabyte_gs27f__5_.jpg'),
@@ -260,7 +260,7 @@ INSERT INTO `product` (`product_id`, `product_name`, `category_id`, `stock`, `pr
 (17, 'Laptop Asus Vivobook S 16 OLED S5606MA-MX051W',               'Laptop',          30,     25490000,  '2024-09-23 13:27:44', '2024-09-23 13:27:44', 'hiện', 'g8gdssys.png'),
 (18, 'Laptop HP ProBook 440 G11 A74B4PT',                           'Laptop',          30,     21490000,  '2024-09-23 13:27:44', '2024-09-23 13:27:44', 'hiện', '49741_laptop_hp_probook_440_g11_a74b4pt__1_.jpg'),
 (19, 'Card màn hình Asus ROG Strix GeForce RTX 4090 OC Edition 24GB GDDR6X','GPU',     30,     64990000,  '2024-09-23 13:27:44', '2024-09-23 13:27:44', 'hiện', 'tn9pvbdr.png'),
-(20, 'VGA Gigabyte RTX 4060 Windforce OC 8GB',                      'GPU',             30,     8299000,   '2024-09-23 13:27:44', '2024-09-23 13:27:44', 'hiện', '45659_vga_gigabyte_rtx_4060_windforce_oc_8gb_anphat88.jpg'),
+(20, 'VGA Gigabyte RTX 4060 Windforce OC 8GB',                      'GPU',             29,     8299000,   '2024-09-23 13:27:44', '2024-09-23 13:27:44', 'hiện', '45659_vga_gigabyte_rtx_4060_windforce_oc_8gb_anphat88.jpg'),
 (21, 'VGA Gigabyte GeForce RTX 3050 WINDFORCE OC V2 8GB',           'GPU',             30,     5599000,   '2024-09-23 13:27:44', '2024-09-23 13:27:44', 'hiện', '46200_vga_gigabyte_geforce_rtx_3050_windforce___2_.jpg'),
 (22, 'Laptop Dell Latitude 3450 71058806',                          'Laptop',          30,     24990000,  '2024-09-23 13:27:44', '2024-09-23 13:27:44', 'hiện', '51342_laptop_dell_latitude_3450_71058806__1_.jpg'),
 (23, 'Laptop gaming Acer Predator Helios Neo 16 PHN16 72 78L4',     'LaptopGaming',    30,     38490000,  '2024-09-23 13:27:44', '2024-09-23 13:27:44', 'hiện', '1746952951_acer_predator_helios_neo_16_2024__2__3ffd04967bc44b82b78f3e0cee408665_1024x1024.jpg'),
@@ -375,7 +375,8 @@ INSERT INTO `order` (`order_id`, `user_id`, `address`, `order_date`, `delivery_d
 (5, 1, 'phường 13, quận 5, tphcm', '2025-10-04 15:04:24', NULL, 11490000, 'đang giao', 'chuyển khoản', 'customer'),
 (6, 3, '111 CMT8, quận 10, TPHCM', '2025-10-04 15:04:24', NULL, 274990000, 'chờ xác nhận', 'chuyển khoản', 'customer'),
 (7, 3, 'số 342B, quận 7, TPHCM', '2025-10-04 15:04:24',   NULL, 297228000, 'chờ xác nhận', 'chuyển khoản', 'customer'),
-(8, 3, 'số 342B, quận 7, TPHCM', '2025-09-11 11:34:44',   '2025-09-11 11:45:44', 16990000, 'đã nhận hàng', 'chuyển khoản', 'customer');
+(8, 3, 'số 342B, quận 7, TPHCM', '2025-09-11 11:34:44',   '2025-09-11 11:45:44', 16990000, 'đã nhận hàng', 'chuyển khoản', 'customer'),
+(9, 3, 'số 342B, quận 7, TPHCM', '2025-08-03 11:34:44',   '2025-08-05 11:45:44', 91669000, 'đã nhận hàng', 'chuyển khoản', 'customer');
 
 DELIMITER //
 
@@ -493,7 +494,9 @@ INSERT INTO `order_detail` (`order_detail_id`, `order_id`, `product_id`, `quanti
 (12, 7, 7, 1, 20790000),
 (13, 7, 27, 3, 38600000),
 (14, 7, 15, 1, 16990000),
-(15, 8, 15, 1, 16990000);
+(15, 8, 15, 1, 16990000),
+(16, 9, 20, 1, 8299000),
+(17, 9, 5, 3, 27790000);
 
 
 
@@ -632,7 +635,9 @@ INSERT INTO `inventory` (`inventory_id`, `product_id`, `quantity`, `type`, `refe
 (41, 36, 30, 'nhập hàng', 'PN4', '2025-01-29 18:52:26'),
 (42, 37, 30, 'nhập hàng', 'PN4', '2025-01-29 18:52:26'),
 (43, 38, 30, 'nhập hàng', 'PN4', '2025-01-29 18:52:26'),
-(44, 15, -1, 'xuất hàng', 'order 8', '2025-09-11 11:36:14');
+(44, 15, -1, 'xuất hàng', 'order 8', '2025-09-11 11:36:14'),
+(45, 20, -1, 'xuất hàng', 'order 9', '2025-08-04 11:36:14'),
+(46, 5, -3, 'xuất hàng', 'order 9', '2025-08-04 11:36:14');
 
 DELIMITER $$
 CREATE TRIGGER `trg_after_inventory_insert` AFTER INSERT ON `inventory` FOR EACH ROW BEGIN

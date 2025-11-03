@@ -19,6 +19,7 @@
   {{-- limk css --}}
   <link rel="stylesheet" href="{{ asset('css/admin/style.css') }}">
   <link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}">
+  <link rel="icon" type="image/png" href="{{asset('images/logo.png')}}">
   {{-- link js --}}
   <script src=" {{ asset('js/admin/global-functions.js') }}"></script>
 

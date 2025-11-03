@@ -151,4 +151,9 @@ class Order extends Model
 
         return $query->sum('total_amount');
     }
+
+    public function getShippingStatusAttribute()
+    {
+        return $this->status === 'đang giao' ? 'Đang vận chuyển' : $this->status;
+    }
 }
