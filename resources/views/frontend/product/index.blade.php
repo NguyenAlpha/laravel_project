@@ -123,7 +123,9 @@
                     @csrf
                     <input type="number" name="product_id" value={{ $product->product_id }} hidden>
                     <input type="number" name="quantity" value=1 hidden>
-                    <button class="button button__addcart" type="submit">Mua ngay</button>
+                    <button class="button button__addcart" type="submit" @if ($product->stock == 0){{ "disabled" }}@endif>
+                      Mua ngay
+                    </button>
                   </form>
                 </div>
               </div>

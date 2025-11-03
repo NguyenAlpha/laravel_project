@@ -20,7 +20,9 @@
         <div class="home-page product__bar productWrapper">
           @foreach ($category->products as $product)
             @php
-              if ($product->status == 'đã xóa') {continue;}
+              if ($product->status == 'đã xóa') {
+                continue;
+              }
             @endphp
             <div class="product__item__card">
               <a href="{{ route('product.show', ['productId' => $product->product_id]) }}">
@@ -40,7 +42,9 @@
                   @csrf
                   <input type="number" name="product_id" value={{ $product->product_id }} hidden>
                   <input type="number" name="quantity" value=1 hidden>
-                  <button class="button button__addcart" type="submit">Mua ngay</button>
+                  <button class="button button__addcart" type="submit" @if ($product->stock == 0){{ "disabled" }}@endif>
+                    Mua ngay
+                  </button>
                 </form>
               </div>
             </div>

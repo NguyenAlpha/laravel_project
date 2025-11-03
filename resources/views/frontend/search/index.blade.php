@@ -71,7 +71,7 @@
         <div class="product__item wrap">
           @foreach ($products as $product)
             <div class="product__item__card">
-              <a href="">
+              <a href="{{ route('product.show', $product->product_id) }}">
                 <div class="product__item__card__img">
                   <img src="{{ asset('images/' . $product->image_url) }}" alt="">
                 </div>
@@ -89,7 +89,9 @@
                   @csrf
                   <input type="number" name="product_id" value={{ $product->product_id }} hidden>
                   <input type="number" name="quantity" value=1 hidden>
-                  <button class="button button__addcart" type="submit">Mua ngay</button>
+                  <button class="button button__addcart" type="submit" @if ($product->stock == 0){{ "disabled" }}@endif>
+                    Mua ngay
+                  </button>
                 </form>
               </div>
             </div>
