@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    /**
+     * Hiển thị danh sách đơn hàng
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\View\View
+     */
     public function index(Request $request)
     {
         $query = Order::with('user');
@@ -63,6 +68,11 @@ class OrderController extends Controller
         ));
     }
 
+    /**
+     * Xem chi tiết đơn hàng
+     * @param mixed $orderId
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function show($orderId)
     {
         try {
@@ -81,6 +91,12 @@ class OrderController extends Controller
         }
     }
 
+    /**
+     * Cập nhật trạng thái đơn hàng
+     * @param \Illuminate\Http\Request $request
+     * @param mixed $orderId
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateStatus(Request $request, $orderId) {
         $order = Order::find($orderId);
         if(!$order) {
@@ -94,7 +110,12 @@ class OrderController extends Controller
         return redirect()->route('admin.order.show', $orderId)->with('success', 'Cập nhật trạng thái đơn hàng thành công!');
     }
 
-    // Hàm hủy đơn hàng
+    /**
+     * Cập nhật trạng thánh đơn hàng thành đã hủy
+     * @param \Illuminate\Http\Request $request
+     * @param mixed $orderId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function cancelOrder(Request $request, $orderId)
     {
         // Bắt đầu transaction để đảm bảo tính toàn vẹn dữ liệu
@@ -154,7 +175,12 @@ class OrderController extends Controller
         }
     }
 
-    // Hàm xác nhận đơn hàng
+    /**
+     * Cập nhật trạng thánh đơn hàng thành đã xác nhận
+     * @param \Illuminate\Http\Request $request
+     * @param mixed $orderId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function confirmOrder(Request $request, $orderId)
     {
         // Bắt đầu transaction để đảm bảo tính toàn vẹn dữ liệu
@@ -211,7 +237,12 @@ class OrderController extends Controller
         }
     }
 
-    // Hàm xác nhận đơn đang giao
+    /**
+     * Cập nhật trạng thánh đơn hàng thành đang giao
+     * @param \Illuminate\Http\Request $request
+     * @param mixed $orderId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deliveryOrder(Request $request, $orderId)
     {
         // Bắt đầu transaction để đảm bảo tính toàn vẹn dữ liệu
@@ -268,6 +299,10 @@ class OrderController extends Controller
         }
     }
 
+    /**
+     * Hiển thị form tạo đơn hàng
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function create()
     {
         try {
@@ -303,6 +338,12 @@ class OrderController extends Controller
         }
     }
 
+    /**
+     * Xử lý tạo đơn hàng
+     * @param \Illuminate\Http\Request $request
+     * @throws \Exception
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         try {

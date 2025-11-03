@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    /**
+     * Hiển thị trang thống kê
+     * @return \Illuminate\Contracts\View\View
+     */
     function index()
     {
         $dashboard = [];

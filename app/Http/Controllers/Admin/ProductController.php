@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
+    /**
+     * Hiển thị danh sách sản phẩm
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\View\View
+     */
     public function index(Request $request)
     {
         $query = Product::with('category')->where('status', '!=', 'đã xóa');
@@ -45,6 +50,11 @@ class ProductController extends Controller
         return view('admin.product.index', compact('products', 'categories'));
     }
 
+    /**
+     * Xử lý xóa sản phẩm
+     * @param mixed $productId
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($productId)
     {
         $product = Product::findOrFail($productId);
@@ -54,7 +64,10 @@ class ProductController extends Controller
         return redirect()->route('admin.product.index')->with('success', 'xóa sản phẩm thành công');
     }
 
-    // Method create - Hiển thị form tạo sản phẩm
+    /**
+     * Hiển thị form tạo sản phẩm
+     * @return \Illuminate\Contracts\View\View
+     */
     public function create()
     {
         $categories = Category::all();
@@ -74,7 +87,11 @@ class ProductController extends Controller
         return view('admin.product.create', compact('categories', 'categoryDetails'));
     }
 
-    // Method store - Xử lý lưu sản phẩm
+    /**
+     * Xử lý tạo sản phẩm
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         // Validate thông tin chung
@@ -163,6 +180,11 @@ class ProductController extends Controller
         }
     }
 
+    /**
+     * Xem chi tiết sản phẩm
+     * @param mixed $productId
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function show($productId)
     {
         try {
@@ -204,7 +226,11 @@ class ProductController extends Controller
         }
     }
 
-    // Method edit - Hiển thị form chỉnh sửa
+    /**
+     * Hiển thị form cập nhật sản phẩm
+     * @param mixed $id
+     * @return \Illuminate\Contracts\View\View
+     */
     public function edit($id)
     {
         $product = Product::with(['category'])->findOrFail($id);
@@ -232,7 +258,12 @@ class ProductController extends Controller
         ));
     }
 
-    // Method update - Xử lý cập nhật sản phẩm
+    /**
+     * Xử lý cập nhật sản phẩm
+     * @param \Illuminate\Http\Request $request
+     * @param mixed $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);

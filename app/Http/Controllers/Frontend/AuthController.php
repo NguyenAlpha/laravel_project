@@ -9,6 +9,10 @@ use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
+    /**
+     * Hiển thị form đăng ký
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function showRegisterForm()
     {
         $isAdmin = false;
@@ -26,6 +30,11 @@ class AuthController extends Controller
         return view('frontend.auth.register', compact('isAdmin'))->with($alert, $message);
     }
 
+    /**
+     * Xử lý đăng ký
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function register(Request $request)
     {
         if (Auth::check()) {
@@ -72,6 +81,10 @@ class AuthController extends Controller
         return redirect('/login')->with('success', 'Đăng ký thành công!');
     }
 
+    /**
+     * Hiển thị form đăng nhập
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function showLoginForm()
     {
         $isAdmin = false;
@@ -89,6 +102,11 @@ class AuthController extends Controller
         return view('frontend.auth.login', compact('isAdmin'))->with($alert, $message);
     }
 
+    /**
+     * Xử lý đăng nhập
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function login(Request $request)
     {
         if (Auth::check()) {
@@ -140,6 +158,11 @@ class AuthController extends Controller
             ]);
     }
 
+    /**
+     * Xử lý đăng xuất
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function logout(Request $request)
     {
         Auth::logout();
@@ -151,12 +174,22 @@ class AuthController extends Controller
         return redirect('/')->with('success', 'Đăng xuất thành công!');
     }
 
+    /**
+     * Xem thông tin cá nhân
+     * @return \Illuminate\Contracts\View\View
+     */
     public function showProfile()
     {
         $user = Auth::user();
         return view('frontend.auth.profile', compact('user'));
     }
 
+    /**
+     * Cập nhật thông tin cá nhân
+     * @param \Illuminate\Http\Request $request
+     * @param mixed $user_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $user_id)
     {
         // validate thông tin cập nhật

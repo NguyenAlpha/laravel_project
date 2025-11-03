@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    /**
+     * Hiển thị form đăng nhập
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function showLoginForm()
     {
         if (Auth::check() && Auth::user()->role == 'admin') {
@@ -19,6 +23,11 @@ class AuthController extends Controller
         return view('admin.auth.login');
     }
 
+    /**
+     * Xử lý đăng nhập
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function login(Request $request)
     {
         if (Auth::check() && Auth::user()->role == 'admin') {
@@ -59,6 +68,11 @@ class AuthController extends Controller
         ])->withInput($request->only('email'));
     }
 
+    /**
+     * Xử lý đăng xuất
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function logout(Request $request)
     {
         Auth::logout();

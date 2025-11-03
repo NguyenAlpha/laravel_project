@@ -48,14 +48,14 @@ class UserController extends Controller
     }
 
     /**
-     * Form tạo user mới
+     * Hiển thị form tạo user mới
      */
     public function create()
     {
         return view('admin.user.create');
     }
 
-    // Method show - Hiển thị chi tiết khách hàng
+    // Hiển thị chi tiết khách hàng
     public function show($id)
     {
         $user = User::findOrFail($id);
@@ -67,7 +67,7 @@ class UserController extends Controller
         return view('admin.user.show', compact('user'));
     }
 
-    // Method updateStatus - Cập nhật trạng thái (khóa/mở tài khoản)
+    // Cập nhật trạng thái (khóa/mở tài khoản)
     public function updateStatus(Request $request, $id)
     {
         $user = User::findOrFail($id);
@@ -95,30 +95,9 @@ class UserController extends Controller
         }
     }
 
-    // Method stats - Lấy thống kê (tùy chọn)
-    // public function stats($id)
-    // {
-    //     $user = User::findOrFail($id);
-
-    //     // Giả sử có model Order để tính thống kê
-    //     $orderCount = 0; // Order::where('user_id', $id)->count();
-    //     $totalSpent = 0; // Order::where('user_id', $id)->where('status', 'completed')->sum('total_amount');
-    //     $lastOrder = null; // Order::where('user_id', $id)->latest()->first()->created_at->format('d/m/Y') ?? null;
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'data' => [
-    //             'order_count' => $orderCount,
-    //             'total_spent' => $totalSpent,
-    //             'last_order' => $lastOrder
-    //         ]
-    //     ]);
-    // }
-
     /**
-     * Lưu user mới vào DB
+     * Xử lý tạo user
      */
-    // Method store - Xử lý lưu dữ liệu
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -172,12 +151,7 @@ class UserController extends Controller
     }
 
     /**
-     * Hiển thị chi tiết 1 user
-     */
-
-
-    /**
-     * Hiển thị form edit user (admin)
+     * Hiển thị form edit user
      */
     public function edit($userId)
     {
@@ -185,7 +159,7 @@ class UserController extends Controller
         return view('admin.user.edit', compact('user'));
     }
 
-    // Method update - Xử lý cập nhật
+    // Xử lý cập nhật
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
@@ -272,7 +246,7 @@ class UserController extends Controller
     }
 
     /**
-     * Xóa user (soft delete)
+     * Xóa user
      */
     public function destroy($userId)
     {

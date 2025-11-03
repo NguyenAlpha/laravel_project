@@ -10,6 +10,10 @@ use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
+    /**
+     * Xem lịch sử đơn hàng
+     * @return \Illuminate\Contracts\View\View
+     */
     public function index()
     {
         $user = Auth::user();
@@ -19,6 +23,11 @@ class OrderController extends Controller
         return view('frontend.order.index', compact('user', 'orders'));
     }
 
+    /**
+     * Thêm đơn hàng mới
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -46,14 +55,22 @@ class OrderController extends Controller
         return redirect()->route('order.index')->with('success', 'Đặt hàng thành công!');
     }
 
-    public function show($id) {}
-
+    /**
+     * Cập nhật trang thái đơn hàng thành đã hủy
+     * @param \App\Models\Order $order
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function cancel(Order $order)
     {
         $order->capNhatTrangThai('đã hủy');
         return redirect()->route('order.index')->with('success', 'Hủy đơn hàng thành công!');
     }
 
+    /**
+     * Cập nhật trạng thái đơn hành thành đã nhận hàng
+     * @param \App\Models\Order $order
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function delivered(Order $order)
     {
         $order->capNhatTrangThai('đã nhận hàng');

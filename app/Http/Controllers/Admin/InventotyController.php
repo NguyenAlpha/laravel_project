@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class InventotyController extends Controller
 {
+    /**
+     * Hiển thị lịch sử kho hàng
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\View\View
+     */
     public function index(Request $request)
     {
         $query = Inventory::with('product');
@@ -59,28 +64,12 @@ class InventotyController extends Controller
             'totalTransactions'
         ));
     }
-    
-    public function import(Request $request)
-    {
-        $request->validate([
-            'product_id' => 'required|exists:products,product_id',
-            'quantity' => 'required|integer|min:1',
-        ]);
-        
-        Inventory::create([
-            'product_id' => $request->product_id,
-            'quantity' => $request->quantity,
-            'type' => 'nhập hàng',
-            'reference' => $request->reference,
-        ]);
-        
-        // Update product stock
-        $product = Product::find($request->product_id);
-        $product->increment('stock', $request->quantity);
-        
-        return redirect()->back()->with('success', 'Nhập hàng thành công!');
-    }
-    
+
+    /**
+     * Xử lý điều chỉnh kho
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function adjust(Request $request)
     {
         $request->validate([

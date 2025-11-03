@@ -25,6 +25,11 @@ class AddressController extends Controller
         return view('frontend.address.index', compact('addresses', 'user'));
     }
 
+    /**
+     * Thêm địa chỉ mới
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -43,6 +48,12 @@ class AddressController extends Controller
         return redirect()->route('address')->with('success', 'Thêm địa chỉ thành công!');
     }
 
+    /**
+     * cập nhật địa chỉ
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Address $address
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, Address $address)
     {
         // $validated là mảng
@@ -59,6 +70,11 @@ class AddressController extends Controller
         return redirect()->route('address')->with('success', 'Cập nhật địa chỉ thành công!');
     }
 
+    /**
+     * xóa địa chỉ
+     * @param \App\Models\Address $address
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function delete(Address $address)
     {
         $address->delete();

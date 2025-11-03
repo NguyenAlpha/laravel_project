@@ -43,20 +43,17 @@ Route::middleware(['customer'])->group(function() {
   Route::put(   '/address/{address}', [AddressController::class, 'update']) ->name('address.update'); // Cập nhật địa chỉ
   Route::delete('/address/{address}', [AddressController::class, 'delete']) ->name('address.delete'); // Xóa địa chỉ
 
+  // Route quản lý giỏ hàng
   Route::get(   '/cart',          [CartController::class, 'index'])         ->name('cart.index');
-  Route::post(  '/cart/add',      [CartController::class, 'addToCart'])     ->name('cart.addToCart');
-  Route::put(   '/cart/update',   [CartController::class, 'updateQuantity'])->name('cart.update');
-  Route::delete('/cart-item/{productId}',   [CartController::class, 'deleteCartItem'])->name('cart.delete');
-  Route::get(   '/cart/info',     [CartController::class, 'getCartInfo'])   ->name('cart.info');
-  Route::post(  '/cart/buy-now',  [CartController::class, 'buyNow'])        ->name('cart.buyNow');
-  Route::post(  '/cart',  [CartController::class, 'store'])        ->name('cart.store');
+  Route::post(  '/cart',          [CartController::class, 'store'])         ->name('cart.store');
+  Route::put(   '/cart',          [CartController::class, 'updateQuantity'])->name('cart.update');
   Route::get(   '/checkout',      [CartController::class, 'checkout'])      ->name('checkout.index'); // hiển thị trang thanh toán
-  Route::get(   '/cart/add/{productId}/{quantity}', [CartController::class, 'addCart'])->name('cart.add');
+  Route::delete('/cart-item/{productId}',   [CartController::class, 'deleteCartItem'])->name('cart.delete');
 
   
   Route::get(   '/order',         [OrderController::class, 'index'])->name('order.index'); // hiển thị trang đơn hàng
   Route::post(  '/order',         [OrderController::class, 'store'])->name('order.store'); // xử lý đặt hàng
-  Route::get(   '/order/cancel/{order}', [OrderController::class, 'cancel'])->name('order.cancel'); // hủy đơn hàng
+  Route::get(   '/order/cancel/{order}',    [OrderController::class, 'cancel'])   ->name('order.cancel'); // hủy đơn hàng
   Route::get(   '/order/delivered/{order}', [OrderController::class, 'delivered'])->name('order.delivered'); // xác nhận đã nhận hàng
 });
 
@@ -103,7 +100,6 @@ Route::prefix('admin')->group(function () {
 
     // Route quản lý kho hàng
     Route::get(   '/inventory',                 [InventotyController::class, 'index'])  ->name('admin.inventory.index');
-    Route::get(   '/inventory/import',          [InventotyController::class, 'import']) ->name('admin.inventory.import');
     Route::post(  '/inventory/adjust',          [InventotyController::class, 'adjust']) ->name('admin.inventory.adjust');
 
     // Route quản lý phiếu nhập

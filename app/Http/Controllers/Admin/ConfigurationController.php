@@ -8,12 +8,21 @@ use Illuminate\Http\Request;
 
 class ConfigurationController extends Controller
 {
+    /**
+     * Hiển thị trang cấu hình
+     * @return \Illuminate\Contracts\View\View
+     */
     public function index()
     {
         $categories = Category::all();
         return view('admin.config.index', compact('categories'));
     }
 
+    /**
+     * Xử lý cấu hình hiển thị danh mục
+     * @param mixed $categotyId
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function changeCategoryStatus($categotyId)
     {
         $category = Category::find($categotyId);

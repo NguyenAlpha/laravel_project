@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Log;
 
 class ReceiptController extends Controller
 {
+    /**
+     * Hiển thị danh sách phiếu nhập
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\View\View
+     */
     public function index(Request $request)
     {
         $query = Receipt::with(['supplier', 'receiptDetails']);
@@ -55,6 +60,11 @@ class ReceiptController extends Controller
         ));
     }
 
+    /**
+     * Hiển thị chi tiết phiếu nhập
+     * @param mixed $id
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function show($id)
     {
         try {
@@ -92,6 +102,13 @@ class ReceiptController extends Controller
                 ->with('error', 'Đã xảy ra lỗi khi tải thông tin phiếu nhập: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Cập nhật trạng thái phiếu nhập
+     * @param \Illuminate\Http\Request $request
+     * @param mixed $receiptId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateStatus(Request $request, $receiptId)
     {
         $receipt = Receipt::findOrFail($receiptId);
@@ -110,6 +127,10 @@ class ReceiptController extends Controller
         ]);
     }
 
+    /**
+     * Hiển thị form tạo phiếu nhập
+     * @return \Illuminate\Contracts\View\View
+     */
     public function createForm()
     {
         $suppliers = Supplier::all();
@@ -117,8 +138,11 @@ class ReceiptController extends Controller
 
         return view('admin.receipt.create', compact('suppliers', 'products'));
     }
+
     /**
-     * Store a newly created receipt in storage.
+     * Xử lý tạo phiếu nhập
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
