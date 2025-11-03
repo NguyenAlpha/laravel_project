@@ -29,47 +29,25 @@ class CartController extends Controller
         return view('frontend.cart.index', compact('cart'));
     }
 
-    public function addCart(String $productId, int $quantity)
+    /**
+     * Thêm sản phẩm vào giỏ hàng
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request)
     {
-        $cart = Cart::with(['cartItems.product'])->where('user_id', Auth::id())->first();
-        $cart->themSanPham($productId, $quantity);
-        return redirect()->route('cart.index');
-    }
-
-    public function buyNow(Request $request)
-    {
-        $productId = $request->input('product_id');
-        $quantity = $request->input('quantity', 1);
-
-        $cart = Cart::with(['cartItems.product'])->where('user_id', Auth::id())->first();
-
-        $cart->themSanPham($productId, $quantity);
-
-        return redirect()->route('cart.index');
-    }
-
-    public function store(Request $request) {
         $productId = $request->input('product_id');
         $quantity = $request->input('quantity', 1);
 
         $cart = Cart::with(['cartItems'])->where('user_id', Auth::id())->first();
 
         $cart->themSanPham($productId, $quantity);
-    }
 
-    /**
-     * Thêm sản phẩm vào giỏ hàng
-     */
-    public function addToCart(Request $request)
-    {
-        $productId = $request->input('product_id');
-        $quantity = $request->input('quantity', 1);
+        if ($request->input("action") && $request->input("action") == "add-cart") {
+            return redirect()->back()->with('success', 'Thêm sản phẩm vào giỏ hàng thành công!');
+        }
 
-        $cart = Cart::with(['cartItems.product'])->where('user_id', Auth::id())->first();
-
-        $cart->themSanPham($productId, $quantity);
-
-        return redirect()->back()->with('success', 'Thêm sản phẩm vào giỏ hàng thành công!');
+        return redirect()->route('cart.index');
     }
 
     /**
@@ -140,7 +118,7 @@ class CartController extends Controller
     }
 
     /**
-     * Summary of checkout
+     * Hiển thị trang thanh toán
      * @return \Illuminate\Contracts\View\View
      */
     public function checkout()

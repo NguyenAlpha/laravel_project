@@ -119,12 +119,12 @@
                   </div>
                 </a>
                 <div class="button__addcart__box">
-                  <a href="{{route('cart.add', ['productId' => $product->product_id, 'quantity' => 1])}}">
-                    <button class="button button__addcart" type="submit" name="addcart" @if ($product->stock == 0) disabled
-                    @endif>
-                      Mua ngay
-                    </button>
-                  </a>
+                  <form action="{{ route("cart.store") }}" method="POST">
+                    @csrf
+                    <input type="number" name="product_id" value={{ $product->product_id }} hidden>
+                    <input type="number" name="quantity" value=1 hidden>
+                    <button class="button button__addcart" type="submit">Mua ngay</button>
+                  </form>
                 </div>
               </div>
             @endforeach

@@ -9,45 +9,21 @@ use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
-
+    /**
+     * Hiển thị trang chủ
+     * @return \Illuminate\Contracts\View\View
+     */
     public function index()
     {
         $categories = Category::with(['products' => function ($query) {
-            $query->active()->orderBy('created_at', 'desc')->limit(30);
-        }])->active()->get();
+            $query->where('status', 'hiện')
+                ->orderBy('product_id', 'asc')
+                ->limit(30); // giới hạn 30 sản phẩm mỗi danh mục
+        }])
+            ->where('status', 'hiện')
+            ->get();
 
-
-
-        // phương thức ->pluck() được sử dụng để lấy ra một mảng các giá trị
-        // từ một cột cụ thể trong collection hoặc kết quả query.
-        // ->pluck('column_name')
-        // nhưng ở đây thì khác:
-        // ở đây trả về collection của collections products
-        // 
-        // [
-        //       Collection([ProductA, ProductB]),  products của category 1
-        //       Collection([ProductC, ProductD, ProductE]) products của category 2
-        // ]
-        // ->flatten() làm "phẳng" nested collections thành một collection duy nhất:
-        // Collection([ProductA, ProductB, ProductC, ProductD, ProductE])
-
-        $products = $categories->pluck('products')->flatten();
-
-        // $bestSellingProducts = Product::where('status', 'hiện')
-        //     ->orderBy('DaBan', 'DESC')
-        //     ->limit(25)~
-        //     ->get();
-
-        return view('frontend.home.index', [
-            'products' => $products,
-            'categories' => $categories
-        ]);
-
-        // return view('frontend.home.index', [
-        //     'products' => $products,
-        //     'categories' => $categories,
-        //     'bestSellingProducts' => $bestSellingProducts,
-        // ]);
+        return view('frontend.home.index', compact("categories"));
     }
 
     /**
@@ -171,16 +147,5 @@ class HomeController extends Controller
         }
 
         return $query;
-    }
-
-    /**
-     * Lấy giá min/max cho placeholder
-     */
-    private function getPriceRange()
-    {
-        return [
-            'min' => Product::active()->min('price') ?? 0,
-            'max' => Product::active()->max('price') ?? 100000000
-        ];
     }
 }

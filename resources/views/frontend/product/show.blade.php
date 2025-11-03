@@ -37,12 +37,12 @@
 
             <!-- các nút mua, giỏ hàng -->
             <div class="product__button__buy__cart">
-              <button formaction='{{ route('cart.buyNow')}}' class="product__detail__buy" type="submit" name="buyNow" value="buyNow" @if ($product->stock == 0)
+              <button formaction='{{ route('cart.store')}}' class="product__detail__buy" type="submit" name="buyNow" value="buyNow" @if ($product->stock == 0)
               disabled @endif>
                 MUA NGAY
               </button>
 
-              <button formaction='{{ route('cart.addToCart')}}' class="product__detail__cart" type="submit" @if ($product->stock == 0) disabled @endif>
+              <button formaction='{{ route('cart.store')}}' class="product__detail__cart" type="submit" name="action" value="add-cart" @if ($product->stock == 0) disabled @endif>
                 <i class="fa-solid fa-cart-plus"></i>
                 THÊM VÀO GIỎ HÀNG
               </button>
@@ -130,11 +130,12 @@
                   </div>
                 </a>
                 <div class="button__addcart__box">
-                  <a href="{{route('cart.add', ['productId' => $product->product_id, 'quantity' => 1])}}">
-                    <button class="button button__addcart" type="submit" name="addcart">
-                      Mua ngay
-                    </button>
-                  </a>
+                  <form action="{{ route("cart.store") }}" method="POST">
+                    @csrf
+                    <input type="number" name="product_id" value={{ $product->product_id }} hidden>
+                    <input type="number" name="quantity" value=1 hidden>
+                    <button class="button button__addcart" type="submit">Mua ngay</button>
+                  </form>
                 </div>
               </div>
             @endforeach

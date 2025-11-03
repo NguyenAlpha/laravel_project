@@ -14,7 +14,6 @@ class ConfigurationController extends Controller
         return view('admin.config.index', compact('categories'));
     }
 
-//
     public function changeCategoryStatus($categotyId)
     {
         $category = Category::find($categotyId);
