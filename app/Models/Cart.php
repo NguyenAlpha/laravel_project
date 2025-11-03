@@ -40,47 +40,6 @@ class Cart extends Model
     }
 
     /**
-     * Thêm sản phẩm vào giỏ hàng
-     */
-    public function themSanPham($productId, $quantity = 1)
-    {
-        $cartItem = $this->cartItems()->where('product_id', $productId)->first();
-
-        if ($cartItem) {
-            $cartItem->increment('quantity', $quantity);
-        } else {
-            $this->cartItems()->create([
-                'product_id' => $productId,
-                'quantity' => $quantity
-            ]);
-        }
-
-        $this->touch();
-    }
-
-    /**
-     * Cập nhật số lượng sản phẩm
-     */
-    public function capNhatSoLuong($productId, $quantity)
-    {
-        if ($quantity <= 0) {
-            return $this->xoaSanPham($productId);
-        }
-
-        $this->cartItems()->where('product_id', $productId)->update(['quantity' => $quantity]);
-        $this->touch();
-    }
-
-    /**
-     * Xóa sản phẩm khỏi giỏ hàng
-     */
-    public function xoaSanPham($productId)
-    {
-        $this->cartItems()->where('product_id', $productId)->delete();
-        $this->touch();
-    }
-
-    /**
      * Tính tổng tiền giỏ hàng
      */
     public function getTongTienAttribute(): int
@@ -95,15 +54,6 @@ class Cart extends Model
      */
     public function getTongSoLuongAttribute(): int
     {
-        return $this->cartItems->sum('quantity');
-    }
-
-    /**
-     * Xóa toàn bộ giỏ hàng
-     */
-    public function xoaToanBo()
-    {
-        $this->cartItems()->delete();
-        $this->touch();
+        return $this->cartItems()->sum('quantity');
     }
 }

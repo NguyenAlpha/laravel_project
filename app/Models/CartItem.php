@@ -54,12 +54,4 @@ class CartItem extends Model
     {
         return number_format($this->thanh_tien, 0, ',', '.') . 'đ';
     }
-
-    /**
-     * Kiểm tra số lượng có hợp lệ không
-     */
-    public function kiemTraSoLuong(): bool
-    {
-        return $this->quantity > 0 && $this->quantity <= $this->product->stock;
-    }
 }

@@ -132,8 +132,8 @@
                                     <td class="text-center">
                                         <span class="badge bg-primary fs-6">{{ $detail->quantity }}</span>
                                     </td>
-                                    <td class="text-end">{{ number_format($detail->price, 0, ',', '.') }} đ</td>
-                                    <td class="text-end fw-bold text-success">{{ number_format($detail->total_amount, 0, ',', '.') }} đ</td>
+                                    <td class="text-end">{{ number_format($detail->price, 0, ',', '.') . "đ"}}</td>
+                                    <td class="text-end fw-bold text-success">{{ number_format($detail->total_amount, 0, ',', '.') . "đ" }}</td>
                                     <td class="text-center">
                                         <span class="badge bg-{{ ($detail->product->stock ?? 0) > 0 ? 'success' : 'warning' }} fs-6">
                                             {{ $detail->product->stock ?? 0 }}
@@ -146,7 +146,7 @@
                                 <tr>
                                     <td colspan="4" class="text-end fw-bold">Tổng cộng:</td>
                                     <td class="text-end fw-bold fs-5 text-success">
-                                        {{ number_format($receipt->receiptDetails->sum('total_amount'), 0, ',', '.') }} đ
+                                        {{ number_format($receipt->receiptDetails->sum('total_amount'), 0, ',', '.') . "đ" }}
                                     </td>
                                     <td></td>
                                 </tr>
@@ -168,13 +168,13 @@
                     <div class="row text-center">
                         <div class="col-6 mb-3">
                             <div class="border rounded p-3 bg-light">
-                                <h4 class="text-primary mb-1">{{ count($receipt->receiptDetails) }}</h4>
+                                <h4 class="text-primary mb-1">{{ $receipt->receiptDetails->count() }}</h4>
                                 <small class="text-muted">Số sản phẩm</small>
                             </div>
                         </div>
                         <div class="col-6 mb-3">
                             <div class="border rounded p-3 bg-light">
-                                <h4 class="text-success mb-1">{{ $receipt->receiptDetails->sum('quantity') }}</h4>
+                                <h4 class="text-success mb-1">{{ $receipt->quantity_product }}</h4>
                                 <small class="text-muted">Tổng số lượng</small>
                             </div>
                         </div>

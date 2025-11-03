@@ -67,16 +67,6 @@ class Category extends Model
         return $this->hasMany(Product::class, 'category_id', 'category_id');
     }
 
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
-    {
-        return 'category_id';
-    }
-
     public function scopeActive($query)
     {
         return $query->where('status', 'hiện');

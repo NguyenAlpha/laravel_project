@@ -40,28 +40,4 @@ class OrderDetail extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
-
-    /**
-     * Tính thành tiền
-     */
-    public function getThanhTienAttribute(): int
-    {
-        return $this->quantity * $this->price;
-    }
-
-    /**
-     * Format thành tiền
-     */
-    public function getThanhTienFormattedAttribute(): string
-    {
-        return number_format($this->thanh_tien, 0, ',', '.') . 'đ';
-    }
-
-    /**
-     * Format giá
-     */
-    public function getPriceFormattedAttribute(): string
-    {
-        return number_format($this->price, 0, ',', '.') . 'đ';
-    }
 }

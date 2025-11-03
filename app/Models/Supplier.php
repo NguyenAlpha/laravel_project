@@ -26,14 +26,4 @@ class Supplier extends Model
     {
         return $this->hasMany(Receipt::class, 'supplier_id');
     }
-
-    /**
-     * Accessor để định dạng số điện thoại
-     */
-    /*
-    public function getFormattedPhoneAttribute(): string
-    {
-        return preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1 $2 $3', $this->supplier_phone);
-    }
-    */
 }

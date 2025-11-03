@@ -51,6 +51,19 @@ class User extends Authenticatable
     ];
 
     /**
+     * Get the attributes that should be cast.
+     */
+    protected function casts(): array
+    {
+        return [
+            'dob' => 'date',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
+
+    /**
      * Relationship với Address
      */
     public function addresses()
@@ -75,108 +88,10 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the attributes that should be cast.
-     */
-    protected function casts(): array
-    {
-        return [
-            'dob' => 'date',
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
-
-    /**
-     * Scope để lấy user theo role
-     */
-    public function scopeRole($query, $role)
-    {
-        return $query->where('role', $role);
-    }
-
-    /**
      * Scope để lấy user active
      */
     public function scopeActive($query)
     {
         return $query->where('status', 'mở');
-    }
-
-    /**
-     * Scope để lấy user bị khóa
-     */
-    public function scopeLocked($query)
-    {
-        return $query->where('status', 'khóa');
-    }
-
-    /**
-     * Scope để lấy user đã xóa
-     */
-    public function scopeDeleted($query)
-    {
-        return $query->where('status', 'đã xóa');
-    }
-
-    /**
-     * Kiểm tra user có phải admin không
-     */
-    public function isAdmin(): bool
-    {
-        return $this->role === 'admin';
-    }
-
-    /**
-     * Kiểm tra user có phải customer không
-     */
-    public function isCustomer(): bool
-    {
-        return $this->role === 'customer';
-    }
-
-    /**
-     * Kiểm tra user có active không
-     */
-    public function isActive(): bool
-    {
-        return $this->status === 'mở';
-    }
-
-    /**
-     * Kiểm tra user có bị khóa không
-     */
-    public function isLocked(): bool
-    {
-        return $this->status === 'khóa';
-    }
-
-    /**
-     * Kiểm tra user có bị xóa không
-     */
-    public function isSoftDeleted(): bool
-    {
-        return $this->status === 'đã xóa';
-    }
-
-    /**
-     * Lấy địa chỉ mặc định
-     */
-    public function getDiaChiMacDinhAttribute()
-    {
-        return $this->addresses()->macDinh()->first();
-    }
-
-    /**
-     * Tạo giỏ hàng nếu chưa có
-     */
-    public function getOrCreateCart()
-    {
-        if (!$this->cart) {
-            $this->cart()->create();
-            $this->load('cart');
-        }
-
-        return $this->cart;
     }
 }

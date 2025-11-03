@@ -44,16 +44,8 @@ class ReceiptDetail extends Model
     /**
      * Tính thành tiền
      */
-    public function getThanhTienAttribute(): int
+    public function getTotalAmountAttribute(): int
     {
         return $this->quantity * $this->price;
-    }
-
-    /**
-     * Format giá thành tiền
-     */
-    public function getThanhTienFormattedAttribute(): string
-    {
-        return number_format($this->thanh_tien, 0, ',', '.') . 'đ';
     }
 }

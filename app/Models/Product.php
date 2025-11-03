@@ -127,33 +127,21 @@ class Product extends Model
         return $this->hasOne(ScreenDetail::class, 'product_id');
     }
 
-    /**
-     * Relationship với GPU Detail
-     */
     public function gpuDetail()
     {
         return $this->hasOne(GpuDetail::class, 'product_id');
     }
 
-    /**
-     * Relationship với Headset Detail
-     */
     public function headsetDetail()
     {
         return $this->hasOne(HeadsetDetail::class, 'product_id');
     }
 
-    /**
-     * Relationship với Mouse Detail
-     */
     public function mouseDetail()
     {
         return $this->hasOne(MouseDetail::class, 'product_id');
     }
 
-    /**
-     * Relationship với Keyboard Detail
-     */
     public function keyboardDetail()
     {
         return $this->hasOne(KeyboardDetail::class, 'product_id');
@@ -165,50 +153,25 @@ class Product extends Model
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
+
+    public static function getRelationName($categoryId)
+    {
+        $relations = [
+            'Laptop' => 'laptopDetail',
+            'Screen' => 'screenDetail',
+            'LaptopGaming' => 'laptopGamingDetail',
+            'GPU' => 'gpuDetail',
+            'Headset' => 'headsetDetail',
+            'Mouse' => 'mouseDetail',
+            'Keyboard' => 'keyboardDetail'
+        ];
+
+        return $relations[$categoryId] ?? null;
+    }
+
     public function scopeActive($query)
     {
         return $query->where('status', 'hiện');
-    }
-
-    /**
-     * Scope a query to only include products in stock.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeInStock($query)
-    {
-        return $query->where('stock', '>', 0);
-    }
-
-    /**
-     * Check if the product is in stock.
-     *
-     * @return bool
-     */
-    public function isInStock(): bool
-    {
-        return $this->stock > 0;
-    }
-
-    /**
-     * Check if the product is active.
-     *
-     * @return bool
-     */
-    public function isActive(): bool
-    {
-        return $this->status === 'hiện';
-    }
-
-    /**
-     * Format price with currency (optional)
-     *
-     * @return string
-     */
-    public function getFormattedPriceAttribute(): string
-    {
-        return number_format($this->price) . ' VND';
     }
 
     // Thêm các methods hỗ trợ trong Product model
@@ -227,36 +190,6 @@ class Product extends Model
         return $categoryMapping[$this->category_id] ?? [];
     }
 
-    public function getDetail()
-    {
-        $mapping = [
-            'Laptop' => 'laptopDetail',
-            'LaptopGaming' => 'laptopGamingDetail',
-            'Screen' => 'screenDetail',
-            'GPU' => 'gpuDetail',
-            'Headset' => 'headsetDetail',
-            'Mouse' => 'mouseDetail',
-            'Keyboard' => 'keyboardDetail',
-        ];
-
-        $relation = $mapping[$this->category_id] ?? null;
-        return $relation ? $this->$relation : null;
-    }
-
-    public static function getRelationName($categoryId)
-    {
-        $relations = [
-            'Laptop' => 'laptopDetail',
-            'Screen' => 'screenDetail',
-            'LaptopGaming' => 'laptopGamingDetail',
-            'GPU' => 'gpuDetail',
-            'Headset' => 'headsetDetail',
-            'Mouse' => 'mouseDetail',
-            'Keyboard' => 'keyboardDetail'
-        ];
-
-        return $relations[$categoryId] ?? null;
-    }
 
     public function getDetailAttribute()
     {

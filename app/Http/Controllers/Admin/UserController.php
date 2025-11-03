@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $query = User::query()->role('customer');
+        $query = User::query()->where('role', 'customer');
 
         // Filter by search
         if ($request->has('search') && $request->search) {

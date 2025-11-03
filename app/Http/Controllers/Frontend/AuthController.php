@@ -134,7 +134,7 @@ class AuthController extends Controller
                 ]);
         }
 
-        if ($user->isAdmin()) {
+        if ($user->role == "admin") {
             return back()
                 ->withErrors([
                     'warnning' => 'Không phải tài khoản khách hàng.'

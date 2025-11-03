@@ -40,8 +40,18 @@ class CartController extends Controller
         $quantity = $request->input('quantity', 1);
 
         $cart = Cart::with(['cartItems'])->where('user_id', Auth::id())->first();
+        $cartItem = $cart->cartItems()
+            ->where('product_id', $productId)
+            ->first();
 
-        $cart->themSanPham($productId, $quantity);
+        if ($cartItem) {
+            $cartItem->increment('quantity', $quantity);
+        } else {
+            $cart->cartItems()->create([
+                'product_id' => $productId,
+                'quantity' => $quantity
+            ]);
+        }
 
         if ($request->input("action") && $request->input("action") == "add-cart") {
             return redirect()->back()->with('success', 'Thêm sản phẩm vào giỏ hàng thành công!');
@@ -75,11 +85,31 @@ class CartController extends Controller
                 ], 400);
             }
 
-            $cart->capNhatSoLuong($request->product_id, $request->quantity);
+            $cartItem = $cart->cartItems()
+                ->where('product_id', $request->product_id)
+                ->first();
+
+            if (!$cartItem) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Sản phẩm không tồn tại trong giỏ hàng'
+                ], 404);
+            }
+
+            if ($request->quantity <= 0) {
+                $cartItem->delete();
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Đã xóa sản phẩm khỏi giỏ hàng'
+                ]);
+            }
+
+            $cartItem->update([
+                'quantity' => $request->quantity
+            ]);
 
             // Lấy lại thông tin mới nhất
             $cart->load('cartItems.product');
-            $cartItem = $cart->cartItems->where('product_id', $request->product_id)->first();
 
             DB::commit();
 
@@ -111,8 +141,11 @@ class CartController extends Controller
     public function deleteCartItem($productId)
     {
         $cart = Cart::where('user_id', Auth::id())->firstOrFail();
+        $cartItem = $cart->cartItems()
+            ->where('product_id', $productId)
+            ->first();
 
-        $cart->xoaSanPham($productId);
+        $cartItem->delete();
 
         return redirect()->route('cart.index')->with('success', 'Xóa sản phẩm khỏi giỏ hàng thành công');
     }

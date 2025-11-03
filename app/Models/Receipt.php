@@ -48,38 +48,10 @@ class Receipt extends Model
     }
 
     /**
-     * Scope để lấy receipt theo status
-     */
-    public function scopeTheoStatus($query, $status)
-    {
-        return $query->where('status', $status);
-    }
-
-    /**
-     * Scope để lấy receipt đang chờ
-     */
-    public function scopeDangCho($query)
-    {
-        return $query->where('status', 'đang chờ');
-    }
-
-    /**
-     * Scope để lấy receipt đã nhận
-     */
-    public function scopeDaNhan($query)
-    {
-        return $query->where('status', 'đã nhận');
-    }
-
-    /**
      * Tính tổng giá trị receipt
      */
     public function getTotalAmountAttribute(): int
     {
-        // THÊM: Kiểm tra và load quan hệ nếu cần
-        if (!$this->relationLoaded('receiptDetails')) {
-            $this->load('receiptDetails');
-        }
         return $this->receiptDetails->sum(function ($detail) {
             return $detail->quantity * $detail->price;
         });

@@ -51,75 +51,11 @@ class Order extends Model
     }
 
     /**
-     * Scope để lấy order theo status
-     */
-    public function scopeTheoStatus($query, $status)
-    {
-        return $query->where('status', $status);
-    }
-
-    /**
-     * Scope để lấy order đang chờ xác nhận
-     */
-    public function scopeChoXacNhan($query)
-    {
-        return $query->where('status', 'chờ xác nhận');
-    }
-
-    /**
-     * Scope để lấy order đã xác nhận
-     */
-    public function scopeDaXacNhan($query)
-    {
-        return $query->where('status', 'đã xác nhận');
-    }
-
-    /**
-     * Scope để lấy order đang giao
-     */
-    public function scopeDangGiao($query)
-    {
-        return $query->where('status', 'đang giao');
-    }
-
-    /**
-     * Scope để lấy order đã nhận
-     */
-    public function scopeDaNhan($query)
-    {
-        return $query->where('status', 'đã nhận hàng');
-    }
-
-    /**
-     * Scope để lấy order đã hủy
-     */
-    public function scopeDaHuy($query)
-    {
-        return $query->where('status', 'đã hủy');
-    }
-
-    /**
-     * Tính tổng số lượng sản phẩm
-     */
-    public function getTongSoLuongAttribute(): int
-    {
-        return $this->orderDetails->sum('quantity');
-    }
-
-    /**
      * Format tổng tiền
      */
     public function getTotalAmountFormattedAttribute(): string
     {
         return number_format($this->total_amount, 0, ',', '.') . 'đ';
-    }
-
-    /**
-     * Kiểm tra có thể hủy đơn không
-     */
-    public function coTheHuy(): bool
-    {
-        return in_array($this->status, ['chờ xác nhận', 'đã xác nhận']);
     }
 
     /**
@@ -139,7 +75,7 @@ class Order extends Model
      */
     public static function getTotalAmount($startDate = null, $endDate = null)
     {
-        $query = self::daNhan();
+        $query = Order::where('status', 'đã nhận hàng');
 
         if ($startDate) {
             $query->whereDate('order_date', '>=', $startDate);
@@ -150,10 +86,5 @@ class Order extends Model
         }
 
         return $query->sum('total_amount');
-    }
-
-    public function getShippingStatusAttribute()
-    {
-        return $this->status === 'đang giao' ? 'Đang vận chuyển' : $this->status;
     }
 }

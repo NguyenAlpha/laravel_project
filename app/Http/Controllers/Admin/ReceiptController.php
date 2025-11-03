@@ -67,40 +67,15 @@ class ReceiptController extends Controller
      */
     public function show($id)
     {
-        try {
-            $receipt = Receipt::with(['supplier', 'receiptDetails.product'])
-                ->findOrFail($id);
+        $receipt = Receipt::with(['supplier', 'receiptDetails.product'])
+            ->findOrFail($id);
 
-            // Tính tổng tiền thủ công
-            $total_amount = 0;
-            $total_quantity = 0;
+        // Format dates
+        $receipt->order_date_formatted = \Carbon\Carbon::parse($receipt->order_date)->format('d/m/Y');
+        $receipt->created_at_formatted = $receipt->created_at ? \Carbon\Carbon::parse($receipt->created_at)->format('d/m/Y H:i') : 'N/A';
+        $receipt->updated_at_formatted = $receipt->updated_at ? \Carbon\Carbon::parse($receipt->updated_at)->format('d/m/Y H:i') : 'N/A';
 
-            foreach ($receipt->receiptDetails as $detail) {
-                $detail_total = $detail->quantity * $detail->price;
-                $total_amount += $detail_total;
-                $total_quantity += $detail->quantity;
-
-                // Thêm total_amount cho từng detail nếu cần
-                $detail->total_amount = $detail_total;
-            }
-
-            // Thêm các thuộc tính tính toán vào receipt
-            $receipt->total_amount = $total_amount;
-            $receipt->total_quantity = $total_quantity;
-
-            // Format dates
-            $receipt->order_date_formatted = \Carbon\Carbon::parse($receipt->order_date)->format('d/m/Y');
-            $receipt->created_at_formatted = $receipt->created_at ? \Carbon\Carbon::parse($receipt->created_at)->format('d/m/Y H:i') : 'N/A';
-            $receipt->updated_at_formatted = $receipt->updated_at ? \Carbon\Carbon::parse($receipt->updated_at)->format('d/m/Y H:i') : 'N/A';
-
-            return view('admin.receipt.show', compact('receipt'));
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return redirect()->route('admin.receipt.index')
-                ->with('error', 'Không tìm thấy phiếu nhập với ID: ' . $id);
-        } catch (\Exception $e) {
-            return redirect()->route('admin.receipt.index')
-                ->with('error', 'Đã xảy ra lỗi khi tải thông tin phiếu nhập: ' . $e->getMessage());
-        }
+        return view('admin.receipt.show', compact('receipt'));
     }
 
     /**
@@ -120,7 +95,7 @@ class ReceiptController extends Controller
         $receipt->update([
             'status' => $request->status
         ]);
-        
+
         return response()->json([
             'success' => true,
             'message' => 'Cập nhật trạng thái thành công!'
