@@ -100,7 +100,7 @@
                   <tr>
                     <td><strong>Tổng tiền:</strong></td>
                     <td class="text-success fw-bold fs-5">
-                      {{ number_format($order->total_amount, 0, ',', '.') }} đ
+                      {{ number_format($order->total_amount, 0, ',', '.') . 'đ' }}
                     </td>
                   </tr>
                   <tr>
@@ -161,9 +161,9 @@
                       <td class="text-center">
                         <span class="badge bg-primary fs-6">{{ $detail->quantity }}</span>
                       </td>
-                      <td class="text-end">{{ number_format($detail->price, 0, ',', '.') }} đ</td>
+                      <td class="text-end">{{ number_format($detail->price, 0, ',', '.') . 'đ' }}</td>
                       <td class="text-end fw-bold text-success">
-                        {{ number_format($detail->quantity * $detail->price, 0, ',', '.') }} đ
+                        {{ number_format($detail->quantity * $detail->price, 0, ',', '.') . 'đ' }}
                       </td>
                     </tr>
                   @endforeach
@@ -172,7 +172,7 @@
                   <tr>
                     <td colspan="4" class="text-end fw-bold">Tổng cộng:</td>
                     <td class="text-end fw-bold fs-5 text-success">
-                      {{ number_format($order->total_amount, 0, ',', '.') }} đ
+                      {{ number_format($order->total_amount, 0, ',', '.') . "đ" }}
                     </td>
                   </tr>
                 </tfoot>

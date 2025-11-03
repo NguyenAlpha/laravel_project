@@ -158,6 +158,21 @@
         }
       });
 
+      $('.quantity-input').on('input', function () {
+        console.log('event quantity-input');
+
+        let $input = $(this);
+        let min = parseInt($input.attr('min'));
+        let max = parseInt($input.attr('max'));
+        let value = $input.val().replace(/\D/g, '');
+
+        value = parseInt(value);
+        if (isNaN(value) || value < min) value = min;
+        if (value > max) value = max;
+
+        $input.val(value);
+      });
+
       // Cập nhật khi thay đổi trực tiếp trong input
       $('.quantity-input').on('change', function () {
         const productId = $(this).data('product-id');
