@@ -240,7 +240,7 @@
                   </button>
                   @endif --}}
 
-                  @if($order->status === 'chờ xác nhận' || $order->status === 'đã xác nhận' || $order->status === 'đang giao')
+                  @if($order->status === 'chờ xác nhận' || $order->status === 'đã xác nhận')
                     <a href="{{route('order.cancel', ['order' => $order])}}" class="btn btn-outline-danger btn-sm me-2">
                       <i class="fas fa-times me-1"></i>Hủy đơn
                     </a>

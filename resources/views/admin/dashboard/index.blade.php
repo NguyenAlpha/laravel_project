@@ -39,9 +39,9 @@
         </div>
         <div class="stats-number">{{ $dashboard['totalOrders'] ?? 0 }}</div>
         <div class="stats-label">Tổng đơn hàng</div>
-        <div class="stats-change positive">
+        {{-- <div class="stats-change positive">
           <i class="fas fa-arrow-up"></i> 100% so với tháng trước
-        </div>
+        </div> --}}
       </div>
     </div>
     <div class="col-md-3">
@@ -51,9 +51,9 @@
         </div>
         <div class="stats-number">{{ $dashboard['totalUsers'] ?? 0 }}</div>
         <div class="stats-label">Người dùng</div>
-        <div class="stats-change positive">
+        {{-- <div class="stats-change positive">
           <i class="fas fa-arrow-up"></i> 100% so với tháng trước
-        </div>
+        </div> --}}
       </div>
     </div>
     <div class="col-md-3">
@@ -63,9 +63,9 @@
         </div>
         <div class="stats-number">{{ $dashboard['totalProducts'] ?? 0 }}</div>
         <div class="stats-label">Sản phẩm</div>
-        <div class="stats-change positive">
+        {{-- <div class="stats-change positive">
           <i class="fas fa-arrow-up"></i> 100% so với tháng trước
-        </div>
+        </div> --}}
       </div>
     </div>
     <div class="col-md-3">
@@ -76,7 +76,7 @@
         <div class="stats-number">{{ number_format($dashboard['totalRevenue']) ?? 0 }}đ</div>
         <div class="stats-label">Doanh thu</div>
         <div class="stats-change positive">
-          <i class="fas fa-arrow-up"></i> 15.7% so với tháng trước
+          <i class="fas fa-arrow-up"></i> {{ (int)$monthlyComparison['growth'] . '%'}} so với tháng trước
         </div>
       </div>
     </div>
@@ -88,7 +88,7 @@
       <div class="chart-header">
         <div class="chart-title">Doanh thu theo tháng</div>
         <div class="btn-group">
-          <button class="btn btn-sm btn-outline-primary active">Tháng</button>
+          {{-- <button class="btn btn-sm btn-outline-primary active">Tháng</button> --}}
           {{-- <button class="btn btn-sm btn-outline-primary">Quý</button>
           <button class="btn btn-sm btn-outline-primary">Năm</button> --}}
         </div>
@@ -105,7 +105,7 @@
                   $height = $maxRevenue > 0 ? ($revenue->revenue / $maxRevenue) * 100 : 0;
                   $monthName = DateTime::createFromFormat('!m', $revenue->month)->format('M');
                 @endphp
-                <div class="bar-container">
+                <div class="bar-container justify-content-end">
                   <div class="bar" style="height: {{ $height }}%">
                     <span class="bar-value">{{ number_format($revenue->revenue / 1000000, 1) }}tr</span>
                   </div>

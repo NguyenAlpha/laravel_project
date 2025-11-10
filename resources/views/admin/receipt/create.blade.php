@@ -67,7 +67,7 @@
                                 <th width="15%">Giá nhập</th>
                                 <th width="15%">Giá bán</th>
                                 <th width="15%">Số lượng</th>
-                                <th width="15%">Tồn kho</th>
+                                {{-- <th width="15%">Tồn kho</th> --}}
                                 <th width="10%">Tổng tiền</th>
                                 <th width="5%"></th>
                             </tr>
@@ -264,10 +264,9 @@
                     <td>
                         <input type="number" class="form-control form-control-sm quantity" 
                                name="products[${productCounter}][quantity]" 
-                               value="1" min="1" max="${stock}" required>
+                               value="1" min="1" required>
                         <div class="stock-info mt-1">Tồn kho: ${stock}</div>
                     </td>
-                    <td class="text-center">${stock}</td>
                     <td class="text-end product-total">${formatCurrency(price)}</td>
                     <td class="text-center">
                         <button type="button" class="btn btn-sm remove-product" data-product-id="${productId}">
@@ -363,16 +362,16 @@
             
             // Kiểm tra số lượng hợp lệ
             let valid = true;
-            $('.product-row').each(function() {
-                const quantity = parseInt($(this).find('.quantity').val());
-                const stock = parseInt($(this).find('.stock-info').text().replace('Tồn kho: ', ''));
+            // $('.product-row').each(function() {
+            //     const quantity = parseInt($(this).find('.quantity').val());
+            //     const stock = parseInt($(this).find('.stock-info').text().replace('Tồn kho: ', ''));
                 
-                if (quantity > stock) {
-                    showAlert(`Số lượng nhập không được vượt quá tồn kho (${stock})!`, 'danger');
-                    valid = false;
-                    return false;
-                }
-            });
+            //     if (quantity > stock) {
+            //         showAlert(`Số lượng nhập không được vượt quá tồn kho (${stock})!`, 'danger');
+            //         valid = false;
+            //         return false;
+            //     }
+            // });
             
             if (!valid) return;
             
@@ -410,19 +409,19 @@
             });
         });
         
-        // Validate số lượng khi nhập
-        $(document).on('input', '.quantity', function() {
-            const quantity = parseInt($(this).val());
-            const stock = parseInt($(this).closest('tr').find('.stock-info').text().replace('Tồn kho: ', ''));
+        // // Validate số lượng khi nhập
+        // $(document).on('input', '.quantity', function() {
+        //     const quantity = parseInt($(this).val());
+        //     const stock = parseInt($(this).closest('tr').find('.stock-info').text().replace('Tồn kho: ', ''));
             
-            if (quantity > stock) {
-                $(this).addClass('is-invalid');
-                $(this).closest('td').find('.stock-info').addClass('text-danger');
-            } else {
-                $(this).removeClass('is-invalid');
-                $(this).closest('td').find('.stock-info').removeClass('text-danger');
-            }
-        });
+        //     if (quantity > stock) {
+        //         $(this).addClass('is-invalid');
+        //         $(this).closest('td').find('.stock-info').addClass('text-danger');
+        //     } else {
+        //         $(this).removeClass('is-invalid');
+        //         $(this).closest('td').find('.stock-info').removeClass('text-danger');
+        //     }
+        // });
     });
 </script>
 @endsection
