@@ -106,7 +106,7 @@ class ReceiptController extends Controller
      * Hiển thị form tạo phiếu nhập
      * @return \Illuminate\Contracts\View\View
      */
-    public function createForm()
+    public function create()
     {
         $suppliers = Supplier::all();
         $products = Product::where('status', '!=', 'đã xóa')->get();

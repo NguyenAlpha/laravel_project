@@ -104,7 +104,7 @@ Route::prefix('admin')->group(function () {
 
     // Route quản lý phiếu nhập
     Route::get(   '/receipt',                   [ReceiptController::class, 'index'])        ->name('admin.receipt.index');
-    Route::get(   '/receipt-form',              [ReceiptController::class, 'createForm'])   ->name('admin.receipt.create');
+    Route::get(   '/receipt-form',              [ReceiptController::class, 'create'])       ->name('admin.receipt.create');
     Route::post(  '/receipt',                   [ReceiptController::class, 'store'])        ->name('admin.receipt.store');
     Route::get(   '/receipt/{receiptId}',       [ReceiptController::class, 'show'])         ->name('admin.receipt.show');
     Route::patch( '/receipt/{receiptId}/status',[ReceiptController::class, 'updateStatus']) ->name('admin.receipt.update-status');
