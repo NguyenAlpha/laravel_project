@@ -49,7 +49,8 @@ class OrderController extends Controller
             'user_id' => Auth::id(),
             'address' => $address,
             'total_amount' => $totalAmount,
-            'payment_method' => $paymentMethod
+            'payment_method' => $paymentMethod,
+            'created_by' => 'customer'
         ]);
 
         return redirect()->route('order.index')->with('success', 'Đặt hàng thành công!');
