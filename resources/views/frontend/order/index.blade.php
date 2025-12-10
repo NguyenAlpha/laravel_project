@@ -90,6 +90,7 @@
 
 @section('content')
   <div class="container px-0 mt-4">
+    {{-- breadcrumb/đường dẫn điều hướng--}}
     <div class="">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -101,12 +102,13 @@
     </div>
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="h4 mb-0"><i class="fas fa-clipboard-list me-2 text-primary"></i>Lịch Sử Đơn Hàng</h2>
-      <span class="badge bg-primary">{{ $orders->count() }} đơn hàng</span>
+      <span class="badge bg-primary">{{ $orders->total() }} đơn hàng</span>
     </div>
 
     @if($orders->count() > 0)
+      {{-- Danh sách đơn hàng --}}
       @foreach ($orders as $order)
-        <div class="card order-card mb-4 shadow-sm border-0">
+        <div class="card order-card mb-5 shadow-sm border-0">
           <div class="card-header bg-light py-3">
             <div class="row align-items-center">
               <div class="col-md-6">
@@ -136,7 +138,7 @@
                       <span class="badge bg-secondary fs-6 px-3 py-2">{{ $order->status }}</span>
                     @endif
                   </div>
-                  <small class="text-muted">Mã đơn: #{{ $order->order_id ?? $order->id }}</small>
+                  <small class="text-muted">Mã đơn: #{{ $order->order_id }}</small>
                 </div>
               </div>
               @if ($order->status === 'đã nhận hàng')
@@ -162,10 +164,23 @@
             <div class="row mb-3">
               <div class="col-12">
                 <div class="d-flex align-items-start">
-                  <i class="fas fa-map-marker-alt text-danger mt-1 me-2"></i>
+                  <i class="fas fa-map-marker-alt text-danger mt-1 me-3"></i>
                   <div>
                     <small class="text-muted d-block">Địa chỉ giao hàng</small>
                     <span class="fw-medium">{{ $order->address }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {{-- Phương thức thanh toán --}}
+            <div class="row mb-3">
+              <div class="col-12">
+                <div class="d-flex align-items-start">
+                  <i class="fa-solid fa-money-bill text-success mt-1 me-2"></i>
+                  <div>
+                    <small class="text-muted d-block">Phương thức thanh toán</small>
+                    <span class="fw-medium">{{ $order->payment_method }}</span>
                   </div>
                 </div>
               </div>
@@ -177,7 +192,7 @@
               @foreach ($order->orderDetails as $detail)
                 <div class="product-item d-flex align-items-center mb-3 pb-3 border-bottom">
                   <div class="product-image me-3">
-                    <img src="{{ asset('images/' . $detail->product->image_url) }}" alt="{{ $detail->product->product_name }}"
+                    <img src="{{ asset('images/' . ($detail->product->image_url ?? "no image available.jpg")) }}" alt="{{ $detail->product->product_name }}"
                       class="rounded-3" width="70" height="70" style="object-fit: cover;">
                   </div>
                   <div class="product-info flex-grow-1">
@@ -231,48 +246,36 @@
                 </div>
 
                 <!-- Nút hành động -->
-                {{-- cancelOrder({{ $order->order_id ?? $order->id }}) --}}
                 <div class="mt-3">
-                  {{-- @if($order->status === 'chờ xác nhận' || $order->status === 'đã xác nhận' || $order->status === 'đang
-                  giao')
-                  <button class="btn btn-outline-danger btn-sm me-2" onclick="">
-                    <i class="fas fa-times me-1"></i>Hủy đơn
-                  </button>
-                  @endif --}}
-
                   @if($order->status === 'chờ xác nhận' || $order->status === 'đã xác nhận')
                     <a href="{{route('order.cancel', ['order' => $order])}}" class="btn btn-outline-danger btn-sm me-2">
                       <i class="fas fa-times me-1"></i>Hủy đơn
                     </a>
                   @endif
 
-                  {{-- @if($order->status === 'đang giao')
-                  <button class="btn btn-outline-primary btn-sm me-2" onclick="">
-                    <i class="fas fa-times me-1"></i>Xác nhận đã nhận được hàng
-                  </button>
-                  @endif --}}
-
                   @if($order->status === 'đang giao')
                     <a class="btn btn-outline-success btn-sm me-2" href='{{ route('order.delivered', ['order' => $order]) }}'>
                       <i class="fas fa-times me-1"></i>Xác nhận đã nhận được hàng
                     </a>
                   @endif
-
-                  {{-- @if($order->status === 'đã nhận hàng')
-                  <button class="btn btn-outline-primary btn-sm me-2">
-                    <i class="fas fa-redo me-1"></i>Mua lại
-                  </button>
-                  @endif --}}
-
-                  {{-- <button class="btn btn-outline-secondary btn-sm">
-                    <i class="fas fa-eye me-1"></i>Chi tiết
-                  </button> --}}
                 </div>
               </div>
             </div>
           </div>
         </div>
       @endforeach
+
+      <!-- Pagination -->
+      @if($orders->hasPages())
+        <div class="d-flex justify-content-between align-items-center mt-4">
+          <div class="text-muted">
+            Hiển thị {{ $orders->firstItem() ?? 0 }} - {{ $orders->lastItem() ?? 0 }} của {{ $orders->total() }} đơn hàng
+          </div>
+          <nav>
+            {{ $orders->appends(request()->query())->links('pagination::bootstrap-4') }}
+          </nav>
+        </div>
+      @endif
     @else
       <!-- Empty state -->
       <div class="text-center py-5">

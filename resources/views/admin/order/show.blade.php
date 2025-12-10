@@ -142,16 +142,9 @@
                       <td>{{ $index + 1 }}</td>
                       <td>
                         <div class="d-flex align-items-center">
-                          @if($detail->product->image_url ?? false)
-                            <img src="{{ asset('images/' . $detail->product->image_url) }}"
-                              alt="{{ $detail->product->product_name }}" class="img-thumbnail me-3"
-                              style="width: 50px; height: 50px; object-fit: cover;">
-                          @else
-                            <div class="bg-light d-flex align-items-center justify-content-center me-3"
-                              style="width: 50px; height: 50px;">
-                              <i class="fas fa-image text-muted"></i>
-                            </div>
-                          @endif
+                          <img src="{{ asset('images/' . ($detail->product->image_url ?? "no image available.jpg")) }}"
+                            alt="{{ $detail->product->product_name }}" class="img-thumbnail me-3"
+                            style="width: 50px; height: 50px; object-fit: cover;">
                           <div>
                             <div class="fw-bold">{{ $detail->product->product_name ?? 'N/A' }}</div>
                             <small class="text-muted">Mã: {{ $detail->product_id }}</small>

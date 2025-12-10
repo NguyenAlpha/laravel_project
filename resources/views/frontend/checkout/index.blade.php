@@ -163,7 +163,7 @@
               @foreach($cart->cartItems as $item)
                 <div class="d-flex justify-content-between align-items-start mb-3 pb-3 border-bottom">
                   <div class="d-flex">
-                    <img src="{{ asset('images/' . $item->product->image_url ?? '/images/default-product.jpg') }}"
+                    <img src="{{ asset('images/' . ($item->product->image_url ?? 'no image available.jpg')) }}"
                       alt="{{ $item->product->product_name }}" class="rounded me-3"
                       style="width: 60px; height: 60px; object-fit: cover;">
                     <div>
@@ -231,8 +231,9 @@
         </div>
         <div class="modal-body">
           <p>Vui lòng quét mã QR để thanh toán:</p>
-          <img src="{{ asset('images/jdh0491i.png') }}" alt="QR Code" class="img-fluid mb-3">
-          {{-- <p><strong>Số tài khoản:</strong> 123456789 - Vietcombank</p> --}}
+          <img src="{{ asset('images/qr vietcombank.jpg') }}" alt="QR Code" class="img-fluid mb-3">
+          <p><strong>Số tài khoản:</strong> 1047676280 - Vietcombank</p>
+          <p class="h5"><strong class="text-danger">Lưu ý:</strong> Nội dung chuyển khoản: <strong>{{ $transferContent }}</strong></p>
         </div>
         <div class="modal-footer">
           <button type="button" id="confirmPaymentBtn" class="btn btn-success">Đã chuyển khoản</button>

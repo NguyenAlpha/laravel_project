@@ -161,6 +161,11 @@ class CartController extends Controller
             ->get();
         $cart = Cart::with(['cartItems.product'])->where('user_id', Auth::id())->first();
         $tongTienGioHang = $cart->getTongTienAttribute();
-        return view('frontend.checkout.index', compact('user', 'cart', 'addresses', 'tongTienGioHang'));
+        
+        $emailSplit = preg_split("/@/", $user->email);
+
+        $transferContent = $emailSplit[0] . date("Hidmy");
+
+        return view('frontend.checkout.index', compact('user', 'cart', 'addresses', 'tongTienGioHang', "transferContent"));
     }
 }

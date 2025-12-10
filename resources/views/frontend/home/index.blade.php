@@ -27,7 +27,7 @@
             <div class="product__item__card">
               <a href="{{ route('product.show', ['productId' => $product->product_id]) }}">
                 <div class="product__item__card__img">
-                  <img src="{{ asset("images/" . $product->image_url) }}" alt="{{ $product->product_name }}">
+                  <img src="{{ asset("images/" . ($product->image_url ?? "no image available.jpg")) }}" alt="{{ $product->product_name }}">
                 </div>
                 <div class="product__item__card__content">
                   <h3 class="product__item__name">{{ $product->product_name }}</h3>

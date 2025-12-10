@@ -203,7 +203,7 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <img src="{{ asset('images/' . $inventory->product->image_url) ?? '/images/default-product.jpg' }}"
+                                            <img src="{{ asset('images/' . ($inventory->product->image_url ?? "no image available.jpg")) }}"
                                                 alt="{{ $inventory->product->product_name ?? 'N/A' }}"
                                                 class="product-thumb me-2" onerror="this.src='/images/default-product.jpg'">
                                             <div>

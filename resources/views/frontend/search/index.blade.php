@@ -17,7 +17,7 @@
           <div class="card-body">
             <!-- Filter theo danh mục -->
             <div class="filter-group mb-4">
-              <h6 class="filter-title">Danh mục</h6>
+              <h6 class="filter-title mb-2"><i class="fa-solid fa-icons"></i>Danh mục</h6>
               <select name="danh_muc" class="form-select" onchange="this.form.submit()">
                 <option value="">Tất cả danh mục</option>
                 @foreach($categories as $category)
@@ -30,7 +30,7 @@
 
             <!-- Filter khoảng giá -->
             <div class="filter-group mb-4">
-              <h6 class="filter-title">Khoảng giá</h6>
+              <h6 class="filter-title mb-2"><i class="fas fa-tag me-1"></i>Khoảng giá</h6>
               <div class="price-inputs">
                 <input type="number" name="giaThap" class="form-control mb-2" placeholder="Giá thấp nhất"
                   value="{{ request('giaThap') }}" min="0">
@@ -44,7 +44,7 @@
 
             <!-- Sắp xếp -->
             <div class="filter-group">
-              <h6 class="filter-title">Sắp xếp theo</h6>
+              <h6 class="filter-title mb-2"><i class="fas fa-sort me-1"></i>Sắp xếp theo</h6>
               <select name="sap_xep" class="form-select" onchange="this.form.submit()">
                 <option value="mac_dinh" {{ request('sap_xep') == 'mac_dinh' ? 'selected' : '' }}>Mặc định</option>
                 <option value="moi_nhat" {{ request('sap_xep') == 'moi_nhat' ? 'selected' : '' }}>Mới nhất</option>
@@ -73,7 +73,7 @@
             <div class="product__item__card">
               <a href="{{ route('product.show', $product->product_id) }}">
                 <div class="product__item__card__img">
-                  <img src="{{ asset('images/' . $product->image_url) }}" alt="">
+                  <img src="{{ asset('images/' . ($product->image_url ?? "no image available.jpg")) }}" alt="">
                 </div>
                 <div class="product__item__card__content">
                   <h3 class="product__item__name">{{ $product->product_name }}</h3>

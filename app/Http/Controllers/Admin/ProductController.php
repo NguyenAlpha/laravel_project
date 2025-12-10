@@ -146,14 +146,6 @@ class ProductController extends Controller
                     $detailData = [];
                     foreach ($validatedDetails['details'] as $key => $value) {
                         if (!empty($value)) {
-                            // if (in_array($key, ['ram', 'dung_luong'])) {
-                            //     $value += 'GB';
-                            // } else if (in_array($key, ['kich_thuoc_man_hinh'])) {
-                            //     $value += ' inch';
-                            // } else if (in_array($key, ['do_phan_giai'])) {
-                            //     str_replace(' ', '', $value);
-                            // }
-
                             if (in_array($key, ['do_phan_giai'])) {
                                 $value = str_replace(' ', '', $value);
                             }
@@ -334,14 +326,6 @@ class ProductController extends Controller
                     foreach ($validatedDetails['details'] as $key => $value) {
                         // Chỉ cập nhật nếu có giá trị, nếu không thì giữ nguyên
                         if (!is_null($value)) {
-                            // if (in_array($key, ['ram', 'dung_luong'])) {
-                            //     $value += 'GB';
-                            // } else if (in_array($key, ['kich_thuoc_man_hinh'])) {
-                            //     $value += ' inch';
-                            // } else if (in_array($key, ['do_phan_giai'])) {
-                            //     str_replace(' ', '', $value);
-                            // }
-
                             if (in_array($key, ['do_phan_giai'])) {
                                 $value = str_replace(' ', '', $value);
                             }

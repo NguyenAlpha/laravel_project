@@ -91,7 +91,7 @@
                                 <tr>
                                     <td class="text-center text-primary"><strong>#{{ $product->product_id }}</strong></td>
                                     <td class="text-center">
-                                        <img src="{{ asset('/images/' . $product->image_url)}}"
+                                        <img src="{{ asset('/images/' . ($product->image_url ?? "no image available.jpg"))}}"
                                             alt="{{ $product->product_name }}" class="img-thumbnail"
                                             style="width: 50px; height: 50px; object-fit: cover;">
                                     </td>

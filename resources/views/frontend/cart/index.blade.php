@@ -69,7 +69,7 @@
                 @else
                   <td class="align-middle p-2">
                     <a href="{{route('product.show', ['productId' => $item->product->product_id])}}"><img
-                        src="{{ asset('images/' . $item->product->image_url) ?? '' }}" alt="{{ $item->product->product_name }}"
+                        src="{{ asset('images/' . ($item->product->image_url ?? "no image available.jpg")) }}" alt="{{ $item->product->product_name }}"
                         class="img-fluid product-image"></a>
                   </td>
                   <td class="align-middle text-start p-2">
