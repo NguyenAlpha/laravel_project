@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $query = User::query()->where('role', 'customer');
+        $query = User::query();
 
         // Filter by search
         if ($request->has('search') && $request->search) {
@@ -42,7 +42,7 @@ class UserController extends Controller
             $query->where('dob', $request->dob);
         }
 
-        $users = $query->where('status', '!=', 'đã xóa')->orderBy('user_id', 'desc')->paginate(10);
+        $users = $query->where('status', '!=', 'đã xóa')->orderBy('user_id', 'desc')->paginate(20);
 
         return view('admin.user.index', compact('users'));
     }
@@ -167,7 +167,6 @@ class UserController extends Controller
         $validated = $request->validate([
             'username' => 'required|min:6|max:255',
             'email' => 'required|email|unique:user,email,' . $id . ',user_id',
-            'role' => 'required|in:customer,admin',
             'sex' => 'nullable|in:nam,nữ',
             'phone_number' => 'required|digits:10',
             'dob' => 'nullable|date|before:today',
@@ -182,8 +181,6 @@ class UserController extends Controller
             'email.required' => 'Email là bắt buộc.',
             'email.email' => 'Địa chỉ email không hợp lệ.',
             'email.unique' => 'Email đã tồn tại.',
-            'role.required' => 'Vai trò là bắt buộc.',
-            'role.in' => 'Vai trò không hợp lệ.',
             'sex.in' => 'Giới tính không hợp lệ.',
             'phone_number.required' => 'Số điện thoại là bắt buộc.',
             'phone_number.digits' => 'Số điện thoại phải có đúng 10 chữ số.',

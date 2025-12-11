@@ -5,7 +5,6 @@
   <p>Mật khẩu: {{$user->password}}</p>
   <p>Email: {{$user->email}}</p>
   <p>Số điện thoại: {{$user->phone_number}}</p>
-  <p>Vai trò: {{$user->role}}</p>
   <p>Giới tính: {{$user->sex}}</p>
   <p>Ngày sinh: {{$user->dob}}</p>
   <p>Trạng thái tài khoản: {{$user->status}}</p>

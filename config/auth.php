@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        // Thêm guard cho employee
+        'employee' => [  // Tên guard, sẽ dùng trong Auth::guard('employee')
+            'driver' => 'session',  // Sử dụng session để quản lý đăng nhập
+            'provider' => 'employees',  // Liên kết với provider 'employees'
+        ],
     ],
 
     /*
@@ -64,7 +69,11 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
-
+        // Thêm provider cho employee
+        'employees' => [  // Tên provider, được guard 'employee' sử dụng
+            'driver' => 'eloquent',  // Sử dụng Eloquent ORM
+            'model' => App\Models\Employee::class,  // Model Employee của bạn
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

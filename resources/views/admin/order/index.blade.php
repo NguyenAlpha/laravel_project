@@ -9,8 +9,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
       <h1 class="h3 mb-0 text-gray-800">Quản lý Đơn hàng</h1>
       <div class="d-flex">
-        <a href="{{ route('admin.order.create') }}"
-          class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <a href="{{ route('admin.order.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
           <i class="fas fa-plus fa-sm text-white-50"></i> Tạo đơn hàng mới
         </a>
         {{-- <button class="btn btn-secondary btn-sm" id="printOrders">
@@ -208,14 +207,14 @@
             <thead class="table-dark">
               <tr>
                 <th width="50">Mã đơn</th>
-                <th width="120">Khách hàng</th>
+                <th width="130">Khách hàng</th>
                 <th>Địa chỉ giao</th>
-                <th width="110">Ngày đặt</th>
-                <th width="110">Ngày giao</th>
+                {{-- <th width="100">Ngày đặt</th>
+                <th width="100">Ngày giao</th> --}}
                 <th width="120">Tổng tiền</th>
                 <th width="100">Trạng thái</th>
                 <th width="100">Thanh toán</th>
-                <th width="150" class="text-center">Thao tác</th>
+                <th width="160" class="text-center">Thao tác</th>
               </tr>
             </thead>
             <tbody>
@@ -230,22 +229,22 @@
                     <small class="text-muted">{{ $order->user->email ?? 'N/A' }}</small>
                   </td>
                   <td>
-                    <div class="text-truncate" style="max-width: 200px;" title="{{ $order->address }}">
+                    <div class="text-truncate" style="max-width: 360px;" title="{{ $order->address }}">
                       {{ $order->address }}
                     </div>
                   </td>
-                  <td class="text-center">
+                  {{-- <td class="text-center">
                     <div class="text-dark">{{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y') }}</div>
                     <small class="text-muted">{{ \Carbon\Carbon::parse($order->order_date)->format('H:i') }}</small>
-                  </td>
-                  <td class="text-center">
+                  </td> --}}
+                  {{-- <td class="text-center">
                     @if($order->delivery_date)
-                      <div class="text-dark">{{ \Carbon\Carbon::parse($order->delivery_date)->format('d/m/Y') }}</div>
-                      <small class="text-muted">{{ \Carbon\Carbon::parse($order->delivery_date)->format('H:i') }}</small>
+                    <div class="text-dark">{{ \Carbon\Carbon::parse($order->delivery_date)->format('d/m/Y') }}</div>
+                    <small class="text-muted">{{ \Carbon\Carbon::parse($order->delivery_date)->format('H:i') }}</small>
                     @else
-                      {{-- <span class="text-muted">Chưa giao</span> --}}
+                    <span class="text-muted">Chưa giao</span>
                     @endif
-                  </td>
+                  </td> --}}
                   <td class="text-end">
                     <strong class="text-success">{{ number_format($order->total_amount, 0, ',', '.') }}đ</strong>
                   </td>
@@ -283,23 +282,20 @@
                       </span>
                     @endif
                   </td>
-                  <td class="text-center">
+                  <td>
                     <div class="btn-group btn-group-sm" role="group">
-                      <a href="{{ route('admin.order.show', $order->order_id) }}" class="btn btn-info" title="Xem chi tiết" data-bs-toggle="tooltip">
+                      <a href="{{ route('admin.order.show', $order->order_id) }}" class="btn btn-info" title="Xem chi tiết"
+                        data-bs-toggle="tooltip">
                         <i class="fas fa-eye"></i>
                       </a>
                     </div>
-                    @if($order->status == 'đang giao' || $order->status == 'chờ xác nhận')
+                    @if($order->status != 'đã hủy')
                       <button type="button" class="btn btn-danger cancel-order" title="Hủy đơn hàng" data-bs-toggle="tooltip"
                         data-order-id="{{ $order->order_id }}" data-order-code="#{{ $order->order_id }}">
                         <i class="fas fa-times"></i>
                       </button>
                     @endif
                     @if($order->status == 'đã xác nhận')
-                      <button type="button" class="btn btn-danger cancel-order" title="Hủy đơn hàng" data-bs-toggle="tooltip"
-                        data-order-id="{{ $order->order_id }}" data-order-code="#{{ $order->order_id }}">
-                        <i class="fas fa-times"></i>
-                      </button>
                       <button type="button" class="btn btn-success delivery-order" title="Giao đơn hàng"
                         data-bs-toggle="tooltip" data-order-id="{{ $order->order_id }}"
                         data-order-code="#{{ $order->order_id }}">
@@ -313,16 +309,16 @@
                         <i class="fa-solid fa-check"></i>
                       </button>
                     @endif
-                    {{-- <div class="btn-group btn-group-sm" role="group">
-                      <a href="" class="btn btn-warning" title="Cập nhật trạng thái" data-bs-toggle="tooltip">
-                        <i class="fas fa-edit"></i>
-                      </a>
-                      <button type="button" class="btn btn-success update-status" title="Cập nhật nhanh"
-                        data-bs-toggle="tooltip" data-order-id="{{ $order->order_id }}"
-                        data-current-status="{{ $order->status }}">
-                        <i class="fas fa-sync"></i>
-                      </button>
-                    </div> --}}
+                    @if($order->status == 'đang giao' && $order->created_by == 'admin')
+                      <form action="{{ route('admin.order.update-status', $order->order_id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('PUT')
+                        <input type="text" name='status' value="đã nhận hàng" hidden>
+                        <button type="submit" class="btn btn-success" title="Đã giao" data-bs-toggle="tooltip">
+                          <i class="fa-solid fa-cart-flatbed"></i>
+                        </button>
+                      </form>
+                    @endif
                   </td>
                 </tr>
               @empty

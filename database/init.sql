@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS `user`  (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(255) UNIQUE NOT NULL,
-  `role` enum('customer','admin') NOT NULL DEFAULT 'customer',
   `sex` enum('nam','nữ') DEFAULT NULL,
   `phone_number` varchar(10) NOT NULL,
   `dob` date DEFAULT NULL,
@@ -25,6 +24,22 @@ CREATE TABLE IF NOT EXISTS `user`  (
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `avatar_url` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB;
+
+-- Nhân sự
+CREATE TABLE IF NOT EXISTS `employee` (
+  `employee_id` INT PRIMARY KEY AUTO_INCREMENT,
+  `full_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `phone_number` varchar(10) DEFAULT NULL,
+  `position` varchar(255) DEFAULT NULL,
+  `department` varchar(255) DEFAULT NULL,
+  `hire_date` date DEFAULT NULL,
+  `status` enum('Active','Inactive','On Leave') NOT NULL DEFAULT 'Active',
+  `manager_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB;
 
 -- danh mục sản phẩm
@@ -326,9 +341,9 @@ INSERT INTO `laptop_gaming_detail` (`laptop_gaming_id`, `product_id`, `thuong_hi
 
 
 -- user id 1 password: password
--- INSERT INTO `user` (`user_id`, `username`, `password`, `email`, `role`, `sex`, `phone_number`, `dob`, `status`, `created_at`, `updated_at`, `avatar_url`) VALUES
--- (1, 'nhat nguyen', '$2y$12$OB3IEwceg7PKw5P/dNyXtOWYfT.f9rUEYn8YXusghmUQ3H9KMKRIG', 'password@gmail.com', 'customer', 'nam', '0963944370', '2005-04-27', 'mở', '2025-09-27 12:34:21', '2025-09-27 19:34:43', NULL),
--- (2, 'admin', '$2y$12$CgkYyUuY5Z7aNDqkcvPFc.XpxUayCPwx1p3p9xrA/mZ3z5GVqoIn2', 'admin@gmail.com', 'admin', 'nam', '0123456789', NULL, 'mở', '2025-09-27 12:34:21', '2025-09-27 19:34:43', NULL);
+-- INSERT INTO `user` (`user_id`, `username`, `password`, `email`, `sex`, `phone_number`, `dob`, `status`, `created_at`, `updated_at`, `avatar_url`) VALUES
+-- (1, 'nhat nguyen', '$2y$12$OB3IEwceg7PKw5P/dNyXtOWYfT.f9rUEYn8YXusghmUQ3H9KMKRIG', 'password@gmail.com', 'nam', '0963944370', '2005-04-27', 'mở', '2025-09-27 12:34:21', '2025-09-27 19:34:43', NULL),
+-- (2, 'admin', '$2y$12$CgkYyUuY5Z7aNDqkcvPFc.XpxUayCPwx1p3p9xrA/mZ3z5GVqoIn2', 'admin@gmail.com', 'nam', '0123456789', NULL, 'mở', '2025-09-27 12:34:21', '2025-09-27 19:34:43', NULL);
 
 DELIMITER //
 
@@ -336,10 +351,8 @@ CREATE TRIGGER trg_after_user_insert
 AFTER INSERT ON `user`
 FOR EACH ROW
 BEGIN
-  IF NEW.role = 'customer' THEN
-    INSERT INTO cart (user_id)
-    VALUES (NEW.user_id);
-  END IF;
+  INSERT INTO cart (user_id)
+  VALUES (NEW.user_id);
 END;
 //
 
@@ -385,7 +398,7 @@ AFTER INSERT ON `order`
 FOR EACH ROW
 BEGIN
   -- Chỉ chạy nếu created_by KHÁC 'admin'
-  IF NEW.created_by <> 'admin' THEN
+  IF NEW.created_by != 'admin' AND NEW.created_by = 'customer' THEN
   
     -- Chèn dữ liệu từ cart_item vào order_detail
     INSERT INTO order_detail (order_id, product_id, quantity, price)

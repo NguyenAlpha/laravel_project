@@ -24,8 +24,7 @@
         <div class="card shadow-sm mb-4">
           <div class="card-body text-center">
             <div class="mb-3">
-              <img
-                src="{{ $user->avatar_url ? asset('images/' . $user->avatar_url) : asset('images/avatar.jpg') }}"
+              <img src="{{ $user->avatar_url ? asset('images/' . $user->avatar_url) : asset('images/avatar.jpg') }}"
                 alt="Avatar" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
             </div>
             <h4 class="mb-1">{{ $user->username }}</h4>
@@ -42,14 +41,7 @@
             <span class="badge bg-{{ $statusClass }} mb-3">{{ $user->status }}</span>
 
             <!-- Badge vai trò -->
-            @php
-              $roleClass = [
-                'admin' => 'danger',
-                'customer' => 'primary'
-              ][$user->role] ?? 'secondary';
-            @endphp
-            <span
-              class="badge bg-{{ $roleClass }} mb-3">{{ $user->role == 'admin' ? 'Quản trị viên' : 'Khách hàng' }}</span>
+            <span class="badge bg-primary mb-3">Khách hàng</span>
 
             <!-- Thao tác nhanh -->
             <div class="d-grid gap-2 mt-3">
@@ -57,13 +49,13 @@
                 <i class="fas fa-edit me-1"></i> Chỉnh sửa
               </a>
               {{-- @if($user->status == 'mở')
-                <button class="btn btn-outline-danger btn-sm" id="lock-user-btn">
-                  <i class="fas fa-lock me-1"></i> Khóa tài khoản
-                </button>
+              <button class="btn btn-outline-danger btn-sm" id="lock-user-btn">
+                <i class="fas fa-lock me-1"></i> Khóa tài khoản
+              </button>
               @elseif($user->status == 'khóa')
-                <button class="btn btn-outline-success btn-sm" id="unlock-user-btn">
-                  <i class="fas fa-unlock me-1"></i> Mở khóa tài khoản
-                </button>
+              <button class="btn btn-outline-success btn-sm" id="unlock-user-btn">
+                <i class="fas fa-unlock me-1"></i> Mở khóa tài khoản
+              </button>
               @endif --}}
             </div>
           </div>
@@ -140,9 +132,7 @@
                   <tr>
                     <td width="40%"><strong>Vai trò:</strong></td>
                     <td>
-                      <span class="badge bg-{{ $user->role == 'admin' ? 'danger' : 'primary' }}">
-                        {{ $user->role == 'admin' ? 'Quản trị viên' : 'Khách hàng' }}
-                      </span>
+                      <span class="badge bg-primary">Khách hàng</span>
                     </td>
                   </tr>
                   <tr>
@@ -262,9 +252,9 @@
       $('#lock-user-btn').on('click', function () {
         $('#confirmModalTitle').text('Khóa tài khoản');
         $('#confirmModalBody').html(`
-                    <p>Bạn có chắc chắn muốn khóa tài khoản của <strong>{{ $user->username }}</strong>?</p>
-                    <p class="text-warning"><i class="fas fa-exclamation-triangle me-1"></i>Khách hàng sẽ không thể đăng nhập khi tài khoản bị khóa.</p>
-                `);
+                      <p>Bạn có chắc chắn muốn khóa tài khoản của <strong>{{ $user->username }}</strong>?</p>
+                      <p class="text-warning"><i class="fas fa-exclamation-triangle me-1"></i>Khách hàng sẽ không thể đăng nhập khi tài khoản bị khóa.</p>
+                  `);
         $('#confirmActionBtn')
           .removeClass('btn-success')
           .addClass('btn-warning')
@@ -281,9 +271,9 @@
       $('#unlock-user-btn').on('click', function () {
         $('#confirmModalTitle').text('Mở khóa tài khoản');
         $('#confirmModalBody').html(`
-                    <p>Bạn có chắc chắn muốn mở khóa tài khoản của <strong>{{ $user->username }}</strong>?</p>
-                    <p class="text-success"><i class="fas fa-info-circle me-1"></i>Khách hàng sẽ có thể đăng nhập lại bình thường.</p>
-                `);
+                      <p>Bạn có chắc chắn muốn mở khóa tài khoản của <strong>{{ $user->username }}</strong>?</p>
+                      <p class="text-success"><i class="fas fa-info-circle me-1"></i>Khách hàng sẽ có thể đăng nhập lại bình thường.</p>
+                  `);
         $('#confirmActionBtn')
           .removeClass('btn-warning')
           .addClass('btn-success')
@@ -335,11 +325,11 @@
       // Hàm hiển thị thông báo
       function showAlert(message, type) {
         const alert = $(`
-                    <div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                        ${message}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                `);
+                      <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                          ${message}
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                  `);
         $('#alert-container').html(alert);
 
         setTimeout(function () {

@@ -13,6 +13,7 @@ use App\Http\Controllers\Frontend\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\InventotyController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
@@ -64,7 +65,7 @@ Route::prefix('admin')->group(function () {
   Route::post('/login', [AdminAuthController::class, 'login'])        ->name('admin.login');
 
   // Route cần đăng nhập admin
-  Route::middleware(['admin'])->group(function () {
+  Route::middleware(['employee'])->group(function () {
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout'); // Đăng xuất admin
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard'); // Trang dashboard admin
 
@@ -95,7 +96,7 @@ Route::prefix('admin')->group(function () {
     Route::post(  '/order/{orderId}/confirm',       [AdminOrderController::class, 'confirmOrder'])  ->name('admin.order.confirm');
     Route::post(  '/order/{orderId}/delivery',      [AdminOrderController::class, 'deliveryOrder']) ->name('admin.order.delivery');
     Route::post(  '/order/{orderId}/cancel',        [AdminOrderController::class, 'cancelOrder'])   ->name('admin.order.cancel');
-    Route::put(  '/order/{orderId}/updateStatus',   [AdminOrderController::class, 'updateStatus'])  ->name('admin.order.update-status');
+    Route::put(   '/order/{orderId}/updateStatus',  [AdminOrderController::class, 'updateStatus'])  ->name('admin.order.update-status');
 
 
     // Route quản lý kho hàng
@@ -114,7 +115,11 @@ Route::prefix('admin')->group(function () {
     Route::post(  '/supplier',                  [SupplierController::class, 'store']) ->name('admin.supplier.store');
     Route::get(   '/supplier/{supplierId}',     [SupplierController::class, 'show'])  ->name('admin.supplier.show');
     Route::put(   '/supplier/{supplierId}',     [SupplierController::class, 'update'])->name('admin.supplier.update');
-
+  });
+  
+  Route::middleware(['admin'])->group(function () {
+    // Route quản lý nhân sự
+    Route::get('/employee', [EmployeeController::class, 'index'])->name('admin.employee.index');
     // Route config
     Route::get('/config', [ConfigurationController::class, 'index'])->name('admin.config.index');
     Route::get('/config/category-status/{categoryId}', [ConfigurationController::class, 'changeCategoryStatus'])->name('admin.config.category-status');

@@ -19,12 +19,12 @@ class AuthController extends Controller
         $alert = '';
         $message = '';
 
-        if (Auth::check() && Auth::user()->role == 'admin') {
+        if (Auth::guard('employee')->check()) {
             $isAdmin = true;
             $alert = 'warning';
             $message = 'Bạn đang đăng nhập với tư cách quản trị viện!';
-        } elseif (Auth::check() && Auth::user()->role == 'customer') {
-            return redirect('/')->with('warning', 'Bạn đã đăng nhập rồi!');
+        } elseif (Auth::check()) {
+            return back()->with('warning', 'Bạn đã đăng nhập rồi!');
         }
 
         return view('frontend.auth.register', compact('isAdmin'))->with($alert, $message);
@@ -37,16 +37,16 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        if (Auth::check()) {
+        if (Auth::check() || Auth::guard('employee')->check()) {
             return redirect('/')->with('warning', 'Bạn đã đăng nhập rồi!');
         }
+
         // 1. Validate dữ liệu
         $request->validate([
             'username'      => 'required|string|min:6|max:255',
             'password'      => 'required|string|min:6|max:35',
             'repassword'    => 'required|string|same:password',
             'email'         => 'required|email|unique:user,email',
-            'role'          => 'in:customer,admin',
             'sex'           => 'nullable|in:Nam,Nữ',
             'dob'           => 'nullable|date',
             'phone_number'  => 'required|string|max:10',
@@ -70,7 +70,6 @@ class AuthController extends Controller
             'username' => $request->username,
             'password' => bcrypt($request->password),
             'email' => $request->email,
-            'role' => $request->role ?? 'customer',
             'sex' => $request->sex,
             'dob' => $request->dob,
             'phone_number' => $request->phone_number,
@@ -91,12 +90,12 @@ class AuthController extends Controller
         $alert = '';
         $message = '';
 
-        if (Auth::check() && Auth::user()->role == 'admin') {
+        if (Auth::guard('employee')->check()) {
             $isAdmin = true;
             $alert = 'warning';
             $message = 'Bạn đang đăng nhập với tư cách quản trị viện!';
-        } elseif (Auth::check() && Auth::user()->role == 'customer') {
-            return redirect('/')->with('warning', 'Bạn đã đăng nhập rồi!');
+        } elseif (Auth::check()) {
+            return back()->with('warning', 'Bạn đã đăng nhập rồi!');
         }
 
         return view('frontend.auth.login', compact('isAdmin'))->with($alert, $message);
@@ -109,7 +108,7 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        if (Auth::check()) {
+        if (Auth::check() || Auth::guard('employee')->check()) {
             return redirect('/')->with('warning', 'Bạn đã đăng nhập rồi!');
         }
 
@@ -131,13 +130,6 @@ class AuthController extends Controller
                 ->withInput($request->only('email', 'password'))
                 ->withErrors([
                     'error' => 'Tài khoản này đã bị vô hiệu hóa.'
-                ]);
-        }
-
-        if ($user && $user->role == "admin") {
-            return back()
-                ->withErrors([
-                    'warnning' => 'Không phải tài khoản khách hàng.'
                 ]);
         }
 

@@ -14,10 +14,10 @@ class AuthController extends Controller
      */
     public function showLoginForm()
     {
-        if (Auth::check() && Auth::user()->role == 'admin') {
+        if (Auth::guard('employee')->check()) {
             return redirect()->route('admin.dashboard')->with('success', 'bạn đã đăng nhập rồi!');
-        } elseif (Auth::check() && Auth::user()->role == 'customer') {
-            return redirect('/')->with('error', 'Bạn đang đăng nhập với tài khoản khách hàng.');
+        } elseif (Auth::check()) {
+            return back()->with('error', 'Bạn đang đăng nhập với tài khoản khách hàng.');
         }
 
         return view('admin.auth.login');
@@ -30,12 +30,6 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        if (Auth::check() && Auth::user()->role == 'admin') {
-            return redirect()->route('admin.dashboard')->with('success', 'bạn đã đăng nhập rồi!');
-        } elseif (Auth::check() && Auth::user()->role == 'customer') {
-            return redirect('/')->with('error', 'Bạn đang đăng nhập với tài khoản khách hàng.');
-        }
-
         // Validate dữ liệu
         $credentials = $request->validate([
             'email' => 'required|email',
@@ -46,26 +40,55 @@ class AuthController extends Controller
             'password.required' => 'Vui lòng nhập mật khẩu'
         ]);
 
-        // Thử đăng nhập với điều kiện role = 'admin'
-        if (Auth::attempt([
-            'email' => $credentials['email'],
-            'password' => $credentials['password'],
-            'role' => 'admin' // CHỈ cho phép đăng nhập với role = admin
-        ])) {
+        // Sử dụng guard 'employee' đã cấu hình
+        if (Auth::guard('employee')->attempt($credentials)) {
+            // Đăng nhập thành công, lấy thông tin user
+            $employee = Auth::guard('employee')->user();
 
-            // Đăng nhập thành công
+            // Kiểm tra trạng thái tài khoản
+            if ($employee->status !== 'Active') {
+                // Nếu tài khoản không active, logout và thông báo
+                Auth::guard('employee')->logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                // Xác định thông báo dựa trên status
+                $message = $this->getStatusMessage($employee->status);
+
+                return back()->withErrors([
+                    'email' => $message,
+                ])->withInput($request->only('email'));
+            }
+
+            // Tài khoản active, tiếp tục đăng nhập
             $request->session()->regenerate();
 
             return redirect()->intended(route('admin.dashboard'))
                 ->with('success', 'Đăng nhập thành công!');
         }
 
-
-
         // Đăng nhập thất bại
         return back()->withErrors([
             'email' => 'Thông tin đăng nhập không chính xác hoặc tài khoản không có quyền admin.',
         ])->withInput($request->only('email'));
+    }
+
+    /**
+     * Lấy thông báo dựa trên trạng thái tài khoản
+     * @param string $status
+     * @return string
+     */
+    private function getStatusMessage($status)
+    {
+        $messages = [
+            'Inactive' => 'Tài khoản của bạn đã bị vô hiệu hóa.',
+            'Pending' => 'Tài khoản của bạn đang chờ xét duyệt.',
+            'Suspended' => 'Tài khoản của bạn đã bị tạm ngưng.',
+            'Blocked' => 'Tài khoản của bạn đã bị khóa.',
+            'Deleted' => 'Tài khoản không tồn tại.',
+        ];
+
+        return $messages[$status] ?? 'Tài khoản của bạn không thể đăng nhập.';
     }
 
     /**
@@ -75,7 +98,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        Auth::logout();
+        Auth::guard('employee')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

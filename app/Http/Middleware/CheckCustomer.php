@@ -16,16 +16,14 @@ class CheckCustomer
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Kiểm tra xem user có đăng nhập không
-        if (!Auth::check()) {
-            return redirect('/login')->with('error', 'Bạn cần đăng nhập để tiếp tục');
+        // Kiểm tra không cho truy cập tính năng khách hàng nếu là nhân viên
+        if (Auth::guard('employee')->check()) {
+            return back()->with('error', 'Admin không thể truy cập trang khách hàng');
         }
 
-        $user = Auth::user();
-
-        // Nếu là admin mà cố truy cập trang khách hàng, chuyển hướng về trang admin
-        if ($user->role == 'admin' || $user->role == 'superadmin') {
-            return back()->with('error', 'Admin không thể truy cập trang khách hàng');
+        // Kiểm tra không cho truy cập nếu chưa đăng nhập
+        if(!Auth::check()) {
+            return redirect('/login')->with('error', 'Bạn cần đăng nhập để tiếp tục');
         }
 
         return $next($request);

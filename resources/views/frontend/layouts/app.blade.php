@@ -77,39 +77,23 @@
             </div>
           </a>
 
+          {{-- auth default 'web', @auth('employee') for employee --}}
           @auth
-            @if(auth()->user()->role == 'customer')
-              {{-- Hiển thị khi user đã đăng nhập --}}
-              <a href="{{ route('profile.show') }}">
-                <div class="header__item">
-                  <i class="fa-solid fa-user"></i>Tài khoản
-                </div>
-              </a>
+            {{-- Hiển thị khi user đã đăng nhập --}}
+            <a href="{{ route('profile.show') }}">
+              <div class="header__item">
+                <i class="fa-solid fa-user"></i>Tài khoản
+              </div>
+            </a>
 
-              <form method="POST" action="{{ route('logout') }}">
-                {{-- Cross-Site Request Forgery (Tấn công giả mạo yêu cầu) --}}
-                @csrf
-                <button type="submit" class="header__item" style="border: none">
-                  <i class="fa-solid fa-right-from-bracket"></i>
-                  Đăng xuất
-                </button>
-              </form>
-            @else
-              {{-- Hiển thị khi user chưa đăng nhập --}}
-              <a href="{{ route('login') }}">
-                <div class="header__item">
-                  <i class="fa-solid fa-user"></i>
-                  Đăng Nhập
-                </div>
-              </a>
-
-              <a href="{{ route('register') }}">
-                <div class="header__item">
-                  <i class="fa-solid fa-user"></i>
-                  Đăng ký
-                </div>
-              </a>
-            @endif
+            <form method="POST" action="{{ route('logout') }}">
+              {{-- Cross-Site Request Forgery (Tấn công giả mạo yêu cầu) --}}
+              @csrf
+              <button type="submit" class="header__item" style="border: none">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Đăng xuất
+              </button>
+            </form>
           @else
             {{-- Hiển thị khi user chưa đăng nhập --}}
             <a href="{{ route('login') }}">
@@ -176,11 +160,6 @@
     </div>
   </header>
   <main>
-    {{-- @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      <strong>{{ session('success') }}</strong>
-    </div>
-    @endif --}}
 
     @yield('content')
 
@@ -234,8 +213,8 @@
         showAlert('error', '{{ $error }}');
       @endforeach
     @endif
-      
-    @if(isset($warning) && $warning) 
+
+    @if(isset($warning) && $warning)
       showAlert('warning', '{{ $warning }}');
     @endif
   </script>

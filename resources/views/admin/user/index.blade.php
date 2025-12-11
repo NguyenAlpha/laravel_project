@@ -133,8 +133,7 @@
                   <td>
                     @if($user->phone_number)
                       <div class="text-dark">
-                        <i class="fas fa-phone me-2 text-success"></i>
-                        {{ $user->phone_number }}
+                        <i class="fas fa-phone me-1 text-success"></i>{{ $user->phone_number }}
                       </div>
                     @else
                       <span class="text-muted">Chưa cập nhật</span>

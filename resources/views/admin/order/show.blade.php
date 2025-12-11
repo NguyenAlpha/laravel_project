@@ -107,7 +107,7 @@
                     <td><strong>Người tạo:</strong></td>
                     <td>
                       <span class="badge bg-{{ $order->created_by == 'admin' ? 'danger' : 'primary' }}">
-                        {{ $order->created_by == 'admin' ? 'Quản trị viên' : 'Khách hàng' }}
+                        {{ $order->created_by == 'admin' ? 'Nhân viên' : 'Khách hàng' }}
                       </span>
                     </td>
                   </tr>

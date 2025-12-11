@@ -16,15 +16,18 @@ class CheckAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // kiểm tra đã đăng nhập chưa
-        if (!Auth::check()) {
-            return redirect()->route('admin.login')->with('error', 'Bạn cần đăng nhập');
+        // 1. Kiểm tra đã đăng nhập chưa
+        if (!Auth::guard('employee')->check()) {
+            return redirect()->route('employee.login')  // Đúng route
+                ->with('error', 'Vui lòng đăng nhập để tiếp tục.');
         }
 
-        $user = Auth::user();
+        // 2. Kiểm tra có phải Ban Quản lý không
+        $employee = Auth::guard('employee')->user();
 
-        if($user->role != 'admin') {
-            return back()->with('error', 'Bạn không có quyền truy cập trang này');
+        if ($employee->department !== 'Ban Quản lý') {
+            // Đăng xuất hoặc redirect về trang không có quyền
+            return back()->with('error', 'Bạn không có quyền truy cập khu vực quản lý.');
         }
 
         return $next($request);

@@ -100,17 +100,6 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="role" class="form-label">Vai trò <span class="text-danger">*</span></label>
-                                            <select class="form-select @error('role') is-invalid @enderror" id="role" name="role" required>
-                                                <option value="customer" {{ old('role', $user->role) == 'customer' ? 'selected' : '' }}>Khách hàng</option>
-                                                <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Quản trị viên</option>
-                                            </select>
-                                            @error('role')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="mb-3">
                                             <label for="status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
                                             <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
                                                 <option value="mở" {{ old('status', $user->status) == 'mở' ? 'selected' : '' }}>Mở</option>

@@ -107,7 +107,7 @@ class OrderController extends Controller
             'status' => $request->status
         ]);
 
-        return redirect()->route('admin.order.show', $orderId)->with('success', 'Cập nhật trạng thái đơn hàng thành công!');
+        return back()->with('success', 'Cập nhật trạng thái đơn hàng thành công!');
     }
 
     /**
@@ -306,10 +306,9 @@ class OrderController extends Controller
     public function create()
     {
         try {
-            // Lấy danh sách khách hàng (users với role = 'customer' và status = 'mở')
-            $users = User::where('role', 'customer')
-                ->where('status', 'mở')
-                ->select('user_id', 'username', 'email', 'phone_number', 'sex')
+            // Lấy danh sách khách hàng)
+            $users = User::active()
+                ->select('user_id', 'username', 'email', 'phone_number')
                 ->orderBy('username')
                 ->get()
                 ->map(function ($user) {

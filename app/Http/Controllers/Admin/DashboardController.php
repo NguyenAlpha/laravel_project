@@ -20,7 +20,7 @@ class DashboardController extends Controller
         $dashboard = [];
 
         $dashboard['totalOrders'] = Order::count();
-        $dashboard['totalUsers'] = User::where('role', 'customer')->active()->count();
+        $dashboard['totalUsers'] = User::where('status', '!=', 'đã xóa')->count();
         $dashboard['totalProducts'] = Product::where('status', '!=', 'đã xóa')->count();
         $dashboard['totalRevenue'] = Order::getTotalAmount();
 

@@ -2,22 +2,23 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class Employee extends Authenticatable
 {
     use HasFactory, Notifiable;
     /**
      * Tên bảng trong database
      */
-    protected $table = 'user';
+    protected $table = 'employee';
 
     /**
      * Khóa chính của bảng
      */
-    protected $primaryKey = 'user_id';
+    protected $primaryKey = 'employee_id';
 
     /**
      * Khóa chính tự tăng
@@ -28,18 +29,20 @@ class User extends Authenticatable
      * Kiểu khóa chính
      */
     protected $keyType = 'int';
+
     /**
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'username',
-        'password',
+        'full_name',
         'email',
-        'sex',
+        'password',
         'phone_number',
-        'dob',
+        'position',
+        'department',
+        'hire_date',
         'status',
-        'avatar_url'
+        'manager_id'
     ];
 
     /**
@@ -55,7 +58,7 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'dob' => 'date',
+            'hire_date' => 'date',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
             'password' => 'hashed',
@@ -63,34 +66,26 @@ class User extends Authenticatable
     }
 
     /**
-     * Relationship với Address
-     */
-    public function addresses()
-    {
-        return $this->hasMany(Address::class, 'user_id');
-    }
-
-    /**
-     * Relationship với Cart
-     */
-    public function cart()
-    {
-        return $this->hasOne(Cart::class, 'user_id');
-    }
-
-    /**
-     * Relationship với Order
-     */
-    public function orders()
-    {
-        return $this->hasMany(Order::class, 'user_id');
-    }
-
-    /**
      * Scope để lấy user active
      */
     public function scopeActive($query)
     {
-        return $query->where('status', 'mở');
+        return $query->where('status', 'Active');
+    }
+
+    /**
+     * Mối quan hệ với quản lý
+     */
+    public function manager()
+    {
+        return $this->belongsTo(Employee::class, 'manager_id', 'employee_id');
+    }
+    
+    /**
+     * Mối quan hệ với nhân viên dưới quyền
+     */
+    public function subordinates()
+    {
+        return $this->hasMany(Employee::class, 'manager_id', 'employee_id');
     }
 }
