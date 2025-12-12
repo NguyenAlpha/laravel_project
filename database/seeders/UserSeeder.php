@@ -29,9 +29,9 @@ class UserSeeder extends Seeder
             ],
             [
                 'user_id' => 2,
-                'username' => 'admin',
-                'password' => Hash::make('admin'),
-                'email' => 'admin@gmail.com',
+                'username' => 'khach hang 2',
+                'password' => Hash::make('khachhang2'),
+                'email' => 'khachhang2@gmail.com',
                 'sex' => 'nam',
                 'phone_number' => '0123456789',
                 'dob' => '2005-05-15',

@@ -18,7 +18,7 @@ class CheckAdmin
     {
         // 1. Kiểm tra đã đăng nhập chưa
         if (!Auth::guard('employee')->check()) {
-            return redirect()->route('employee.login')  // Đúng route
+            return redirect()->route('admin.login')  // Đúng route
                 ->with('error', 'Vui lòng đăng nhập để tiếp tục.');
         }
 
