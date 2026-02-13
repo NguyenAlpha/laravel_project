@@ -1,29 +1,23 @@
-.header {
+﻿.header {
   background: rgb(0, 38, 133);
   background: linear-gradient(180deg, rgba(0, 38, 133, 1) 0%, rgba(0, 35, 159, 1) 50%, rgba(0, 48, 191, 1) 100%);
 }
 
 .header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 40px 0px 10px 0px;
+  padding: 20px 0px 10px 0px;
 }
 
 /* logo bên trái */
 .header__logo img {
   width: 70px;
   height: 70px;
+  max-width: 100%;
 }
-
-
-
 
 /* search box ở giữa */
 .header__search {
   box-sizing: border-box;
-  width: 50%;
-  max-width: 500px;
+  width: 100%;
   position: relative;
 }
 
@@ -40,11 +34,14 @@
   right: 0;
   top: 0;
   cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0 5px 5px 0;
+  transition: background-color 0.3s;
 }
 
-
-
-
+.header-search__submit:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
 
 /* action các nút điều hướng bên phải của header */
 .header__action {
@@ -54,22 +51,24 @@
 
 .header__item {
   color: rgb(255, 255, 255);
-  padding: 10px;
-  margin: 5px;
+  padding: 8px 10px;
+  margin: 3px;
   border-radius: 20px;
   transition: background-color 0.3s;
+  font-size: 14px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.header__item a i {
-  padding-right: 3px;
+.header__item i {
+  font-size: 16px;
 }
 
 .header__item:hover {
   background-color: rgba(0, 0, 0, 0.2);
 }
-
-
-
 
 /* ============================================= nav =========================== */
 .navbar {
@@ -77,13 +76,94 @@
   padding: 0;
 }
 
+.navbar-container {
+  padding: 0;
+}
+
+.navbar-toggler {
+  background: transparent;
+  border: none;
+  color: #000;
+  font-size: 24px;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
 .navbar__item {
   color: #000;
   padding: 15px;
   cursor: pointer;
   transition: background-color 0.3s;
+  white-space: nowrap;
 }
 
 .navbar__item:hover {
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ============= RESPONSIVE MEDIA QUERIES ============= */
+
+/* Mobile devices (< 576px) */
+@media (max-width: 575.98px) {
+  .header-container {
+    padding: 15px 0px 10px 0px;
+  }
+
+  .header__logo img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .header__search {
+    margin-top: 10px;
+  }
+
+  .header__item {
+    padding: 6px 8px;
+    margin: 2px;
+    font-size: 12px;
+  }
+
+  .header__item i {
+    font-size: 14px;
+  }
+
+  .navbar__item {
+    padding: 12px 15px;
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Tablets (576px - 767.98px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .header__logo img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .header__item {
+    font-size: 13px;
+  }
+}
+
+/* Medium devices (768px - 991.98px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .header__logo img {
+    width: 65px;
+    height: 65px;
+  }
+
+  .navbar__item {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+/* Large devices ( 992px) */
+@media (min-width: 992px) {
+  .header__search {
+    max-width: 500px;
+  }
 }

@@ -14,17 +14,19 @@ class CartController extends Controller
 {
     /**
      * Hiển thị giỏ hàng
+     * @return \Illuminate\Contracts\View\View
      */
     public function index()
     {
+        // Lấy giỏ hàng cùng với sản phẩm trong giỏ
         $cart = Cart::with(['cartItems.product'])->where('user_id', Auth::id())->first();
 
         // Nếu chưa có giỏ hàng, tạo mới
         if (!$cart) {
             $cart = Cart::create(['user_id' => Auth::id()]);
-            $cart->load('cartItems.product');
         }
 
+        // Hiển thị giỏ hàng
         return view('frontend.cart.index', compact('cart'));
     }
 
@@ -38,7 +40,14 @@ class CartController extends Controller
         $productId = $request->input('product_id');
         $quantity = $request->input('quantity', 1);
 
-        $cart = Cart::with(['cartItems'])->where('user_id', Auth::id())->first();
+        // Lấy giỏ hàng cùng với sản phẩm trong giỏ
+        $cart = Cart::with(['cartItems.product'])->where('user_id', Auth::id())->first();
+
+        // Nếu chưa có giỏ hàng, tạo mới và tải eager loading cho relationships
+        if (!$cart) {
+            $cart = Cart::create(['user_id' => Auth::id()]);
+        }
+
         $cartItem = $cart->cartItems()
             ->where('product_id', $productId)
             ->first();
@@ -61,6 +70,8 @@ class CartController extends Controller
 
     /**
      * Cập nhật số lượng sản phẩm
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function updateQuantity(Request $request)
     {

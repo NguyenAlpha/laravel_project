@@ -3,7 +3,7 @@
 @section('title', 'Trang chủ - Cửa hàng điện tử')
 
 @section('content')
-  <div class="container product">
+  <div class="container-fluid px-3 px-lg-4 product">
     @foreach ($categories as $category)
       <div class="home-page product-container">
         <div class="home-page header-product-bar">
@@ -14,45 +14,48 @@
             xem tất cả <i class="fa fa-angle-double-right"></i>
           </a>
         </div>
-        <button class="home-page arrow left-arrow" onclick="scrollLeftt(this)">
-          <i class="fa-solid fa-arrow-left"></i>
-        </button>
-        <div class="home-page product__bar productWrapper">
-          @foreach ($category->products as $product)
-            @php
-              if ($product->status == 'đã xóa') {
-                continue;
-              }
-            @endphp
-            <div class="product__item__card">
-              <a href="{{ route('product.show', ['productId' => $product->product_id]) }}">
-                <div class="product__item__card__img">
-                  <img src="{{ asset("images/" . ($product->image_url ?? "no image available.jpg")) }}" alt="{{ $product->product_name }}">
+        <div class="home-page product-wrapper-with-arrows">
+          <button class="home-page arrow left-arrow d-none d-lg-block" onclick="scrollLeftt(this)">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div class="home-page product__bar productWrapper">
+            @foreach ($category->products as $product)
+              @php
+                if ($product->status == 'đã xóa') {
+                  continue;
+                }
+              @endphp
+              <div class="product__item__card">
+                <a href="{{ route('product.show', ['productId' => $product->product_id]) }}">
+                  <div class="product__item__card__img">
+                    <img src="{{ asset("images/" . ($product->image_url ?? "no image available.jpg")) }}"
+                      alt="{{ $product->product_name }}">
+                  </div>
+                  <div class="product__item__card__content">
+                    <h3 class="product__item__name">{{ $product->product_name }}</h3>
+                    <p class="product__item_price">{{ number_format($product->price, 0, ',', '.') }}đ</p>
+                  </div>
+                  <div class="flex product-item__quantity">
+                    <p class="da-ban-text">Số lượng: {{ $product->stock }}</p>
+                  </div>
+                </a>
+                <div class="button__addcart__box">
+                  <form action="{{ route("cart.store") }}" method="POST">
+                    @csrf
+                    <input type="number" name="product_id" value={{ $product->product_id }} hidden>
+                    <input type="number" name="quantity" value=1 hidden>
+                    <button class="button button__addcart" type="submit" @if ($product->stock == 0){{ "disabled" }}@endif>
+                      Mua ngay
+                    </button>
+                  </form>
                 </div>
-                <div class="product__item__card__content">
-                  <h3 class="product__item__name">{{ $product->product_name }}</h3>
-                  <p class="product__item_price">{{ number_format($product->price, 0, ',', '.') }}đ</p>
-                </div>
-                <div class="flex product-item__quantity">
-                  <p class="da-ban-text">Số lượng: {{ $product->stock }}</p>
-                </div>
-              </a>
-              <div class="button__addcart__box">
-                <form action="{{ route("cart.store") }}" method="POST">
-                  @csrf
-                  <input type="number" name="product_id" value={{ $product->product_id }} hidden>
-                  <input type="number" name="quantity" value=1 hidden>
-                  <button class="button button__addcart" type="submit" @if ($product->stock == 0){{ "disabled" }}@endif>
-                    Mua ngay
-                  </button>
-                </form>
               </div>
-            </div>
-          @endforeach
+            @endforeach
+          </div>
+          <button class="home-page arrow right-arrow d-none d-lg-block" onclick="scrollRight(this)">
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
         </div>
-        <button class="home-page arrow right-arrow" onclick="scrollRight(this)">
-          <i class="fa-solid fa-arrow-right"></i>
-        </button>
       </div>
     @endforeach
   </div>
@@ -60,16 +63,18 @@
   <script>
     function scrollRight(button) {
       const wrapper = button.parentElement.querySelector(".productWrapper");
+      const scrollAmount = window.innerWidth > 768 ? 690 : 230;
       wrapper.scrollBy({
-        left: 690,
+        left: scrollAmount,
         behavior: 'smooth'
       });
     }
 
     function scrollLeftt(button) {
       const wrapper = button.parentElement.querySelector(".productWrapper");
+      const scrollAmount = window.innerWidth > 768 ? 690 : 230;
       wrapper.scrollBy({
-        left: -690,
+        left: -scrollAmount,
         behavior: 'smooth'
       });
     }

@@ -26,8 +26,8 @@
               placeholder="Tên, email, số điện thoại...">
           </div>
           <div class="col-md-3">
-            <label for="status" class="form-label">Chức vụ</label>
-            <select class="form-control" id="status" name="position">
+            <label for="position" class="form-label">Chức vụ</label>
+            <select class="form-control" id="position" name="position">
               <option value="">Tất cả</option>
               <option value="Quản lý" {{ request('position') == 'Quản lý' ? 'selected' : '' }}>Quản lý</option>
               <option value="Nhân viên Kinh doanh" {{ request('position') == 'Nhân viên Kinh doanh' ? 'selected' : '' }}>Nhân viên Kinh doanh</option>

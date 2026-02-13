@@ -45,117 +45,107 @@
 <body>
   <header>
     <div class="header">
-      <div class="container header-container">
-        <div class="header__logo">
-          <a href="{{route("home")}}"><img src="{{asset('images/logo.png')}}" alt=""></a>
-        </div>
-        <div class="header__search">
-          <form action="{{route("search")}}" method="get">
-            @if (isset($textSearch) && $textSearch)
-              <input class="header-search__input form-control" type="text" name="search" value="{{ $textSearch }}"
-                placeholder="Tìm kiếm sản phẩm">
-            @else
-              <input class="header-search__input form-control" type="text" name="search" placeholder="Tìm kiếm sản phẩm">
-            @endif
-            <button class="header-search__submit" type="submit" name='submit' value="search">
-              <i class="fa-solid fa-magnifying-glass"></i>
-              tìm kiếm
-            </button>
-          </form>
-        </div>
-        <div class="header__action">
-          <a href="tel:0888999">
-            <div class="header__item">
-              <i class="fa-solid fa-phone"></i>
-              Hotline
-            </div>
-          </a>
-
-          <a href="{{route(('cart.index'))}}">
-            <div class="header__item">
-              <i class="fa-solid fa-cart-shopping"></i>Giỏ hàng
-            </div>
-          </a>
-
-          {{-- auth default 'web', @auth('employee') for employee --}}
-          @auth
-            {{-- Hiển thị khi user đã đăng nhập --}}
-            <a href="{{ route('profile.show') }}">
-              <div class="header__item">
-                <i class="fa-solid fa-user"></i>Tài khoản
-              </div>
-            </a>
-
-            <form method="POST" action="{{ route('logout') }}">
-              {{-- Cross-Site Request Forgery (Tấn công giả mạo yêu cầu) --}}
-              @csrf
-              <button type="submit" class="header__item" style="border: none">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Đăng xuất
+      <div class="container-fluid px-3 px-lg-4">
+        <div class="row align-items-center header-container">
+          <div class="col-6 col-md-2 col-lg-2 header__logo">
+            <a href="{{route("home")}}"><img src="{{asset('images/logo.png')}}" alt="Logo" class="img-fluid"></a>
+          </div>
+          <div class="col-12 col-md-6 col-lg-6 order-md-2 order-lg-2 mt-2 mt-md-0 header__search">
+            <form action="{{route("search")}}" method="get">
+              @if (isset($textSearch) && $textSearch)
+                <input class="header-search__input form-control" type="text" name="search" value="{{ $textSearch }}"
+                  placeholder="Tìm kiếm sản phẩm">
+              @else
+                <input class="header-search__input form-control" type="text" name="search"
+                  placeholder="Tìm kiếm sản phẩm">
+              @endif
+              <button class="header-search__submit" type="submit" name='submit' value="search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <span class="d-none d-sm-inline">tìm kiếm</span>
               </button>
             </form>
-          @else
-            {{-- Hiển thị khi user chưa đăng nhập --}}
-            <a href="{{ route('login') }}">
-              <div class="header__item">
-                <i class="fa-solid fa-user"></i>
-                Đăng Nhập
-              </div>
-            </a>
+          </div>
+          <div class="col-6 col-md-4 col-lg-4 order-md-3 order-lg-3 header__action">
+            <div class="d-flex justify-content-end align-items-center flex-wrap">
+              <a href="tel:0888999" class="d-none d-lg-block">
+                <div class="header__item">
+                  <i class="fa-solid fa-phone"></i>
+                  <span>Hotline</span>
+                </div>
+              </a>
 
-            <a href="{{ route('register') }}">
-              <div class="header__item">
-                <i class="fa-solid fa-user"></i>
-                Đăng ký
-              </div>
-            </a>
-          @endauth
+              <a href="{{route(('cart.index'))}}">
+                <div class="header__item">
+                  <i class="fa-solid fa-cart-shopping"></i>
+                  <span class="d-none d-sm-inline">Giỏ hàng</span>
+                </div>
+              </a>
 
+              {{-- auth default 'web', @auth('employee') for employee --}}
+              @auth
+                {{-- Hiển thị khi user đã đăng nhập --}}
+                <a href="{{ route('profile.show') }}" class="d-none d-md-block">
+                  <div class="header__item">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Tài khoản</span>
+                  </div>
+                </a>
+
+                <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                  {{-- Cross-Site Request Forgery (Tấn công giả mạo yêu cầu) --}}
+                  @csrf
+                  <button type="submit" class="header__item" style="border: none; background: transparent;">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span class="d-none d-lg-inline">Đăng xuất</span>
+                  </button>
+                </form>
+              @else
+                {{-- Hiển thị khi user chưa đăng nhập --}}
+                <a href="{{ route('login') }}">
+                  <div class="header__item">
+                    <i class="fa-solid fa-user"></i>
+                    <span class="d-none d-sm-inline">Đăng Nhập</span>
+                  </div>
+                </a>
+
+                <a href="{{ route('register') }}" class="d-none d-md-block">
+                  <div class="header__item">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>Đăng ký</span>
+                  </div>
+                </a>
+              @endauth
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div class="navbar shadow">
-      <div class="container navbar-container">
-        <ul class='d-flex'>
-          @if(isset($categories))
-            @foreach ($categories as $category)
-              <a href="{{ route('product.indexByCategory', ['category_id' => $category->category_id]) }}">
-                <li class="navbar__item">{{ $category->category_name }}</li>
+      <div class="container-fluid navbar-container">
+        <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse d-md-block" id="navbarNav">
+          <ul class='d-flex flex-column flex-md-row flex-wrap justify-content-center mb-0'>
+            @if(isset($categories))
+              @foreach ($categories as $category)
+                <a href="{{ route('product.indexByCategory', ['category_id' => $category->category_id]) }}">
+                  <li class="navbar__item">{{ $category->category_name }}</li>
+                </a>
+              @endforeach
+            @else
+              <a href="{{ route('product.indexByCategory', ['category_id' => " Laptop"]) }}">
+                <li class="navbar__item">Laptop</li>
               </a>
-            @endforeach
-          @else
-            <a href="{{ route('product.indexByCategory', ['category_id' => " Laptop"]) }}">
-              <li class="navbar__item">Laptop</li>
-            </a>
-            <a href="{{ route('product.indexByCategory', ['category_id' => " LaptopGaming"]) }}">
-              <li class="navbar__item">Laptop Gaming</li>
-            </a>
-            <a href="{{ route('product.indexByCategory', ['category_id' => " GPU"]) }}">
-              <li class="navbar__item">GPU</li>
-            </a>
-          @endif
-          {{-- <a href="{{ route('product.indexByCategory', ['category_id' => " Laptop"]) }}">
-            <li class="navbar__item">Laptop</li>
-          </a>
-          <a href="{{ route('product.indexByCategory', ['category_id' => " LaptopGaming"]) }}">
-            <li class="navbar__item">Laptop Gaming</li>
-          </a>
-          <a href=" {{ route('product.indexByCategory', ['category_id' => " Screen"]) }}">
-            <li class="navbar__item">Màn Hình</li>
-          </a>
-          <a href=" {{ route('product.indexByCategory', ['category_id' => " GPU"]) }}">
-            <li class="navbar__item">GPU</li>
-          </a>
-          <a href=" {{ route('product.indexByCategory', ['category_id' => " Headset"]) }}">
-            <li class="navbar__item">Tai Nghe</li>
-          </a>
-          <a href=" {{ route('product.indexByCategory', ['category_id' => " Mouse"]) }}">
-            <li class="navbar__item">Chuột</li>
-          </a>
-          <a href=" {{ route('product.indexByCategory', ['category_id' => " Keyboard"]) }}">
-            <li class="navbar__item">Bàn Phím</li>
-          </a> --}}
-        </ul>
+              <a href="{{ route('product.indexByCategory', ['category_id' => " LaptopGaming"]) }}">
+                <li class="navbar__item">Laptop Gaming</li>
+              </a>
+              <a href="{{ route('product.indexByCategory', ['category_id' => " GPU"]) }}">
+                <li class="navbar__item">GPU</li>
+              </a>
+            @endif
+          </ul>
+        </div>
       </div>
     </div>
   </header>
@@ -167,20 +157,20 @@
 
   <footer>
     <div class="container">
-      <div class="footer__list">
-        <div class="">
+      <div class="row footer__list">
+        <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
           <h3>Về Chúng Tôi</h3>
           <p><a href="">Giới thiệu</a></p>
           <p><a href="">Chi nhánh</a></p>
           <p><a href="">Email: hello12345@gmail.com</a></p>
         </div>
-        <div class="">
+        <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
           <h3>Hỗ Trợ Khách Hàng</h3>
           <p><a href="">Liên hệ</a></p>
           <p><a href="">Góp ý/Khiếu nại</a></p>
           <p><a href="">Thanh Toán</a></p>
         </div>
-        <div class="">
+        <div class="col-12 col-md-12 col-lg-4">
           <h3>Chính Sách Chung</h3>
           <p><a href="">Chính sách bảo mật</a></p>
           <p><a href="">Chính sách giải quyết khiếu nại</a></p>
